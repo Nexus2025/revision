@@ -62,6 +62,18 @@
 
   <build>
     <finalName>Revision</finalName>
+    <defaultGoal>dependency:sources</defaultGoal>
+    <resources>
+      <resource>
+        <directory>resources</directory>
+        <filtering>true</filtering>
+        <includes>
+          <include>**/*.properties</include>
+        </includes>
+      </resource>
+
+    </resources>
+
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
