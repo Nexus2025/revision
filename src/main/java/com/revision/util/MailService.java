@@ -1,4 +1,4 @@
-package com.revision.services;
+package com.revision.util;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;

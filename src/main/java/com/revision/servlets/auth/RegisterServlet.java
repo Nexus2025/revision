@@ -1,7 +1,7 @@
 package com.revision.servlets.auth;
 
 import com.revision.model.UserManager;
-import com.revision.services.MailService;
+import com.revision.util.MailService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
