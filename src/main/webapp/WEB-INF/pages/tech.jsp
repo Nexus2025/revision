@@ -34,8 +34,6 @@
     Object countOfAllWords = session.getAttribute("countOfAllWords");
     Object countOfGuessedWords = session.getAttribute("countOfGuessedWords");
     Object nameOfTargetList = session.getAttribute("nameOfTargetList");
-    Object userLogin = session.getAttribute("userLogin");
-    Object userPassword = session.getAttribute("userPassword");
 %>
 
 <p>firstWordId: <%=firstWordId%></p>
