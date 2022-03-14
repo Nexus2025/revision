@@ -13,7 +13,7 @@ public class Encryptor {
 
     public static String encrypt (String notEncryptedPassword) throws GeneralSecurityException, IOException {
         Cipher cipher = Cipher.getInstance("AES");
-        SecretKeySpec key = new SecretKeySpec(loadProperties().getBytes(), "AES");
+        SecretKeySpec key = new SecretKeySpec(loadKeyFromProperties().getBytes(), "AES");
         cipher.init(Cipher.ENCRYPT_MODE, key);
 
         StringBuilder encryptedPassword = new StringBuilder();
@@ -23,10 +23,11 @@ public class Encryptor {
         return encryptedPassword.toString();
     }
 
-    private static String loadProperties() throws IOException {
-        InputStream stream = Encryptor.class.getResourceAsStream("/encrypt.properties");
+    private static String loadKeyFromProperties() throws IOException {
+        InputStream inputStream = Encryptor.class.getResourceAsStream("/encrypt.properties");
         Properties properties = new Properties();
-        properties.load(stream);
+        properties.load(inputStream);
+        inputStream.close();
         return properties.getProperty("key");
     }
 }

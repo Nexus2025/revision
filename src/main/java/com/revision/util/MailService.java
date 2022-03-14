@@ -6,49 +6,63 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.Properties;
 
 public class MailService {
 
-        public static void sendEmailToAdmin (String userLogin) {
-                Transport transport = null;
+    public static void sendEmailToAdmin(String userLogin) {
+        Transport transport = null;
+        InputStream inputStream = null;
+        Date date = new Date();
 
-                Date date = new Date();
+        try {
+            inputStream = Encryptor.class.getResourceAsStream("/mail.properties");
+            Properties mailDataProperties = new Properties();
+            mailDataProperties.load(inputStream);
+            String senderEmail = mailDataProperties.getProperty("sender.email");
+            String senderPassword = mailDataProperties.getProperty("sender.password");
+            String recipientEmail = mailDataProperties.getProperty("recipient.email");
 
-                try {
-                        Properties properties = System.getProperties();
-                        properties.setProperty("mail.smtps.host", "smtp.yandex.com");
-                        properties.setProperty("mail.transport.protocol", "smtps");
-                        properties.setProperty("mail.smtps.auth", "true");
-                        properties.setProperty("mail.smtp.starttls.enabl", "true");
-                        properties.setProperty("mail.smtp.user", "pr0v0dnik2014@yandex.ru");
-                        properties.setProperty("mail.smtp.port", "465");
+            Properties mailSettingsProperties = System.getProperties();
+            mailSettingsProperties.setProperty("mail.smtps.host", "smtp.yandex.com");
+            mailSettingsProperties.setProperty("mail.transport.protocol", "smtps");
+            mailSettingsProperties.setProperty("mail.smtps.auth", "true");
+            mailSettingsProperties.setProperty("mail.smtp.starttls.enabl", "true");
+            mailSettingsProperties.setProperty("mail.smtp.user", senderEmail);
+            mailSettingsProperties.setProperty("mail.smtp.port", "465");
 
+            Session session = Session.getDefaultInstance(mailSettingsProperties);
+            MimeMessage message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(senderEmail));
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipientEmail));
+            message.setSubject("Revision App: New user was added");
+            message.setText("User login: " + userLogin + "\nRegistration date: " + date);
 
-                        Session session = Session.getDefaultInstance(properties);
-                        MimeMessage message = new MimeMessage(session);
-                        message.setFrom(new InternetAddress("pr0v0dnik2014@yandex.ru"));
-                        message.addRecipient(Message.RecipientType.TO, new InternetAddress("roman70rus@gmail.com"));
-                        message.setSubject("Revision App: New user added");
-                        message.setText("Login: " + userLogin + " / date: " + date);
+            transport = session.getTransport();
+            transport.connect(senderEmail, senderPassword);
+            transport.sendMessage(message, message.getAllRecipients());
 
-                        transport = session.getTransport();
-                        transport.connect("pr0v0dnik2014", "123876rus");
-                        transport.sendMessage(message, message.getAllRecipients());
-
-                } catch (MessagingException e) {
-                        e.printStackTrace();
-                } finally {
-                        try {
-                                if (transport != null) {
-                                        transport.close();
-                                }
-
-                        } catch (MessagingException e) {
-                                e.printStackTrace();
-                        }
+        } catch (MessagingException | IOException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (transport != null) {
+                    transport.close();
                 }
-
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    if (inputStream != null) {
+                        inputStream.close();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
+    }
 }
