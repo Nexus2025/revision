@@ -2,13 +2,18 @@ package com.revision.util;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.GeneralSecurityException;
+import java.util.Properties;
 
 public class Encryptor {
 
-    public static String encrypt (String notEncryptedPassword) throws GeneralSecurityException {
+    private Encryptor(){}
+
+    public static String encrypt (String notEncryptedPassword) throws GeneralSecurityException, IOException {
         Cipher cipher = Cipher.getInstance("AES");
-        SecretKeySpec key = new SecretKeySpec("%eoSq83k2!hMA875".getBytes(), "AES");
+        SecretKeySpec key = new SecretKeySpec(loadProperties().getBytes(), "AES");
         cipher.init(Cipher.ENCRYPT_MODE, key);
 
         StringBuilder encryptedPassword = new StringBuilder();
@@ -18,5 +23,10 @@ public class Encryptor {
         return encryptedPassword.toString();
     }
 
-    private Encryptor(){}
+    private static String loadProperties() throws IOException {
+        InputStream stream = Encryptor.class.getResourceAsStream("/encrypt.properties");
+        Properties properties = new Properties();
+        properties.load(stream);
+        return properties.getProperty("key");
+    }
 }

@@ -3,6 +3,7 @@ package com.revision.db;
 import com.revision.entities.User;
 import com.revision.util.Encryptor;
 
+import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -63,7 +64,7 @@ public class UserDAO {
                     "VALUES ('" + login + "', '" + password + "'," + role + ", '"+ secretKey +"')");
             result = true;
 
-        } catch (SQLException | ClassNotFoundException | GeneralSecurityException ex) {
+        } catch (SQLException | ClassNotFoundException | GeneralSecurityException | IOException ex) {
             ex.printStackTrace();
         } finally {
             try {

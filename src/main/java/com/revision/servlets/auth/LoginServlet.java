@@ -60,7 +60,7 @@ public class LoginServlet extends HttpServlet {
                     return;
                 }
             }
-        } catch (GeneralSecurityException e) {
+        } catch (GeneralSecurityException | IOException e) {
             session.setAttribute("errorMessage", "error has occurred. try again later");
         }
         session.setAttribute("errorMessage", "login or password are incorrect");
