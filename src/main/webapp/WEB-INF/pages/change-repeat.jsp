@@ -1,10 +1,10 @@
-<%@ page import="com.revision.entities.User" %>
-<%@ page import="com.revision.entities.Dictionary" %>
-<%@ page import="com.revision.model.DictionaryManager" %>
+<%@ page import="com.revision.entity.User" %>
+<%@ page import="com.revision.entity.Dictionary" %>
+<%@ page import="com.revision.service.DictionaryManager" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.revision.model.SectionManager" %>
-<%@ page import="com.revision.entities.Section" %>
-<%@ page import="com.revision.model.UserManager" %>
+<%@ page import="com.revision.service.SectionManager" %>
+<%@ page import="com.revision.entity.Section" %>
+<%@ page import="com.revision.service.UserManager" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">

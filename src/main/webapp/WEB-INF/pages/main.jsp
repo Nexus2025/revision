@@ -1,5 +1,5 @@
-<%@ page import="com.revision.entities.User" %>
-<%@ page import="com.revision.model.UserManager" %>
+<%@ page import="com.revision.entity.User" %>
+<%@ page import="com.revision.service.UserManager" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">

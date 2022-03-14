@@ -1,7 +1,7 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.revision.model.WordManager" %>
-<%@ page import="com.revision.entities.Word" %>
-<%@ page import="com.revision.entities.User" %><%--
+<%@ page import="com.revision.service.WordManager" %>
+<%@ page import="com.revision.entity.Word" %>
+<%@ page import="com.revision.entity.User" %><%--
   Created by IntelliJ IDEA.
   User: Admin
   Date: 18.04.2021

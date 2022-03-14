@@ -1,5 +1,5 @@
-<%@ page import="com.revision.entities.User" %>
-<%@ page import="com.revision.model.UserManager" %><%--
+<%@ page import="com.revision.entity.User" %>
+<%@ page import="com.revision.service.UserManager" %><%--
   Created by IntelliJ IDEA.
   User: Admin
   Date: 09.05.2021

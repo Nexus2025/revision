@@ -1,7 +1,7 @@
-<%@ page import="com.revision.entities.Dictionary" %>
-<%@ page import="com.revision.entities.User" %>
+<%@ page import="com.revision.entity.Dictionary" %>
+<%@ page import="com.revision.entity.User" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.revision.model.DictionaryManager" %>
+<%@ page import="com.revision.service.DictionaryManager" %>
 <%--
   Created by IntelliJ IDEA.
   User: Admin

@@ -1,7 +1,7 @@
-<%@ page import="com.revision.entities.Section" %>
-<%@ page import="com.revision.model.SectionManager" %>
+<%@ page import="com.revision.entity.Section" %>
+<%@ page import="com.revision.service.SectionManager" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.revision.entities.User" %>
+<%@ page import="com.revision.entity.User" %>
 <%--
   Created by IntelliJ IDEA.
   User: Admin
