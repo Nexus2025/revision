@@ -1,8 +1,9 @@
 package com.revision.db;
 
 import com.revision.entities.User;
-import com.revision.model.Encryptor;
+import com.revision.util.Encryptor;
 
+import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -51,11 +52,10 @@ public class UserDAO {
         Connection conn = null;
         Database db;
 
-        Encryptor pe = new Encryptor();
-        String secretKey = pe.encrypt(String.valueOf((Math.random()*(600+1)) - 200));
-        password = pe.encrypt(password);
-
         try {
+            String secretKey = Encryptor.encrypt(String.valueOf((Math.random()*(600+1)) - 200));
+            password = Encryptor.encrypt(password);
+
             db = new Database();
             conn = db.getConnection();
             stmt = conn.createStatement();
@@ -63,8 +63,7 @@ public class UserDAO {
                     "VALUES ('" + login + "', '" + password + "'," + role + ", '"+ secretKey +"')");
             result = true;
 
-
-        } catch (SQLException | ClassNotFoundException ex) {
+        } catch (SQLException | ClassNotFoundException | GeneralSecurityException ex) {
             ex.printStackTrace();
         } finally {
             try {
