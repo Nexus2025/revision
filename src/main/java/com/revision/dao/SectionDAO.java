@@ -8,204 +8,107 @@ import java.util.List;
 
 public class SectionDAO {
 
-    public int createSection(String sectionName, int dictionaryId, int userId) {
-        int result = -1;
+    private final Connection connection = Database.getConnection();
 
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
+    private static final String CREATE = "INSERT INTO sections (name, dictionary_id, user_id) VALUES (?, ?, ?) RETURNING id";
+    private static final String GET_ALL_BY_DICTIONARY_ID = "SELECT * FROM sections WHERE dictionary_id= ? AND user_id= ?";
+    private static final String GET_ALL = "SELECT * FROM sections WHERE user_id= ?";
+    private static final String DELETE = "DELETE FROM sections WHERE id= ? AND user_id= ? RETURNING name, dictionary_id";
+    private static final String RENAME = "UPDATE sections SET name= ? WHERE id= ? AND user_id= ? RETURNING dictionary_id";
+    private static final String GET = "SELECT * FROM sections WHERE user_id= ? AND id= ?";
 
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.prepareStatement("INSERT INTO sections (name, dictionary_id, user_id) VALUES ('" + sectionName + "'," + dictionaryId + "," + userId + ");", Statement.RETURN_GENERATED_KEYS);
-            int returnValue = stmt.executeUpdate();
-
-            ResultSet generatedKeys = stmt.getGeneratedKeys();
-
-            if(generatedKeys.next()) {
-                result = generatedKeys.getInt(1);
+    public Section create(String name, int dictionaryId, int userId) {
+        Section section = null;
+        try (PreparedStatement statement = connection.prepareStatement(CREATE)) {
+            statement.setString(1, name);
+            statement.setInt(2, dictionaryId);
+            statement.setInt(3, userId);
+            try (ResultSet rs = statement.executeQuery()) {
+                rs.next();
+                section = new Section(rs.getInt("id"), dictionaryId, userId, name);
             }
-
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return result;
+        return section;
     }
 
-    public List readSectionListByDictionaryId(int dictionaryId, int userId) {
-
-        List<Section> sectionList = new ArrayList<>();
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM sections WHERE dictionary_id=" + dictionaryId + " AND user_id=" + userId + ";");
-            while (rs.next()) {
-                Section section = new Section(rs.getInt("section_id"), rs.getInt("dictionary_id"), rs.getInt("user_id"), rs.getString("name"));
-                sectionList.add(section);
+    public List<Section> getAllByDictionaryId(int dictionaryId, int userId) {
+        List<Section> sections = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_DICTIONARY_ID)) {
+            statement.setInt(1, dictionaryId);
+            statement.setInt(2, userId);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Section section = new Section(rs.getInt("id"), rs.getInt("dictionary_id"), rs.getInt("user_id"), rs.getString("name"));
+                    sections.add(section);
+                }
             }
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return sectionList;
+        return sections;
     }
 
-    public List readSectionListByUserId(int userId) {
-
-        List<Section> sectionList = new ArrayList<>();
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM sections WHERE user_id=" + userId + ";");
-            while (rs.next()) {
-                Section section = new Section(rs.getInt("section_id"), rs.getInt("dictionary_id"), rs.getInt("user_id"), rs.getString("name"));
-                sectionList.add(section);
+    public List<Section> getAll(int userId) {
+        List<Section> sections = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(GET_ALL)) {
+            statement.setInt(1, userId);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Section section = new Section(rs.getInt("id"), rs.getInt("dictionary_id"), rs.getInt("user_id"), rs.getString("name"));
+                    sections.add(section);
+                }
             }
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return sectionList;
+        return sections;
     }
 
-    public boolean deleteSection(int sectionId, int userId) {
-        boolean result = false;
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            int returnValue = stmt.executeUpdate("DELETE FROM sections WHERE section_id=" + sectionId + " AND user_id=" + userId + ";");
-            result = true;
-
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+    public Section delete(int id, int userId) {
+        Section section = null;
+        try (PreparedStatement statement = connection.prepareStatement(DELETE)) {
+            statement.setInt(1, id);
+            statement.setInt(2, userId);
+            try (ResultSet rs = statement.executeQuery()) {
+                rs.next();
+                section = new Section(id, rs.getInt("dictionary_id"), userId, rs.getString("name"));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-
-        return result;
+        return section;
     }
 
-    public boolean renameSection(String sectionNewName, int sectionId, int userId) {
-        boolean result = false;
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            int returnValue = stmt.executeUpdate("UPDATE sections SET name='" + sectionNewName + "' WHERE section_id=" + sectionId + " AND user_id=" + userId + ";");
-            result = true;
-
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+    public Section rename(String newName, int id, int userId) {
+        Section section = null;
+        try (PreparedStatement statement = connection.prepareStatement(RENAME)) {
+            statement.setString(1, newName);
+            statement.setInt(2, id);
+            statement.setInt(3, userId);
+            try (ResultSet rs = statement.executeQuery()) {
+                rs.next();
+                section = new Section(id, rs.getInt("dictionary_id"), userId, newName);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return  result;
+        return section;
     }
 
-    public Section getSectionById (int userId, int sectionId) {
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        Section section = new Section(-1, -1, -1, "empty section");
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM sections WHERE user_id=" + userId + " AND section_id=" + sectionId +";");
-
-            rs.next();
-            section = new Section(rs.getInt("section_id"), rs.getInt("dictionary_id"), rs.getInt("user_id"), rs.getString("name"));
-
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+    public Section get(int userId, int id) {
+        Section section = null;
+        try (PreparedStatement statement = connection.prepareStatement(GET)) {
+            statement.setInt(1, userId);
+            statement.setInt(2, id);
+            try (ResultSet rs = statement.executeQuery()) {
+                rs.next();
+                section = new Section(rs.getInt("id"), rs.getInt("dictionary_id"), rs.getInt("user_id"), rs.getString("name"));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
         return section;
     }
 }

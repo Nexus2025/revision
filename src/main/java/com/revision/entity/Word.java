@@ -2,29 +2,26 @@ package com.revision.entity;
 
 public class Word{
 
-    private int wordId;
+    private int id;
     private int sectionId;
+    private int dictionaryId;
     private int userId;
     private String word;
     private String translation;
 
-    public Word (int wordId, int sectionId, int userId, String word, String translation) {
-        this.wordId = wordId;
+    public Word(int id, int sectionId, int dictionaryId, int userId, String word, String translation) {
+        this.id = id;
         this.sectionId = sectionId;
+        this.dictionaryId = dictionaryId;
         this.userId = userId;
         this.word = word;
         this.translation = translation;
     }
 
-    public Word (String word, String translation) {
-        this.word = word;
-        this.translation = translation;
-    }
-
-    public Word (String word, String translation, int sectionId) {
-        this.word = word;
-        this.translation = translation;
+    public Word (int sectionId, String word, String translation) {
         this.sectionId = sectionId;
+        this.word = word;
+        this.translation = translation;
     }
 
     public String getWord() {
@@ -43,12 +40,12 @@ public class Word{
         this.translation = translation;
     }
 
-    public int getWordId() {
-        return wordId;
+    public int getId() {
+        return id;
     }
 
-    public void setWordId(int wordId) {
-        this.wordId = wordId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getSectionId() {
@@ -72,22 +69,34 @@ public class Word{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Word word1 = (Word) o;
+        Word word = (Word) o;
 
-        if (wordId != word1.wordId) return false;
-        if (sectionId != word1.sectionId) return false;
-        if (userId != word1.userId) return false;
-        if (word != null ? !word.equals(word1.word) : word1.word != null) return false;
-        return translation != null ? translation.equals(word1.translation) :  word1.translation != null;
+        if (id != word.id) return false;
+        if (sectionId != word.sectionId) return false;
+        if (userId != word.userId) return false;
+        if (this.word != null ? !this.word.equals(word.word) : word.word != null) return false;
+        return translation != null ? translation.equals(word.translation) :  word.translation != null;
     }
 
     @Override
     public int hashCode() {
-        int result = wordId;
+        int result = id;
         result = 31 * result + sectionId;
         result = 31 * result + userId;
         result = 31 * result + (word != null ? word.hashCode() : 0);
         result = 31 * result + (translation != null ? translation.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Word{" +
+                "id=" + id +
+                ", sectionId=" + sectionId +
+                ", dictionaryId=" + dictionaryId +
+                ", userId=" + userId +
+                ", word='" + word + '\'' +
+                ", translation='" + translation + '\'' +
+                '}';
     }
 }

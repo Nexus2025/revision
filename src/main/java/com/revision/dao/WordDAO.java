@@ -2,332 +2,151 @@ package com.revision.dao;
 
 import com.revision.entity.Word;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WordDAO {
 
-    private List<Word> wordList = new ArrayList<>();
+    private final Connection connection = Database.getConnection();
 
-    public boolean deleteAllWordsById(int sectionId, int userId) {
+    private static final String CREATE = "INSERT INTO words (word, translation, section_id, user_id, dictionary_id) VALUES (?, ?, ?, ?, ?) RETURNING id";
+    private static final String RENAME = "UPDATE words SET word= ?, translation= ? WHERE id= ? AND user_id= ? RETURNING dictionary_id, section_id";
+    private static final String DELETE = "DELETE FROM words WHERE id= ? AND user_id= ? RETURNING dictionary_id, section_id, word, translation";
+    private static final String DELETE_ALL_BY_SECTION_ID = "DELETE FROM words WHERE section_id= ? AND user_id= ?";
+    private static final String GET_ALL_BY_SECTION_ID = "SELECT * FROM words WHERE section_id= ? AND user_id= ?";
+    private static final String GET_ALL_BY_DICTIONARY_ID = "SELECT * FROM words WHERE dictionary_id= ? AND user_id= ?";
+    private static final String GET_WORDS_COUNT_BY_DICTIONARY_ID = "SELECT count(*) FROM words WHERE dictionary_id= ?";
+    private static final String SAVE_WORDS_LIST = "INSERT INTO words (word, translation, section_id, user_id, dictionary_id) VALUES(?, ?, ?, ?, ?)";
 
-        boolean result = false;
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            int returnValue = stmt.executeUpdate("DELETE FROM words WHERE section_id=" + sectionId + " AND user_id=" + userId + ";");
-            result = true;
-
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+    public Word create(String word, String translation, int sectionId, int userId, int dictionaryId) {
+        Word wd = null;
+        try (PreparedStatement statement = connection.prepareStatement(CREATE)) {
+            statement.setString(1, word);
+            statement.setString(2, translation);
+            statement.setInt(3, sectionId);
+            statement.setInt(4, userId);
+            statement.setInt(5, dictionaryId);
+            try (ResultSet rs = statement.executeQuery()) {
+                rs.next();
+                wd = new Word(rs.getInt("id"), sectionId, dictionaryId, userId, word, translation);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        return wd;
+    }
 
+    public Word rename(String word, String translation, int id, int userId) {
+        Word wd = null;
+        try (PreparedStatement statement = connection.prepareStatement(RENAME)) {
+            statement.setString(1, word);
+            statement.setString(2, translation);
+            statement.setInt(3, id);
+            statement.setInt(4, userId);
+            try (ResultSet rs = statement.executeQuery()) {
+                rs.next();
+                wd = new Word(id, rs.getInt("section_id"), rs.getInt("dictionary_id"), userId, word, translation);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return wd;
+    }
+
+    public Word delete(int id, int userId) {
+        Word wd = null;
+        try (PreparedStatement statement = connection.prepareStatement(DELETE)) {
+            statement.setInt(1, id);
+            statement.setInt(2, userId);
+            try (ResultSet rs = statement.executeQuery()) {
+                rs.next();
+                String word = rs.getString("word");
+                String translation = rs.getString("translation");
+                int dictionaryId = rs.getInt("dictionary_id");
+                int sectionId = rs.getInt("section_id");
+                wd = new Word(id, sectionId, dictionaryId, userId, word, translation);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return wd;
+    }
+
+    public List<Word> getAllBySectionId(int sectionId, int userId) {
+        List<Word> words = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_SECTION_ID)) {
+            statement.setInt(1, sectionId);
+            statement.setInt(2, userId);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Word wd = new Word(rs.getInt("id"), rs.getInt("section_id"), rs.getInt("dictionary_id"), rs.getInt("user_id"), rs.getString("word"), rs.getString("translation"));
+                    words.add(wd);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return words;
+    }
+
+    public List<Word> getAllByDictionaryId(int dictionaryId, int userId) {
+        List<Word> words = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_DICTIONARY_ID)) {
+            statement.setInt(1, dictionaryId);
+            statement.setInt(2, userId);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Word wd = new Word(rs.getInt("id"), rs.getInt("section_id"), rs.getInt("dictionary_id"), rs.getInt("user_id"), rs.getString("word"), rs.getString("translation"));
+                    words.add(wd);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return words;
+    }
+
+    public boolean deleteAllBySectionId(int sectionId, int userId) {
+        boolean result = false;
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_ALL_BY_SECTION_ID)) {
+            statement.setInt(1, sectionId);
+            statement.setInt(2, userId);
+            result = statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return result;
     }
 
-    public List readWordListBySectionId(int sectionId, int userId) {
-
-        List<Word> wordList = new ArrayList<>();
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM words WHERE section_id=" + sectionId + " AND user_id=" + userId + ";");
-            while (rs.next()) {
-                Word word = new Word(rs.getInt("word_id"), rs.getInt("section_id"), rs.getInt("user_id"), rs.getString("word"), rs.getString("translation"));
-                wordList.add(word);
-            }
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        return wordList;
-    }
-
-    public List readWordListByDictionaryId(int dictionaryId, int userId) {
-
-        List<Word> wordList = new ArrayList<>();
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM words WHERE dictionary_id=" + dictionaryId + " AND user_id=" + userId + ";");
-            while (rs.next()) {
-                Word word = new Word(rs.getInt("word_id"), rs.getInt("section_id"), rs.getInt("user_id"), rs.getString("word"), rs.getString("translation"));
-                wordList.add(word);
-            }
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        return wordList;
-    }
-
-    public boolean deleteWord (int wordId, int userId) {
-        boolean result = false;
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            int returnValue = stmt.executeUpdate("DELETE FROM words WHERE word_id=" + wordId + " AND user_id=" + userId + ";");
-            result = true;
-
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        return result;
-    }
-
-    public boolean createWord (String word, String translation, int sectionId, int userId, int dictionaryId) {
-
-        boolean result = false;
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            int returnValue = stmt.executeUpdate("INSERT INTO words (word, translation, section_id, user_id, dictionary_id) VALUES ('" + word + "','" + translation + "'," + sectionId + "," + userId + "," + dictionaryId + ");");
-            result = true;
-
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        return result;
-    }
-
-    public boolean writeWordList (List<Word> wordList, int sectionId, int userId, int dictionaryId) {
-
-        boolean result = false;
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO words (word, translation, section_id, user_id, dictionary_id) VALUES");
-
-        for (int i = 0; i < wordList.size(); i++) {
-            Word word = wordList.get(i);
-            if (i == wordList.size() - 1) {
-                sb.append(" ('" + word.getWord() + "','" + word.getTranslation() + "'," + sectionId + "," + userId + "," + dictionaryId +");");
-                break;
-            }
-            sb.append(" ('" + word.getWord() + "','" + word.getTranslation() + "'," + sectionId + "," + userId + "," + dictionaryId +"),");
-        }
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            int returnValue = stmt.executeUpdate(sb.toString());
-            result = true;
-
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        return result;
-
-    }
-
-    public boolean renameWord (String word, String translation, int wordId, int userId) {
-
-        boolean result = false;
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            int returnValue = stmt.executeUpdate("UPDATE words SET word='"+ word +"', translation='" + translation + "' WHERE word_id=" + wordId + " AND user_id=" + userId + ";");
-            result = true;
-
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        return  result;
-    }
-
-    public boolean importWords (List<Word> wordList, int userId, int dictionaryId) {
-
-        boolean result = false;
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        StringBuilder sb = new StringBuilder();
-        sb.append("INSERT INTO words (word, translation, section_id, user_id, dictionary_id) VALUES");
-
-        for (int i = 0; i < wordList.size(); i++) {
-            Word word = wordList.get(i);
-            if (i == wordList.size() - 1) {
-                sb.append(" ('" + word.getWord() + "','" + word.getTranslation() + "'," + word.getSectionId() + "," + userId + "," + dictionaryId + ");");
-                break;
-            }
-            sb.append(" ('" + word.getWord() + "','" + word.getTranslation() + "'," + word.getSectionId() + "," + userId + "," + dictionaryId +"),");
-        }
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            int returnValue = stmt.executeUpdate(sb.toString());
-            result = true;
-
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-
-        return result;
-
-    }
-
-    public int getWordsCountsByDictionaryId (int dictionaryId) {
-
+    public int getWordsCountByDictionaryId(int dictionaryId) {
         int count = 0;
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT count(*) FROM words WHERE dictionary_id=" + dictionaryId + ";");
-            rs.next();
-            count = rs.getInt(1);
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+        try (PreparedStatement statement = connection.prepareStatement(GET_WORDS_COUNT_BY_DICTIONARY_ID)) {
+            statement.setInt(1, dictionaryId);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    count = rs.getInt(1);
+                }
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
         return count;
+    }
 
+    public void saveWordsList(List<Word> words, int userId, int dictionaryId) {
+        try (PreparedStatement statement = connection.prepareStatement(SAVE_WORDS_LIST)) {
+            for (Word wd : words) {
+                statement.setString(1, wd.getWord());
+                statement.setString(2, wd.getTranslation());
+                statement.setInt(3, wd.getSectionId());
+                statement.setInt(4, userId);
+                statement.setInt(5, dictionaryId);
+                statement.addBatch();
+            }
+            statement.executeBatch();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

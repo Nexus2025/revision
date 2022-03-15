@@ -1,23 +1,17 @@
 package com.revision.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Section {
 
-    private int sectionId;
+    private int id;
     private int dictionaryId;
     private int userId;
     private String name;
-    private List<Word> wordList;
-    private int wordsCount;
 
     public Section(int sectionId, int dictionaryId, int userId, String name) {
-        this.sectionId = sectionId;
+        this.id = sectionId;
         this.dictionaryId = dictionaryId;
         this.userId = userId;
         this.name = name;
-        wordList = new ArrayList<>();
     }
 
     public String getName() {
@@ -28,16 +22,12 @@ public class Section {
         this.name = name;
     }
 
-    public List<Word> getWordList() {
-        return wordList;
+    public int getId() {
+        return id;
     }
 
-    public int getSectionId() {
-        return sectionId;
-    }
-
-    public void setSectionId(int sectionId) {
-        this.sectionId = sectionId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getDictionaryId() {
@@ -56,15 +46,13 @@ public class Section {
         this.userId = userId;
     }
 
-    public int getWordsCount() {
-        return wordsCount;
-    }
-
-    public void setWordsCount(int wordsCount) {
-        this.wordsCount = wordsCount;
-    }
-
-    public void setWordList(List<Word> wordList) {
-        this.wordList = wordList;
+    @Override
+    public String toString() {
+        return "Section{" +
+                "id=" + id +
+                ", dictionaryId=" + dictionaryId +
+                ", userId=" + userId +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

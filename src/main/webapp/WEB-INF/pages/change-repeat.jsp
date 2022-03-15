@@ -1,10 +1,10 @@
 <%@ page import="com.revision.entity.User" %>
 <%@ page import="com.revision.entity.Dictionary" %>
-<%@ page import="com.revision.service.DictionaryManager" %>
+<%@ page import="com.revision.service.DictionaryService" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.revision.service.SectionManager" %>
+<%@ page import="com.revision.service.SectionService" %>
 <%@ page import="com.revision.entity.Section" %>
-<%@ page import="com.revision.service.UserManager" %>
+<%@ page import="com.revision.service.UserService" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,14 +34,14 @@
     <%
         User user = (User) session.getAttribute("user");
 
-        DictionaryManager dm = new DictionaryManager();
-        List<Dictionary> dictionaryList = dm.getDictionaryListByUserId(user.getUserId());
+        DictionaryService dm = new DictionaryService();
+        List<Dictionary> dictionaryList = dm.getAll(user.getId());
 
-        SectionManager sm = new SectionManager();
-        List<Section> sectionList = sm.getSectionListByUserId(user.getUserId());
+        SectionService sm = new SectionService();
+        List<Section> sectionList = sm.getAll(user.getId());
 
-        UserManager um = new UserManager();
-        int wordsCount = um.getCountOfWordsByUserId(user.getUserId());
+        UserService um = new UserService();
+        int wordsCount = um.getCountOfWords(user.getId());
     %>
 
     <div id="content">
@@ -58,7 +58,7 @@
 
                         <% for (Dictionary dictionary : dictionaryList) { %>
 
-                        <option value="<%=dictionary.getDictionaryId()%>"><%=dictionary.getName()%></option>
+                        <option value="<%=dictionary.getId()%>"><%=dictionary.getName()%></option>
 
                         <% } %>
 
@@ -80,7 +80,7 @@
 
                         <% for (Section section : sectionList) { %>
 
-                        <option value="<%=section.getSectionId()%>"><%=section.getName()%></option>
+                        <option value="<%=section.getId()%>"><%=section.getName()%></option>
 
                         <% } %>
 

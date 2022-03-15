@@ -1,4 +1,4 @@
-package com.revision.controller;
+package com.revision.controller.repeating;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,21 +11,12 @@ import java.io.IOException;
 @WebServlet("/result")
 public class ResultServlet extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/pages/result.jsp");
         requestDispatcher.forward(request, response);
 
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
     }
 }

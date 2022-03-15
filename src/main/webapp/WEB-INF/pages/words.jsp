@@ -1,5 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.revision.service.WordManager" %>
+<%@ page import="com.revision.service.WordService" %>
 <%@ page import="com.revision.entity.Word" %>
 <%@ page import="com.revision.entity.User" %><%--
   Created by IntelliJ IDEA.
@@ -127,10 +127,10 @@
     <%----------------------------------------------------------%>
 
         <%  User user = (User) session.getAttribute("user");
-            int userId = user.getUserId();
+            int userId = user.getId();
 
-            WordManager wm = new WordManager();
-            List<Word> wordList = wm.getWordListBySectionId(sectionIdNumber, userId);
+            WordService wm = new WordService();
+            List<Word> wordList = wm.getAllBySectionId(sectionIdNumber, userId);
 
         %>
 
@@ -151,8 +151,14 @@
                 <td><%=word.getWord()%></td>
                 <td><%=word.getTranslation()%></td>
                 <td>
-                    <a class="rename" href="/words?active_form_rename_word=true&word_id=<%=word.getWordId()%>&section_id=<%=sectionIdNumber%>&dictionary_id=<%=dictionaryIdNumber%>&word_old=<%=word.getWord()%>&translation_old=<%=word.getTranslation()%>">Change</a>
-                    <a class="delete" onclick='return confirm("Delete word?")' href="/words?action=delete_word&word_id=<%=word.getWordId()%>&section_id=<%=sectionIdNumber%>&dictionary_id=<%=dictionaryIdNumber%>">Delete</a>
+                    <a class="rename" href="/words?active_form_rename_word=true&word_id=<%=word.getId()%>&section_id=<%=sectionIdNumber%>&dictionary_id=<%=dictionaryIdNumber%>&word_old=<%=word.getWord()%>&translation_old=<%=word.getTranslation()%>">Change</a>
+                    <form method="post" style="display:inline-block;" onclick='return confirm("Delete word?")'>
+                        <input type="hidden" name="action" value="delete_word">
+                        <input type="hidden" name="word_id" value="<%=word.getId()%>">
+                        <input type="hidden" name="section_id" value="<%=sectionIdNumber%>">
+                        <input type="hidden" name="dictionary_id" value="<%=dictionaryIdNumber%>">
+                        <input class="delete" type="submit" value="Delete">
+                    </form>
                 </td>
             </tr>
         <%      }

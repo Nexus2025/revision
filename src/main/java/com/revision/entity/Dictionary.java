@@ -1,21 +1,16 @@
 package com.revision.entity;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Dictionary {
 
-    private int dictionaryId;
+    private int id;
     private int userId;
     private String name;
-    private List<Section> sectionList;
     private int wordsCount;
 
-    public Dictionary (int dictionaryId, int userId, String name) {
+    public Dictionary (int id, int userId, String name) {
         this.name = name;
-        this.dictionaryId = dictionaryId;
+        this.id = id;
         this.userId = userId;
-        sectionList = new ArrayList<>();
     }
 
     public String getName() {
@@ -26,20 +21,12 @@ public class Dictionary {
         this.name = name;
     }
 
-    public List<Section> getSectionList() {
-        return sectionList;
+    public int getId() {
+        return id;
     }
 
-    public void setSectionList(List<Section> sectionList) {
-        this.sectionList = sectionList;
-    }
-
-    public int getDictionaryId() {
-        return dictionaryId;
-    }
-
-    public void setDictionaryId(int dictionaryId) {
-        this.dictionaryId = dictionaryId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getWordsCount() {
@@ -56,5 +43,14 @@ public class Dictionary {
 
     public void setUserId(int userId) {
         this.userId = userId;
+    }
+
+    @Override
+    public String toString() {
+        return "Dictionary{" +
+                "id=" + id +
+                ", userId=" + userId +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

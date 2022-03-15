@@ -1,5 +1,6 @@
 <%@ page import="com.revision.entity.User" %>
-<%@ page import="com.revision.service.UserManager" %>
+<%@ page import="com.revision.service.UserService" %>
+<%@ page import="com.revision.entity.Role" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -19,18 +20,18 @@
 
     <%
         User user = (User) session.getAttribute("user");
-        String userName = user.getLogin();
+        String userName = user.getUserName();
 
-        UserManager um = new UserManager();
-        int countOfWords = um.getCountOfWordsByUserId(user.getUserId());
-        int countOfDictionaries = um.getCountOfDictionariesByUserId(user.getUserId());
+        UserService um = new UserService();
+        int countOfWords = um.getCountOfWords(user.getId());
+        int countOfDictionaries = um.getCountOfDictionaries(user.getId());
 
         String reverse = (String) session.getAttribute("reverse");
     %>
 
     <div id="sidebar">
         <div id="sd-top">
-            <% if (user.getRole() == 2) { %>
+            <% if (user.getRole() == Role.ADMIN) { %>
             <p><a style="background-color: #656363; text-decoration:none" class="submit" href="/tech" target="_blank">TECH INFORMATION</a></p>
             <%}%>
 

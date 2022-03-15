@@ -1,6 +1,7 @@
 package com.revision.controller.auth;
 
-import com.revision.service.UserManager;
+import com.revision.entity.Role;
+import com.revision.service.UserService;
 import com.revision.util.MailService;
 
 import javax.servlet.RequestDispatcher;
@@ -55,12 +56,12 @@ public class RegisterServlet extends HttpServlet {
 
     private boolean register(String username, String password, HttpSession session) {
 
-        UserManager userService = new UserManager();
-        if (userService.checkUserExists(username)) {
+        UserService userService = new UserService();
+        if (userService.checkExists(username)) {
             session.setAttribute("errorMessage", "login is busy");
             return false;
         } else {
-            userService.createUser(username, password, 1);
+            userService.create(username, password, Role.USER);
             MailService.sendEmailToAdmin(username);
             return true;
         }

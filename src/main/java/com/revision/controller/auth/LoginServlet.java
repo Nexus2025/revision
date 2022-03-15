@@ -2,7 +2,7 @@ package com.revision.controller.auth;
 
 import com.revision.entity.User;
 import com.revision.util.Encryptor;
-import com.revision.service.UserManager;
+import com.revision.service.UserService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -42,12 +42,12 @@ public class LoginServlet extends HttpServlet {
     }
 
     private void authorize(String username, String password, HttpSession session, HttpServletResponse response) {
-        UserManager userService = new UserManager();
-        User user = userService.userRead(username);
+        UserService userService = new UserService();
+        User user = userService.get(username);
         try {
             if (user != null) {
-                if (user.getLogin().equals(username) && user.getPassword().equals(Encryptor.encrypt(password))) {
-                    Cookie cookieUid = new Cookie("u_id", user.getLogin());
+                if (user.getUserName().equals(username) && user.getPassword().equals(Encryptor.encrypt(password))) {
+                    Cookie cookieUid = new Cookie("u_id", user.getUserName());
                     cookieUid.setMaxAge(86400);
                     Cookie cookieReverse = new Cookie("reverse", "ON");
                     cookieReverse.setMaxAge(86400);

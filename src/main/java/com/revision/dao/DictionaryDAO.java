@@ -2,173 +2,92 @@ package com.revision.dao;
 
 import com.revision.entity.Dictionary;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class DictionaryDAO {
 
-    public boolean create (String name, int userId) {
-        boolean result = false;
+    private final Connection connection = Database.getConnection();
 
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
+    private static final String CREATE = "INSERT INTO dictionaries (name, user_id) VALUES (?, ?) RETURNING id";
+    private static final String GET_ALL = "SELECT * FROM dictionaries WHERE user_id= ?";
+    private static final String DELETE = "DELETE FROM dictionaries WHERE id= ? AND user_id= ? RETURNING name";
+    private static final String RENAME = "UPDATE dictionaries SET name= ? WHERE id= ? AND user_id= ?";
+    private static final String GET = "SELECT * FROM dictionaries WHERE user_id= ? AND id= ?";
 
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            int returnValue = stmt.executeUpdate("INSERT INTO dictionaries (name, user_id) VALUES ('" + name + "'," + userId + ");");
-            result = true;
-
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+    public Dictionary create(String name, int userId) {
+        Dictionary dictionary = null;
+        try (PreparedStatement statement = connection.prepareStatement(CREATE)) {
+            statement.setString(1, name);
+            statement.setInt(2, userId);
+            try (ResultSet rs = statement.executeQuery()) {
+                rs.next();
+                dictionary = new Dictionary(rs.getInt("id"), userId, name);
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return result;
+        return dictionary;
     }
 
-    public List readDictionaryList (int userId) {
-
-        List<Dictionary> dictionaryList = new ArrayList<>();
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM dictionaries WHERE user_id=" + userId + ";");
-            while (rs.next()) {
-                Dictionary dictionary = new Dictionary(rs.getInt("dictionary_id"), rs.getInt("user_id"), rs.getString("name"));
-                dictionaryList.add(dictionary);
+    public List<Dictionary> getAll(int userId) {
+        List<Dictionary> dictionaries = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(GET_ALL)) {
+            statement.setInt(1, userId);
+            try (ResultSet rs = statement.executeQuery()) {
+                while (rs.next()) {
+                    Dictionary dictionary = new Dictionary(rs.getInt("id"), rs.getInt("user_id"), rs.getString("name"));
+                    dictionaries.add(dictionary);
+                }
             }
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return dictionaryList;
+        return dictionaries;
     }
 
-    public boolean delete(int userId, int dictionaryId) {
-        boolean result = false;
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            int returnValue = stmt.executeUpdate("DELETE FROM dictionaries WHERE dictionary_id=" + dictionaryId + " AND user_id=" + userId + ";");
-            result = true;
-
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt != null) stmt.close();
-                if (rs != null) rs.close();
-                if (conn != null) conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+    public Dictionary delete(int userId, int id) {
+        Dictionary dictionary = null;
+        try (PreparedStatement statement = connection.prepareStatement(DELETE)) {
+            statement.setInt(1, id);
+            statement.setInt(2, userId);
+            try (ResultSet rs = statement.executeQuery()) {
+                rs.next();
+                dictionary = new Dictionary(id, userId, rs.getString("name"));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return result;
+        return dictionary;
     }
 
-    public boolean rename (String newName, int dictionaryId, int userId) {
-        boolean result = false;
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            int returnValue = stmt.executeUpdate("UPDATE dictionaries SET name='" + newName + "' WHERE dictionary_id=" + dictionaryId + " AND user_id=" + userId + ";");
-            result = true;
-
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
+    public Dictionary rename(String newName, int id, int userId) {
+        Dictionary dictionary = null;
+        try (PreparedStatement statement = connection.prepareStatement(RENAME)) {
+            statement.setString(1, newName);
+            statement.setInt(2, id);
+            statement.setInt(3, userId);
+            statement.executeUpdate();
+            dictionary = new Dictionary(id, userId, newName);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
-        return result;
+        return dictionary;
     }
 
-    public Dictionary getDictionaryById (int userId, int dictionaryId) {
-
-        Statement stmt = null;
-        ResultSet rs = null;
-        Connection conn = null;
-        Database db;
-
-        Dictionary dictionary = new Dictionary(-1, -1,"empty dictionary");
-
-        try {
-            db = new Database();
-            conn = db.getConnection();
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM dictionaries WHERE user_id=" + userId + " AND dictionary_id=" + dictionaryId +";");
-
-            rs.next();
-            dictionary = new Dictionary(rs.getInt("dictionary_id"), rs.getInt("user_id"), rs.getString("name"));
-
-
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (stmt!=null) stmt.close();
-                if (rs!=null)rs.close();
-                if (conn!=null)conn.close();
-            } catch (SQLException ex) {
-                ex.printStackTrace();
+    public Dictionary get(int userId, int id) {
+        Dictionary dictionary = null;
+        try (PreparedStatement statement = connection.prepareStatement(GET)) {
+            statement.setInt(1, userId);
+            statement.setInt(2, id);
+            try (ResultSet rs = statement.executeQuery()) {
+                rs.next();
+                dictionary = new Dictionary(rs.getInt("id"), rs.getInt("user_id"), rs.getString("name"));
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-
         return dictionary;
     }
 }

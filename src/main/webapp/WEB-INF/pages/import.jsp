@@ -1,5 +1,5 @@
 <%@ page import="com.revision.entity.User" %>
-<%@ page import="com.revision.service.DictionaryManager" %>
+<%@ page import="com.revision.service.DictionaryService" %>
 <%@ page import="com.revision.entity.Dictionary" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -34,10 +34,10 @@
 
             <%
                 User user = (User) session.getAttribute("user");
-                int userId = user.getUserId();
+                int userId = user.getId();
 
-                DictionaryManager dm = new DictionaryManager();
-                List<Dictionary> dictionaryList = dm.getDictionaryListByUserId(userId);
+                DictionaryService dm = new DictionaryService();
+                List<Dictionary> dictionaryList = dm.getAll(userId);
             %>
 
             <%
@@ -53,13 +53,12 @@
 
                             <% for (Dictionary dictionary : dictionaryList) { %>
 
-                            <option value="<%=dictionary.getDictionaryId()%>"><%=dictionary.getName()%></option>
+                            <option value="<%=dictionary.getId()%>"><%=dictionary.getName()%></option>
 
                             <% } %>
 
                         </select>
                     </div>
-                    <input type="hidden" name="action" value="import_csv">
                     <p><input type="file" name="csv_file" accept=".csv, text/csv"></p>
                     <p><input class="submit9" type="submit" value="UPLOAD"></p>
                 </form>

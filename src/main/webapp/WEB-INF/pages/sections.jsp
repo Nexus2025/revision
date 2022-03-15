@@ -1,5 +1,5 @@
 <%@ page import="com.revision.entity.Section" %>
-<%@ page import="com.revision.service.SectionManager" %>
+<%@ page import="com.revision.service.SectionService" %>
 <%@ page import="java.util.List" %>
 <%@ page import="com.revision.entity.User" %>
 <%--
@@ -57,7 +57,7 @@
 
         <% if(request.getParameter("active_form_add_section") != null) { %>
 
-        <form action="/sections" class="add">
+        <form action="/sections" class="add" method="post">
             <input style="font-size: 15px;" type="text" name="section_name" value="" placeholder="Enter section name"><br>
             <input class="submit4" type="submit" value="ADD SECTION"><br>
             <input type="hidden" name="dictionary_id" value="<%=dictionary_id%>"><br>
@@ -72,7 +72,7 @@
             String dictionaryId = request.getParameter("dictionary_id");
             String sectionId = request.getParameter("section_id"); %>
 
-        <form action="/sections" class="add">
+        <form action="/sections" class="add" method="post">
             <input style="font-size: 15px;" type="text" name="section_new_name" value="" placeholder="Enter section name"><br>
             <input class="submit4" type="submit" value="RENAME SECTION"><br>
             <input type="hidden" name="action" value=rename_section>
@@ -86,10 +86,10 @@
         <%----------------------------------------------------------%>
 
         <% User user = (User) session.getAttribute("user");
-           int userId = user.getUserId();
+           int userId = user.getId();
 
-           SectionManager sm = new SectionManager();
-           List<Section> sectionList = sm.getSectionListByDictionaryId(dictionary_id, userId);
+           SectionService sm = new SectionService();
+           List<Section> sectionList = sm.getAllByDictionaryId(dictionary_id, userId);
         %>
 
 
@@ -97,11 +97,21 @@
             if(!sectionList.isEmpty()) {
                 for (Section section : sectionList) {
         %>
-        <p><div class="sub"><input class="submit6" type="submit" value="<%=section.getName()%>" onclick="location.href='/words?dictionary_id=<%=dictionary_id%>&section_id=<%=section.getSectionId()%>'"></div>
-        <div class="sub"><input class="submit10" type="submit" value="REPEAT" onclick="location.href='/repeating?start-repeating=start&repeat_by=section&section_id=<%=section.getSectionId()%>&path_return=sections?dictionary_id=<%=dictionary_id%>'"></div>
-        <a class="delete" onclick='return confirm("Delete section?")' href="/sections?action=delete_section&section_id=<%=section.getSectionId()%>&dictionary_id=<%=section.getDictionaryId()%>">Delete</a>
-        <a class="clear" onclick='return confirm("Clear section?")' href="/sections?action=clear_section&section_id=<%=section.getSectionId()%>&dictionary_id=<%=section.getDictionaryId()%>">Clear</a>
-        <a class="rename" href="/sections?active_form_rename_section=true&section_id=<%=section.getSectionId()%>&dictionary_id=<%=section.getDictionaryId()%>">Rename</a>
+        <p><div class="sub"><input class="submit6" type="submit" value="<%=section.getName()%>" onclick="location.href='/words?dictionary_id=<%=dictionary_id%>&section_id=<%=section.getId()%>'"></div>
+        <div class="sub"><input class="submit10" type="submit" value="REPEAT" onclick="location.href='/repeating?start-repeating=start&repeat_by=section&section_id=<%=section.getId()%>&path_return=sections?dictionary_id=<%=dictionary_id%>'"></div>
+        <form method="post" style="display:inline-block;" onclick='return confirm("Delete section?")'>
+            <input type="hidden" name="action" value="delete_section">
+            <input type="hidden" name="section_id" value="<%=section.getId()%>">
+            <input type="hidden" name="dictionary_id" value="<%=section.getDictionaryId()%>">
+            <input class="delete" type="submit" value="Delete">
+        </form>
+        <form method="post" style="display:inline-block;" onclick='return confirm("Clear section?")'>
+            <input type="hidden" name="action" value="clear_section">
+            <input type="hidden" name="section_id" value="<%=section.getId()%>">
+            <input type="hidden" name="dictionary_id" value="<%=section.getDictionaryId()%>">
+            <input class="clear2" type="submit" value="Clear">
+        </form>
+        <a class="rename" href="/sections?active_form_rename_section=true&section_id=<%=section.getId()%>&dictionary_id=<%=section.getDictionaryId()%>">Rename</a>
         </p>
         <%      }
             }

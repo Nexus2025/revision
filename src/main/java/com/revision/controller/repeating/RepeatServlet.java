@@ -1,12 +1,12 @@
-package com.revision.controller;
+package com.revision.controller.repeating;
 
 import com.revision.entity.Dictionary;
 import com.revision.entity.Section;
 import com.revision.entity.User;
 import com.revision.entity.Word;
-import com.revision.service.DictionaryManager;
-import com.revision.service.SectionManager;
-import com.revision.service.WordManager;
+import com.revision.service.DictionaryService;
+import com.revision.service.SectionService;
+import com.revision.service.WordService;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -30,7 +30,7 @@ public class RepeatServlet extends HttpServlet {
 
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute("user");
-            int userId = user.getUserId();
+            int userId = user.getId();
 
             String pathReturn = request.getParameter("path_return");
             if (pathReturn != null) {
@@ -40,9 +40,9 @@ public class RepeatServlet extends HttpServlet {
             if (request.getParameter("repeat_by").equals("dictionary")) {
 
                 int dictionaryId = Integer.parseInt(request.getParameter("dictionary_id"));
-                WordManager wm = new WordManager();
+                WordService wm = new WordService();
 
-                List<Word> wordList = wm.getWordListByDictionaryId(dictionaryId, userId);
+                List<Word> wordList = wm.getAllByDictionaryId(dictionaryId, userId);
 
                 int countOfAllWords = wordList.size();
 
@@ -56,16 +56,16 @@ public class RepeatServlet extends HttpServlet {
                 int maxId = 0;
 
                 for (Word word : wordList) {
-                    wordMap.put(word.getWordId(), word);
-                    if (maxId < word.getWordId()) {
-                        maxId = word.getWordId();
+                    wordMap.put(word.getId(), word);
+                    if (maxId < word.getId()) {
+                        maxId = word.getId();
                     }
                 }
 
-                int firstWord = wordList.get(0).getWordId();
+                int firstWord = wordList.get(0).getId();
 
-                DictionaryManager dm = new DictionaryManager();
-                Dictionary dictionary = dm.getDictionaryById(userId, dictionaryId);
+                DictionaryService dm = new DictionaryService();
+                Dictionary dictionary = dm.get(userId, dictionaryId);
                 String dictionaryName = dictionary.getName();
 
                 session.setAttribute("firstWordId", firstWord);
@@ -86,9 +86,9 @@ public class RepeatServlet extends HttpServlet {
             if (request.getParameter("repeat_by").equals("section")) {
 
                 int sectionId = Integer.parseInt(request.getParameter("section_id"));
-                WordManager wm = new WordManager();
+                WordService wm = new WordService();
 
-                List<Word> wordList = wm.getWordListBySectionId(sectionId, userId);
+                List<Word> wordList = wm.getAllBySectionId(sectionId, userId);
 
                 int countOfAllWords = wordList.size();
 
@@ -102,20 +102,20 @@ public class RepeatServlet extends HttpServlet {
                 int maxId = 0;
 
                 for (Word word : wordList) {
-                    wordMap.put(word.getWordId(), word);
-                    if (maxId < word.getWordId()) {
-                        maxId = word.getWordId();
+                    wordMap.put(word.getId(), word);
+                    if (maxId < word.getId()) {
+                        maxId = word.getId();
                     }
                 }
 
                 for (Word word : wordList) {
-                    wordMap.put(word.getWordId(), word);
+                    wordMap.put(word.getId(), word);
                 }
 
-                int firstWord = wordList.get(0).getWordId();
+                int firstWord = wordList.get(0).getId();
 
-                SectionManager sm = new SectionManager();
-                Section section = sm.getSectionById(userId, sectionId);
+                SectionService sm = new SectionService();
+                Section section = sm.get(userId, sectionId);
                 String sectionName = section.getName();
 
                 session.setAttribute("firstWordId", firstWord);

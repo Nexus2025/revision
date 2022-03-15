@@ -1,5 +1,5 @@
 <%@ page import="com.revision.entity.User" %>
-<%@ page import="com.revision.service.UserManager" %><%--
+<%@ page import="com.revision.service.UserService" %><%--
   Created by IntelliJ IDEA.
   User: Admin
   Date: 09.05.2021
@@ -15,11 +15,11 @@
 
 <%
     User user = (User) session.getAttribute("user");
-    String userName = user.getLogin();
+    String userName = user.getUserName();
 
-    UserManager um = new UserManager();
-    int countOfWords = um.getCountOfWordsByUserId(user.getUserId());
-    int countOfDictionaries = um.getCountOfDictionariesByUserId(user.getUserId());
+    UserService um = new UserService();
+    int countOfWords = um.getCountOfWords(user.getId());
+    int countOfDictionaries = um.getCountOfDictionaries(user.getId());
 
     Object firstWordId = session.getAttribute("firstWordId");
     Object wordMap = session.getAttribute("wordMap");

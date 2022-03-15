@@ -1,7 +1,7 @@
 <%@ page import="com.revision.entity.Dictionary" %>
 <%@ page import="com.revision.entity.User" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.revision.service.DictionaryManager" %>
+<%@ page import="com.revision.service.DictionaryService" %>
 <%--
   Created by IntelliJ IDEA.
   User: Admin
@@ -45,13 +45,13 @@
         <%
             User user = (User) session.getAttribute("user");
 
-            DictionaryManager dm = new DictionaryManager();
-            List<Dictionary> dictionaryList = dm.getDictionaryListByUserId(user.getUserId());
+            DictionaryService dm = new DictionaryService();
+            List<Dictionary> dictionaryList = dm.getAll(user.getId());
         %>
 
 
         <% if(request.getParameter("active_form_add") != null) { %>
-        <form action="/dictionaries" class="add">
+        <form action="/dictionaries" class="add" method="post">
             <input style="font-size: 15px;" type="text" name="dictionary_name" value="" placeholder="Enter dictionary name"/><br>
             <input class="submit4" type="submit" value="ADD DICTIONARY"><br><br>
             <input type="hidden" name="action" value="add_dictionary">
@@ -61,7 +61,7 @@
 
         <% if(request.getParameter("active_form_rename") != null) {
             String dictionaryId = request.getParameter("dictionary_id"); %>
-        <form action="/dictionaries" class="add">
+        <form action="/dictionaries" class="add" method="post">
             <input style="font-size: 15px;" type="text" name="dictionary_new_name" value="" placeholder="Enter dictionary name"><br>
             <input class="submit4" type="submit" value="RENAME DICTIONARY"><br>
             <input type="hidden" name="action" value="rename_dictionary">
@@ -75,12 +75,20 @@
         <% if(!dictionaryList.isEmpty()) {
                for (Dictionary dictionary : dictionaryList) { %>
 
-        <p><div class="sub"><input class="submit5" type="submit" value="<%=dictionary.getName()%>" onclick="location.href='/sections?dictionary_id=<%=dictionary.getDictionaryId()%>'"></div>
+        <p><div class="sub"><input class="submit5" type="submit" value="<%=dictionary.getName()%>" onclick="location.href='/sections?dictionary_id=<%=dictionary.getId()%>'"></div>
         <div class="words_count"><%=dictionary.getWordsCount()%> words</div>
-        <div class="sub"><input class="submit11" type="submit" value="REPEAT" onclick="location.href='/repeating?start-repeating=start&repeat_by=dictionary&dictionary_id=<%=dictionary.getDictionaryId()%>&path_return=dictionaries'"></div>
-        <a class="delete" onclick='return confirm("Delete dictionary?")' href="/dictionaries?action=delete_dictionary&dictionary_id=<%=dictionary.getDictionaryId()%>">Delete</a>
-        <a class="clear" onclick='return confirm("Clear dictionary?")' href="/dictionaries?action=clear_dictionary&dictionary_id=<%=dictionary.getDictionaryId()%>">Clear</a>
-        <a class="rename" href="/dictionaries?active_form_rename=true&dictionary_id=<%=dictionary.getDictionaryId()%>">Rename</a>
+        <div class="sub"><input class="submit11" type="submit" value="REPEAT" onclick="location.href='/repeating?start-repeating=start&repeat_by=dictionary&dictionary_id=<%=dictionary.getId()%>&path_return=dictionaries'"></div>
+        <form method="post" style="display:inline-block;" onclick='return confirm("Delete dictionary?")'>
+            <input type="hidden" name="action" value="delete_dictionary">
+            <input type="hidden" name="dictionary_id" value="<%=dictionary.getId()%>">
+            <input class="delete" type="submit" value="Delete">
+        </form>
+        <form method="post" style="display:inline-block;" onclick='return confirm("Clear dictionary?")'>
+            <input type="hidden" name="action" value="clear_dictionary">
+            <input type="hidden" name="dictionary_id" value="<%=dictionary.getId()%>">
+            <input class="clear2" type="submit" value="Clear">
+        </form>
+        <a class="rename" href="/dictionaries?active_form_rename=true&dictionary_id=<%=dictionary.getId()%>">Rename</a>
         </p>
         <%  }
         }

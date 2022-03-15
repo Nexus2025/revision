@@ -1,7 +1,7 @@
 package com.revision.filter;
 
 import com.revision.entity.User;
-import com.revision.service.UserManager;
+import com.revision.service.UserService;
 
 import javax.servlet.*;
 import javax.servlet.http.Cookie;
@@ -46,8 +46,8 @@ public class AuthFilter implements Filter {
             if (cookies != null) {
                 for (Cookie cookie : cookies) {
                     if (cookie.getName().equals("u_id")) {
-                        UserManager userService = new UserManager();
-                        User user = userService.userRead(cookie.getValue());
+                        UserService userService = new UserService();
+                        User user = userService.get(cookie.getValue());
                         session.setAttribute("user", user);
                         isAuth = true;
                     }

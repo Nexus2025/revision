@@ -1,4 +1,4 @@
-package com.revision.controller;
+package com.revision.controller.repeating;
 
 import com.revision.entity.Word;
 

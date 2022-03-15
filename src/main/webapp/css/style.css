@@ -268,7 +268,19 @@ h2 {
 }
 .delete{
     color: rgb(255, 0, 0);
-    padding-left: 10px;
+    border: none;
+    background-color: transparent;
+    font-size: 15px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+.clear2{
+    color: orange;
+    border: none;
+    background-color: transparent;
+    font-size: 15px;
+    text-decoration: underline;
+    cursor: pointer;
 }
 .clear{
     color: rgb(255, 136, 0);

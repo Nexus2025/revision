@@ -65,4 +65,6 @@ public class MailService {
             }
         }
     }
+
+    private MailService(){}
 }
