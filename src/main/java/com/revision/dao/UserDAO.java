@@ -7,8 +7,6 @@ import java.sql.*;
 
 public class UserDAO {
 
-    private final Connection connection = Database.getConnection();
-
     private static final String GET = "SELECT * FROM users WHERE user_name= ?";
     private static final String CREATE = "INSERT INTO users (user_name, password, role) VALUES (?, ?, ?) RETURNING user_name";
     private static final String GET_WORDS_COUNT = "SELECT count(*) FROM words WHERE user_id= ?";
@@ -17,7 +15,8 @@ public class UserDAO {
 
     public User get(String userName) {
         User user = null;
-        try (PreparedStatement statement = connection.prepareStatement(GET)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET)) {
             statement.setString(1, userName);
             try (ResultSet rs = statement.executeQuery()) {
                 rs.next();
@@ -31,7 +30,8 @@ public class UserDAO {
 
     public User create(String userName, String password, Role role) {
         User user = null;
-        try (PreparedStatement statement = connection.prepareStatement(CREATE)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(CREATE)) {
             statement.setString(1, userName);
             statement.setString(2, password);
             statement.setString(3, role.toString());
@@ -47,7 +47,8 @@ public class UserDAO {
 
     public int getWordsCount(int id) {
         int count = 0;
-        try (PreparedStatement statement = connection.prepareStatement(GET_WORDS_COUNT)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_WORDS_COUNT)) {
             statement.setInt(1, id);
             try (ResultSet rs = statement.executeQuery()) {
                 rs.next();
@@ -61,7 +62,8 @@ public class UserDAO {
 
     public int getDictionariesCount(int id) {
         int count = 0;
-        try (PreparedStatement statement = connection.prepareStatement(GET_DICTIONARIES_COUNT)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_DICTIONARIES_COUNT)) {
             statement.setInt(1, id);
             try (ResultSet rs = statement.executeQuery()) {
                 rs.next();
@@ -75,7 +77,8 @@ public class UserDAO {
 
     public boolean checkExists(String userName) {
         boolean result = false;
-        try (PreparedStatement statement = connection.prepareStatement(CHECK_EXISTS)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(CHECK_EXISTS)) {
             statement.setString(1, userName);
             try (ResultSet rs = statement.executeQuery()) {
                 rs.next();

@@ -8,8 +8,6 @@ import java.util.List;
 
 public class DictionaryDAO {
 
-    private final Connection connection = Database.getConnection();
-
     private static final String CREATE = "INSERT INTO dictionaries (name, user_id) VALUES (?, ?) RETURNING id";
     private static final String GET_ALL = "SELECT * FROM dictionaries WHERE user_id= ?";
     private static final String DELETE = "DELETE FROM dictionaries WHERE id= ? AND user_id= ? RETURNING name";
@@ -18,7 +16,8 @@ public class DictionaryDAO {
 
     public Dictionary create(String name, int userId) {
         Dictionary dictionary = null;
-        try (PreparedStatement statement = connection.prepareStatement(CREATE)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(CREATE)) {
             statement.setString(1, name);
             statement.setInt(2, userId);
             try (ResultSet rs = statement.executeQuery()) {
@@ -33,7 +32,8 @@ public class DictionaryDAO {
 
     public List<Dictionary> getAll(int userId) {
         List<Dictionary> dictionaries = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(GET_ALL)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_ALL)) {
             statement.setInt(1, userId);
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
@@ -49,7 +49,8 @@ public class DictionaryDAO {
 
     public Dictionary delete(int userId, int id) {
         Dictionary dictionary = null;
-        try (PreparedStatement statement = connection.prepareStatement(DELETE)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE)) {
             statement.setInt(1, id);
             statement.setInt(2, userId);
             try (ResultSet rs = statement.executeQuery()) {
@@ -64,7 +65,8 @@ public class DictionaryDAO {
 
     public Dictionary rename(String newName, int id, int userId) {
         Dictionary dictionary = null;
-        try (PreparedStatement statement = connection.prepareStatement(RENAME)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(RENAME)) {
             statement.setString(1, newName);
             statement.setInt(2, id);
             statement.setInt(3, userId);
@@ -78,7 +80,8 @@ public class DictionaryDAO {
 
     public Dictionary get(int userId, int id) {
         Dictionary dictionary = null;
-        try (PreparedStatement statement = connection.prepareStatement(GET)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET)) {
             statement.setInt(1, userId);
             statement.setInt(2, id);
             try (ResultSet rs = statement.executeQuery()) {

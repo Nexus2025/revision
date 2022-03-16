@@ -8,8 +8,6 @@ import java.util.List;
 
 public class WordDAO {
 
-    private final Connection connection = Database.getConnection();
-
     private static final String CREATE = "INSERT INTO words (word, translation, section_id, user_id, dictionary_id) VALUES (?, ?, ?, ?, ?) RETURNING id";
     private static final String RENAME = "UPDATE words SET word= ?, translation= ? WHERE id= ? AND user_id= ? RETURNING dictionary_id, section_id";
     private static final String DELETE = "DELETE FROM words WHERE id= ? AND user_id= ? RETURNING dictionary_id, section_id, word, translation";
@@ -21,7 +19,8 @@ public class WordDAO {
 
     public Word create(String word, String translation, int sectionId, int userId, int dictionaryId) {
         Word wd = null;
-        try (PreparedStatement statement = connection.prepareStatement(CREATE)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(CREATE)) {
             statement.setString(1, word);
             statement.setString(2, translation);
             statement.setInt(3, sectionId);
@@ -39,7 +38,8 @@ public class WordDAO {
 
     public Word rename(String word, String translation, int id, int userId) {
         Word wd = null;
-        try (PreparedStatement statement = connection.prepareStatement(RENAME)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(RENAME)) {
             statement.setString(1, word);
             statement.setString(2, translation);
             statement.setInt(3, id);
@@ -56,7 +56,8 @@ public class WordDAO {
 
     public Word delete(int id, int userId) {
         Word wd = null;
-        try (PreparedStatement statement = connection.prepareStatement(DELETE)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE)) {
             statement.setInt(1, id);
             statement.setInt(2, userId);
             try (ResultSet rs = statement.executeQuery()) {
@@ -75,7 +76,8 @@ public class WordDAO {
 
     public List<Word> getAllBySectionId(int sectionId, int userId) {
         List<Word> words = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_SECTION_ID)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_SECTION_ID)) {
             statement.setInt(1, sectionId);
             statement.setInt(2, userId);
             try (ResultSet rs = statement.executeQuery()) {
@@ -92,7 +94,8 @@ public class WordDAO {
 
     public List<Word> getAllByDictionaryId(int dictionaryId, int userId) {
         List<Word> words = new ArrayList<>();
-        try (PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_DICTIONARY_ID)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_DICTIONARY_ID)) {
             statement.setInt(1, dictionaryId);
             statement.setInt(2, userId);
             try (ResultSet rs = statement.executeQuery()) {
@@ -109,7 +112,8 @@ public class WordDAO {
 
     public boolean deleteAllBySectionId(int sectionId, int userId) {
         boolean result = false;
-        try (PreparedStatement statement = connection.prepareStatement(DELETE_ALL_BY_SECTION_ID)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(DELETE_ALL_BY_SECTION_ID)) {
             statement.setInt(1, sectionId);
             statement.setInt(2, userId);
             result = statement.executeUpdate() != 0;
@@ -121,7 +125,8 @@ public class WordDAO {
 
     public int getWordsCountByDictionaryId(int dictionaryId) {
         int count = 0;
-        try (PreparedStatement statement = connection.prepareStatement(GET_WORDS_COUNT_BY_DICTIONARY_ID)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(GET_WORDS_COUNT_BY_DICTIONARY_ID)) {
             statement.setInt(1, dictionaryId);
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
@@ -135,7 +140,8 @@ public class WordDAO {
     }
 
     public void saveWordsList(List<Word> words, int userId, int dictionaryId) {
-        try (PreparedStatement statement = connection.prepareStatement(SAVE_WORDS_LIST)) {
+        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+             PreparedStatement statement = connection.prepareStatement(SAVE_WORDS_LIST)) {
             for (Word wd : words) {
                 statement.setString(1, wd.getWord());
                 statement.setString(2, wd.getTranslation());
