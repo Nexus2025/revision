@@ -1,5 +1,6 @@
 package com.revision.controller.dictionary;
 
+import com.revision.entity.Dictionary;
 import com.revision.entity.User;
 import com.revision.service.DictionaryService;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/dictionaries")
 public class DictionariesServlet extends HttpServlet {
@@ -19,6 +21,13 @@ public class DictionariesServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+
+        DictionaryService dm = new DictionaryService();
+        List<Dictionary> dictionaryList = dm.getAll(user.getId());
+        request.setAttribute("dictionaryList", dictionaryList);
+
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/pages/dictionaries.jsp");
         requestDispatcher.forward(request, response);
     }
