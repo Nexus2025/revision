@@ -23,7 +23,8 @@ import java.util.TreeMap;
 @WebServlet("/repeating")
 public class RepeatServlet extends HttpServlet {
 
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         if (request.getParameter("start-repeating").equals("start")) {
@@ -137,16 +138,6 @@ public class RepeatServlet extends HttpServlet {
             response.sendRedirect("/change");
         }
 
-    }
-
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        processRequest(req, resp);
     }
 
     private void swapWords (List<Word> wordList) {
