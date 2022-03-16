@@ -14,6 +14,7 @@ public class SectionDAO {
     private static final String GET_ALL_BY_DICTIONARY_ID = "SELECT * FROM sections WHERE dictionary_id= ? AND user_id= ?";
     private static final String GET_ALL = "SELECT * FROM sections WHERE user_id= ?";
     private static final String DELETE = "DELETE FROM sections WHERE id= ? AND user_id= ? RETURNING name, dictionary_id";
+    private static final String DELETE_ALL_BY_DICTIONARY_ID = "DELETE FROM words WHERE dictionary_id= ? AND user_id= ?";
     private static final String RENAME = "UPDATE sections SET name= ? WHERE id= ? AND user_id= ? RETURNING dictionary_id";
     private static final String GET = "SELECT * FROM sections WHERE user_id= ? AND id= ?";
 
@@ -64,6 +65,18 @@ public class SectionDAO {
             e.printStackTrace();
         }
         return sections;
+    }
+
+    public boolean deleteAllByDictionaryId(int dictionaryId, int userId) {
+        boolean result = false;
+        try (PreparedStatement statement = connection.prepareStatement(DELETE_ALL_BY_DICTIONARY_ID)) {
+            statement.setInt(1, dictionaryId);
+            statement.setInt(2, userId);
+            result = statement.executeUpdate() != 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public Section delete(int id, int userId) {

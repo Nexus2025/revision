@@ -14,28 +14,31 @@ public class SectionService {
         return sectionDAO.getAllByDictionaryId(dictionaryId, userId);
     }
 
+    public boolean deleteAllByDictionaryId(int dictionaryId, int userId) {
+        return sectionDAO.deleteAllByDictionaryId(dictionaryId, userId);
+    }
+
     public List<Section> getAll(int userId) {
         return sectionDAO.getAll(userId);
     }
 
-    public Section get(int userId, int sectionId) {
-        return sectionDAO.get(userId, sectionId);
+    public Section get(int userId, int id) {
+        return sectionDAO.get(userId, id);
     }
 
     public Section create(String sectionName, int dictionaryId, int userId) {
         return sectionDAO.create(sectionName, dictionaryId, userId);
     }
 
-    public void delete(int sectionId, int userId) {
-        clear(sectionId, userId);
-        sectionDAO.delete(sectionId, userId);
+    public void delete(int id, int userId) {
+        sectionDAO.delete(id, userId);
     }
 
-    public void clear(int sectionId, int userId) {
-        wordService.deleteAllBySectionId(sectionId, userId);
+    public void clear(int id, int userId) {
+        wordService.deleteAllBySectionId(id, userId);
     }
 
-    public void rename(String sectionNewName, int sectionId, int userId) {
-        sectionDAO.rename(sectionNewName, sectionId, userId);
+    public void rename(String sectionNewName, int id, int userId) {
+        sectionDAO.rename(sectionNewName, id, userId);
     }
 }

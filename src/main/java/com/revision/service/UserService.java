@@ -8,23 +8,23 @@ public class UserService {
 
     private final UserDAO userDAO = new UserDAO();
 
-    public int getCountOfWords(int userId) {
-        return userDAO.getWordsCount(userId);
+    public int getCountOfWords(int id) {
+        return userDAO.getWordsCount(id);
     }
 
-    public int getCountOfDictionaries(int userId) {
-        return userDAO.getDictionariesCount(userId);
+    public int getCountOfDictionaries(int id) {
+        return userDAO.getDictionariesCount(id);
     }
 
-    public boolean checkExists(String userLogin) {
-        return userDAO.checkExists(userLogin);
+    public boolean checkExists(String userName) {
+        return userDAO.checkExists(userName);
     }
 
-    public void create(String userLogin, String userPassword, Role role) {
-        userDAO.create(userLogin, userPassword, role);
+    public void create(String userName, String userPassword, Role role) {
+        userDAO.create(userName, userPassword, role);
     }
 
-    public User get(String login) {
-        return userDAO.get(login);
+    public User get(String userName) {
+        return userDAO.get(userName);
     }
 }

@@ -3,7 +3,6 @@ package com.revision.service;
 import com.revision.dao.DictionaryDAO;
 import com.revision.dao.WordDAO;
 import com.revision.entity.Dictionary;
-import com.revision.entity.Section;
 
 import java.util.List;
 
@@ -21,27 +20,28 @@ public class DictionaryService {
         return dictionaryList;
     }
 
-    public Dictionary get(int userId, int dictionaryId) {
-        return dictionaryDAO.get(userId, dictionaryId);
+    public Dictionary get(int userId, int id) {
+        return dictionaryDAO.get(userId, id);
     }
 
     public void create(String dictionaryName, int userId) {
         dictionaryDAO.create(dictionaryName, userId);
     }
 
-    public void delete(int userId, int dictionaryId) {
-        clear(userId, dictionaryId);
-        dictionaryDAO.delete(userId, dictionaryId);
+    public void delete(int userId, int id) {
+        dictionaryDAO.delete(userId, id);
     }
 
-    public void clear(int userId, int dictionaryId) {
-        List<Section> sectionList = sectionService.getAllByDictionaryId(dictionaryId, userId);
-        for (Section section : sectionList) {
-            sectionService.delete(section.getId(), section.getUserId());
-        }
+    public static void main(String[] args) {
+        DictionaryService service = new DictionaryService();
+        service.delete(1, 1);
     }
 
-    public void rename(String dictionaryNewName, int dictionaryId, int userId) {
-        dictionaryDAO.rename(dictionaryNewName, dictionaryId, userId);
+    public void clear(int userId, int id) {
+        sectionService.deleteAllByDictionaryId(id, userId);
+    }
+
+    public void rename(String dictionaryNewName, int id, int userId) {
+        dictionaryDAO.rename(dictionaryNewName, id, userId);
     }
 }
