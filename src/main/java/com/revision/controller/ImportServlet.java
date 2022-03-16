@@ -38,5 +38,6 @@ public class ImportServlet extends HttpServlet {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        response.sendRedirect("/import");
     }
 }

@@ -14,7 +14,7 @@ public class SectionDAO {
     private static final String GET_ALL_BY_DICTIONARY_ID = "SELECT * FROM sections WHERE dictionary_id= ? AND user_id= ?";
     private static final String GET_ALL = "SELECT * FROM sections WHERE user_id= ?";
     private static final String DELETE = "DELETE FROM sections WHERE id= ? AND user_id= ? RETURNING name, dictionary_id";
-    private static final String DELETE_ALL_BY_DICTIONARY_ID = "DELETE FROM words WHERE dictionary_id= ? AND user_id= ?";
+    private static final String DELETE_ALL_BY_DICTIONARY_ID = "DELETE FROM sections WHERE dictionary_id= ? AND user_id= ?";
     private static final String RENAME = "UPDATE sections SET name= ? WHERE id= ? AND user_id= ? RETURNING dictionary_id";
     private static final String GET = "SELECT * FROM sections WHERE user_id= ? AND id= ?";
 
