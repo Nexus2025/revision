@@ -1,6 +1,7 @@
 package com.revision.controller.dictionary;
 
 import com.revision.entity.User;
+import com.revision.entity.Word;
 import com.revision.service.WordService;
 import com.revision.util.ImportUtil;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/words")
 public class WordServlet extends HttpServlet {
@@ -20,6 +22,12 @@ public class WordServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        int sectionId = Integer.parseInt(request.getParameter("section_id"));
+        List<Word> wordList = wordService.getAllBySectionId(sectionId, user.getId());
+        request.setAttribute("wordList", wordList);
+
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/pages/words.jsp");
         requestDispatcher.forward(request, response);
     }

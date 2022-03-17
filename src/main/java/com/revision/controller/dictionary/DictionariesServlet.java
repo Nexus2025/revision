@@ -23,9 +23,7 @@ public class DictionariesServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-
-        DictionaryService dm = new DictionaryService();
-        List<Dictionary> dictionaryList = dm.getAll(user.getId());
+        List<Dictionary> dictionaryList = dictionaryService.getAll(user.getId());
         request.setAttribute("dictionaryList", dictionaryList);
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/pages/dictionaries.jsp");
