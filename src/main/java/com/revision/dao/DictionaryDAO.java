@@ -16,7 +16,7 @@ public class DictionaryDAO {
 
     public Dictionary create(String name, int userId) {
         Dictionary dictionary = null;
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(CREATE)) {
             statement.setString(1, name);
             statement.setInt(2, userId);
@@ -32,7 +32,7 @@ public class DictionaryDAO {
 
     public List<Dictionary> getAll(int userId) {
         List<Dictionary> dictionaries = new ArrayList<>();
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_ALL)) {
             statement.setInt(1, userId);
             try (ResultSet rs = statement.executeQuery()) {
@@ -49,7 +49,7 @@ public class DictionaryDAO {
 
     public Dictionary delete(int userId, int id) {
         Dictionary dictionary = null;
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE)) {
             statement.setInt(1, id);
             statement.setInt(2, userId);
@@ -65,7 +65,7 @@ public class DictionaryDAO {
 
     public Dictionary rename(String newName, int id, int userId) {
         Dictionary dictionary = null;
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(RENAME)) {
             statement.setString(1, newName);
             statement.setInt(2, id);
@@ -80,7 +80,7 @@ public class DictionaryDAO {
 
     public Dictionary get(int userId, int id) {
         Dictionary dictionary = null;
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET)) {
             statement.setInt(1, userId);
             statement.setInt(2, id);

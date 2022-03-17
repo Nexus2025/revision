@@ -15,7 +15,7 @@ public class UserDAO {
 
     public User get(String userName) {
         User user = null;
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET)) {
             statement.setString(1, userName);
             try (ResultSet rs = statement.executeQuery()) {
@@ -30,7 +30,7 @@ public class UserDAO {
 
     public User create(String userName, String password, Role role) {
         User user = null;
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(CREATE)) {
             statement.setString(1, userName);
             statement.setString(2, password);
@@ -47,7 +47,7 @@ public class UserDAO {
 
     public int getWordsCount(int id) {
         int count = 0;
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_WORDS_COUNT)) {
             statement.setInt(1, id);
             try (ResultSet rs = statement.executeQuery()) {
@@ -62,7 +62,7 @@ public class UserDAO {
 
     public int getDictionariesCount(int id) {
         int count = 0;
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_DICTIONARIES_COUNT)) {
             statement.setInt(1, id);
             try (ResultSet rs = statement.executeQuery()) {
@@ -77,7 +77,7 @@ public class UserDAO {
 
     public boolean checkExists(String userName) {
         boolean result = false;
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(CHECK_EXISTS)) {
             statement.setString(1, userName);
             try (ResultSet rs = statement.executeQuery()) {

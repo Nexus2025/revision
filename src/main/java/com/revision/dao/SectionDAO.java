@@ -18,7 +18,7 @@ public class SectionDAO {
 
     public Section create(String name, int dictionaryId, int userId) {
         Section section = null;
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(CREATE)) {
             statement.setString(1, name);
             statement.setInt(2, dictionaryId);
@@ -35,7 +35,7 @@ public class SectionDAO {
 
     public List<Section> getAllByDictionaryId(int dictionaryId, int userId) {
         List<Section> sections = new ArrayList<>();
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_ALL_BY_DICTIONARY_ID)) {
             statement.setInt(1, dictionaryId);
             statement.setInt(2, userId);
@@ -53,7 +53,7 @@ public class SectionDAO {
 
     public List<Section> getAll(int userId) {
         List<Section> sections = new ArrayList<>();
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET_ALL)) {
             statement.setInt(1, userId);
             try (ResultSet rs = statement.executeQuery()) {
@@ -70,7 +70,7 @@ public class SectionDAO {
 
     public boolean deleteAllByDictionaryId(int dictionaryId, int userId) {
         boolean result = false;
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE_ALL_BY_DICTIONARY_ID)) {
             statement.setInt(1, dictionaryId);
             statement.setInt(2, userId);
@@ -83,7 +83,7 @@ public class SectionDAO {
 
     public Section delete(int id, int userId) {
         Section section = null;
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(DELETE)) {
             statement.setInt(1, id);
             statement.setInt(2, userId);
@@ -99,7 +99,7 @@ public class SectionDAO {
 
     public Section rename(String newName, int id, int userId) {
         Section section = null;
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(RENAME)) {
             statement.setString(1, newName);
             statement.setInt(2, id);
@@ -116,7 +116,7 @@ public class SectionDAO {
 
     public Section get(int userId, int id) {
         Section section = null;
-        try (Connection connection = ConnectionPool.getDataSource().getConnection();
+        try (Connection connection = ConnectionFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(GET)) {
             statement.setInt(1, userId);
             statement.setInt(2, id);

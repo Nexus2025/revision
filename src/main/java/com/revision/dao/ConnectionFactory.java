@@ -6,14 +6,16 @@ import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.Properties;
 
-public class ConnectionPool {
+public class ConnectionFactory {
 
     private static ComboPooledDataSource dataSource;
 
     static {
-        try (InputStream stream = ConnectionPool.class.getResourceAsStream("/db/database.properties")) {
+        try (InputStream stream = ConnectionFactory.class.getResourceAsStream("/db/database.properties")) {
             Properties properties = new Properties();
             properties.load(stream);
 
@@ -31,7 +33,7 @@ public class ConnectionPool {
         }
     }
 
-    public static DataSource getDataSource() {
-        return dataSource;
+    public static Connection getConnection() throws SQLException {
+        return dataSource.getConnection();
     }
 }
