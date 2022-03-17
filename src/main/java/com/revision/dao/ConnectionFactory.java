@@ -2,7 +2,6 @@ package com.revision.dao;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 
-import javax.sql.DataSource;
 import java.beans.PropertyVetoException;
 import java.io.IOException;
 import java.io.InputStream;
