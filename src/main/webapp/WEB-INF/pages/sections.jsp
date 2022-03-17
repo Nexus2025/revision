@@ -1,15 +1,6 @@
 <%@ page import="com.revision.entity.Section" %>
-<%@ page import="com.revision.service.SectionService" %>
 <%@ page import="java.util.List" %>
-<%@ page import="com.revision.entity.User" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: Admin
-  Date: 18.04.2021
-  Time: 15:26
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +16,6 @@
     <div style="clear: left"></div>
 </div>
 <div id="container">
-
     <div id="sidebar">
         <div id="sd-top"></div>
         <div id="sd=bot">
@@ -35,28 +25,18 @@
             <p><input class="submit" type="submit" value="REPEAT" onclick="location.href='/change'"></p>
         </div>
     </div>
-
     <%
-
         int dictionary_id = 0;
-
         try {
             dictionary_id = Integer.valueOf(request.getParameter("dictionary_id"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
-
     %>
-
     <div id="content">
         <h2>SECTIONS</h2>
-
-        <%----------------------------------------------------------%>
-
         <input class="submit3" type="submit" value="ADD NEW +" onclick="location.href='/sections?dictionary_id=<%=dictionary_id%>&active_form_add_section=true'">
-
         <% if(request.getParameter("active_form_add_section") != null) { %>
-
         <form action="/sections" class="add" method="post">
             <input style="font-size: 15px;" type="text" name="section_name" value="" placeholder="Enter section name"><br>
             <input class="submit4" type="submit" value="ADD SECTION"><br>
@@ -64,14 +44,10 @@
             <input type="hidden" name="action" value="add_section">
             <a id="reg" href="/sections?dictionary_id=<%=dictionary_id%>">Cancel</a>
         </form>
-
         <% } %>
-
-
         <% if(request.getParameter("active_form_rename_section") != null) {
             String dictionaryId = request.getParameter("dictionary_id");
             String sectionId = request.getParameter("section_id"); %>
-
         <form action="/sections" class="add" method="post">
             <input style="font-size: 15px;" type="text" name="section_new_name" value="" placeholder="Enter section name"><br>
             <input class="submit4" type="submit" value="RENAME SECTION"><br>
@@ -80,19 +56,10 @@
             <input type="hidden" name="section_id" value="<%=sectionId%>"><br>
             <a id="reg" href="/sections?dictionary_id=<%=dictionaryId%>">Cancel</a>
         </form>
-
         <% } %>
-
-        <%----------------------------------------------------------%>
-
-        <% User user = (User) session.getAttribute("user");
-           int userId = user.getId();
-
-           SectionService sm = new SectionService();
-           List<Section> sectionList = sm.getAllByDictionaryId(dictionary_id, userId);
+        <%
+           List<Section> sectionList = (List<Section>) request.getAttribute("sectionList");
         %>
-
-
         <%
             if(!sectionList.isEmpty()) {
                 for (Section section : sectionList) {
@@ -115,14 +82,12 @@
         </p>
         <%      }
             }
-            if (sectionList.isEmpty()) {
+            else  {
         %>
         <p class="info">You do not have any sections. <br> Click on the "ADD NEW +" button to create</p>
         <%}%>
-
     </div>
 </div>
-
 <div id="footer"> Developed by Roman F</div>
 </body>
 </html>

@@ -1,5 +1,6 @@
 package com.revision.controller.dictionary;
 
+import com.revision.entity.Section;
 import com.revision.entity.User;
 import com.revision.service.SectionService;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 @WebServlet("/sections")
 public class SectionServlet extends HttpServlet {
@@ -19,6 +21,12 @@ public class SectionServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        int dictionaryId = Integer.parseInt(request.getParameter("dictionary_id"));
+        List<Section> sectionList = new SectionService().getAllByDictionaryId(dictionaryId, user.getId());
+        request.setAttribute("sectionList", sectionList);
+
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/pages/sections.jsp");
         requestDispatcher.forward(request, response);
     }
