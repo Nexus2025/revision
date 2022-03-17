@@ -1,7 +1,5 @@
 <%@ page import="java.util.List" %>
-<%@ page import="com.revision.service.WordService" %>
 <%@ page import="com.revision.entity.Word" %>
-<%@ page import="com.revision.entity.User" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
