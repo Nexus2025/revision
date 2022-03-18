@@ -4,11 +4,19 @@ import com.revision.dao.DictionaryDAO;
 import com.revision.entity.Dictionary;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DictionaryService {
 
     private final DictionaryDAO dictionaryDAO = new DictionaryDAO();
     private final SectionService sectionService = new SectionService();
+
+    public List<Dictionary> getAllContainWords(int userId) {
+        return dictionaryDAO.getAll(userId)
+                .stream()
+                .filter(dictionary -> dictionary.getWordsCount() != 0)
+                .collect(Collectors.toList());
+    }
 
     public List<Dictionary> getAll(int userId) {
         return dictionaryDAO.getAll(userId);

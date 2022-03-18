@@ -4,11 +4,19 @@ import com.revision.dao.SectionDAO;
 import com.revision.entity.Section;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SectionService {
 
     private final SectionDAO sectionDAO = new SectionDAO();
     private final WordService wordService = new WordService();
+
+    public List<Section> getAllContainWords(int userId) {
+        return sectionDAO.getAll(userId)
+                .stream()
+                .filter(section -> section.getWordsCount() != 0)
+                .collect(Collectors.toList());
+    }
 
     public List<Section> getAllByDictionaryId(int dictionaryId, int userId) {
         return sectionDAO.getAllByDictionaryId(dictionaryId, userId);
