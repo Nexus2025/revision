@@ -130,7 +130,7 @@ public class WordDAO {
             statement.setInt(1, dictionaryId);
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
-                    count = rs.getInt(1);
+                    count = rs.getInt("count");
                 }
             }
         } catch (SQLException e) {
