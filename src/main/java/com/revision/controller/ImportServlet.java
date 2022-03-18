@@ -26,18 +26,23 @@ public class ImportServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        try {
+            HttpSession session = request.getSession();
+            User user = (User) session.getAttribute("user");
+            int userId = user.getId();
+            int dictionaryId = Integer.parseInt(request.getParameter("dictionary_id"));
 
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
-        int userId = user.getId();
-        int dictionaryId = Integer.parseInt(request.getParameter("dictionary_id"));
+            Part filePart = request.getPart("csv_file");
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(filePart.getInputStream(), StandardCharsets.UTF_8))) {
+                ImportUtil.importWordsFromCSV(reader, dictionaryId, userId);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        Part filePart = request.getPart("csv_file");
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(filePart.getInputStream(), StandardCharsets.UTF_8))) {
-            ImportUtil.importWordsFromCSV(reader, dictionaryId, userId);
-        } catch (IOException e) {
+        } catch (NullPointerException | NumberFormatException e) {
             e.printStackTrace();
+        } finally {
+            response.sendRedirect("/import");
         }
-        response.sendRedirect("/import");
     }
 }
