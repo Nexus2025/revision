@@ -27,11 +27,6 @@
     <location>/error/404.html</location>
   </error-page>
 
-  <error-page>
-    <error-code>400</error-code>
-    <location>/error/404.html</location>
-  </error-page>
-
   <session-config>
     <session-timeout>1000</session-timeout>
   </session-config>

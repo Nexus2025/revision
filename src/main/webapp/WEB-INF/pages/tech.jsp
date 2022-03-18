@@ -1,18 +1,11 @@
 <%@ page import="com.revision.entity.User" %>
-<%@ page import="com.revision.service.UserService" %><%--
-  Created by IntelliJ IDEA.
-  User: Admin
-  Date: 09.05.2021
-  Time: 23:02
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="com.revision.service.UserService" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
     <title>Title</title>
 </head>
 <body>
-
 <%
     User user = (User) session.getAttribute("user");
     String userName = user.getUserName();
@@ -35,7 +28,6 @@
     Object countOfGuessedWords = session.getAttribute("countOfGuessedWords");
     Object nameOfTargetList = session.getAttribute("nameOfTargetList");
 %>
-
 <p>firstWordId: <%=firstWordId%></p>
 <p>wordMap: <%=wordMap%></p>
 <p>maxId: <%=maxId%></p>
@@ -51,6 +43,5 @@
 <p>countOfAllWords: <%=countOfAllWords%></p>
 <p>countOfGuessedWords: <%=countOfGuessedWords%></p>
 <p>nameOfTargetList: <%=nameOfTargetList%></p>
-
 </body>
 </html>

@@ -1,4 +1,4 @@
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,25 +29,22 @@
                 int wrongAnswers = (Integer) session.getAttribute("wrongAnswers");
                 int rightAnswers = (Integer) session.getAttribute("rightAnswers");
                 String name = (String) session.getAttribute("nameOfTargetList");
-
                 String pathReturn = (String) session.getAttribute("pathReturn");
-
                 String repeatBy = (String) session.getAttribute("repeatBy");
                 int id = (Integer) session.getAttribute("id");
-                String path = "";
-
-                if (repeatBy.equals("dictionary")) {
-                    path = "dictionary_id=" + id;
-                } else {
-                    path = "section_id=" + id;
-                }
+                String path = repeatBy.equals("dictionary") ? "dictionary_id=" + id : "section_id=" + id;
             %>
             <div class="main">
-                <p class="p1" style="color: #f44e28"><%=name%></p>
-                <p class="p1">RIGHT ANSWERS <%=rightAnswers%></p>
-                <p class="p1">WRONG ANSWERS <%=wrongAnswers%></p>
-                <p><input class="submit4" type="submit" value="REPEAT AGAIN" onclick="location.href='/repeating?start-repeating=start&repeat_by=<%=repeatBy%>&<%=path%>'">
-                <input class="submit4 sub4" type="submit" value="BACK" onclick="location.href='<%=pathReturn%>'"></p>
+                <p class="p1" style="color: #f44e28"><%=name%>
+                </p>
+                <p class="p1">RIGHT ANSWERS <%=rightAnswers%>
+                </p>
+                <p class="p1">WRONG ANSWERS <%=wrongAnswers%>
+                </p>
+                <p><input class="submit4" type="submit" value="REPEAT AGAIN"
+                          onclick="location.href='/repeating?start-repeating=start&repeat_by=<%=repeatBy%>&<%=path%>'">
+                    <input class="submit4 sub4" type="submit" value="BACK" onclick="location.href='<%=pathReturn%>'">
+                </p>
                 <%
                     //CLEAR ATTRIBUTES AFTER DOWNLOAD PAGE
                     session.removeAttribute("rightAnswers");
