@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import java.util.Map;
 
 @WebServlet("/process")
-public class ProcessRepeatServlet extends HttpServlet {
+public class RepeatingHandlerServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
