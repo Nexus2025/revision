@@ -21,7 +21,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 @WebServlet("/repeating")
-public class StartRepeatingServlet extends HttpServlet {
+public class RepeatingStarterServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
