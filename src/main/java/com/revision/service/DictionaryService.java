@@ -1,7 +1,6 @@
 package com.revision.service;
 
 import com.revision.dao.DictionaryDAO;
-import com.revision.dao.WordDAO;
 import com.revision.entity.Dictionary;
 
 import java.util.List;
@@ -12,12 +11,7 @@ public class DictionaryService {
     private final SectionService sectionService = new SectionService();
 
     public List<Dictionary> getAll(int userId) {
-        List<Dictionary> dictionaryList = dictionaryDAO.getAll(userId);
-        WordDAO wordDAO = new WordDAO();
-        for (Dictionary dictionary : dictionaryList) {
-            dictionary.setWordsCount(wordDAO.getWordsCountByDictionaryId(dictionary.getId()));
-        }
-        return dictionaryList;
+        return dictionaryDAO.getAll(userId);
     }
 
     public Dictionary get(int userId, int id) {

@@ -52,7 +52,7 @@ public class UserDAO {
             statement.setInt(1, id);
             try (ResultSet rs = statement.executeQuery()) {
                 rs.next();
-                count = rs.getInt(1);
+                count = rs.getInt("count");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -67,7 +67,7 @@ public class UserDAO {
             statement.setInt(1, id);
             try (ResultSet rs = statement.executeQuery()) {
                 rs.next();
-                count = rs.getInt(1);
+                count = rs.getInt("count");
             }
         } catch (SQLException e) {
             e.printStackTrace();

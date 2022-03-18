@@ -65,6 +65,7 @@
                 for (Section section : sectionList) {
         %>
         <p><div class="sub"><input class="submit6" type="submit" value="<%=section.getName()%>" onclick="location.href='/words?dictionary_id=<%=dictionary_id%>&section_id=<%=section.getId()%>'"></div>
+        <div class="words_count"><%=section.getWordsCount()%> words</div>
         <div class="sub"><input class="submit10" type="submit" value="REPEAT" onclick="location.href='/repeating?start-repeating=start&repeat_by=section&section_id=<%=section.getId()%>&path_return=sections?dictionary_id=<%=dictionary_id%>'"></div>
         <form method="post" style="display:inline-block;" onclick='return confirm("Delete section?")'>
             <input type="hidden" name="action" value="delete_section">

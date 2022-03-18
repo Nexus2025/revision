@@ -6,12 +6,18 @@ public class Section {
     private int dictionaryId;
     private int userId;
     private String name;
+    private int wordsCount;
 
     public Section(int sectionId, int dictionaryId, int userId, String name) {
+        this(sectionId, dictionaryId, userId, name, 0);
+    }
+
+    public Section(int sectionId, int dictionaryId, int userId, String name, int wordsCount) {
         this.id = sectionId;
         this.dictionaryId = dictionaryId;
         this.userId = userId;
         this.name = name;
+        this.wordsCount = wordsCount;
     }
 
     public String getName() {
@@ -46,6 +52,10 @@ public class Section {
         this.userId = userId;
     }
 
+    public int getWordsCount() {
+        return wordsCount;
+    }
+
     @Override
     public String toString() {
         return "Section{" +
@@ -53,6 +63,7 @@ public class Section {
                 ", dictionaryId=" + dictionaryId +
                 ", userId=" + userId +
                 ", name='" + name + '\'' +
+                ", wordsCount='" + wordsCount + '\'' +
                 '}';
     }
 }

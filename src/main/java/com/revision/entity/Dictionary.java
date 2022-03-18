@@ -8,9 +8,14 @@ public class Dictionary {
     private int wordsCount;
 
     public Dictionary (int id, int userId, String name) {
+        this(id, userId, name, 0);
+    }
+
+    public Dictionary (int id, int userId, String name, int wordsCount) {
         this.name = name;
         this.id = id;
         this.userId = userId;
+        this.wordsCount = wordsCount;
     }
 
     public String getName() {
@@ -31,10 +36,6 @@ public class Dictionary {
 
     public int getWordsCount() {
         return wordsCount;
-    }
-
-    public void setWordsCount(int wordsCount) {
-        this.wordsCount = wordsCount;
     }
 
     public int getUserId() {

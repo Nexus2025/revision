@@ -14,7 +14,6 @@ public class WordDAO {
     private static final String DELETE_ALL_BY_SECTION_ID = "DELETE FROM words WHERE section_id= ? AND user_id= ?";
     private static final String GET_ALL_BY_SECTION_ID = "SELECT * FROM words WHERE section_id= ? AND user_id= ?";
     private static final String GET_ALL_BY_DICTIONARY_ID = "SELECT * FROM words WHERE dictionary_id= ? AND user_id= ?";
-    private static final String GET_WORDS_COUNT_BY_DICTIONARY_ID = "SELECT count(*) FROM words WHERE dictionary_id= ?";
     private static final String SAVE_WORDS_LIST = "INSERT INTO words (word, translation, section_id, user_id, dictionary_id) VALUES(?, ?, ?, ?, ?)";
 
     public Word create(String word, String translation, int sectionId, int userId, int dictionaryId) {
@@ -121,22 +120,6 @@ public class WordDAO {
             e.printStackTrace();
         }
         return result;
-    }
-
-    public int getWordsCountByDictionaryId(int dictionaryId) {
-        int count = 0;
-        try (Connection connection = ConnectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(GET_WORDS_COUNT_BY_DICTIONARY_ID)) {
-            statement.setInt(1, dictionaryId);
-            try (ResultSet rs = statement.executeQuery()) {
-                while (rs.next()) {
-                    count = rs.getInt("count");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return count;
     }
 
     public void saveWordsList(List<Word> words, int userId, int dictionaryId) {

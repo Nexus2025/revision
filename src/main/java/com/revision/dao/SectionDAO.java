@@ -9,12 +9,18 @@ import java.util.List;
 public class SectionDAO {
 
     private static final String CREATE = "INSERT INTO sections (name, dictionary_id, user_id) VALUES (?, ?, ?) RETURNING id";
-    private static final String GET_ALL_BY_DICTIONARY_ID = "SELECT * FROM sections WHERE dictionary_id= ? AND user_id= ?";
-    private static final String GET_ALL = "SELECT * FROM sections WHERE user_id= ?";
     private static final String DELETE = "DELETE FROM sections WHERE id= ? AND user_id= ? RETURNING name, dictionary_id";
     private static final String DELETE_ALL_BY_DICTIONARY_ID = "DELETE FROM sections WHERE dictionary_id= ? AND user_id= ?";
     private static final String RENAME = "UPDATE sections SET name= ? WHERE id= ? AND user_id= ? RETURNING dictionary_id";
     private static final String GET = "SELECT * FROM sections WHERE user_id= ? AND id= ?";
+
+    private static final String GET_ALL_BY_DICTIONARY_ID = "SELECT sections.*, COUNT(words.section_id) FROM sections " +
+            "LEFT OUTER JOIN words ON words.section_id=sections.id WHERE sections.dictionary_id=? " +
+            "AND sections.user_id=? GROUP BY sections.id";
+
+    private static final String GET_ALL =
+            "SELECT sections.*, COUNT(words.section_id) FROM sections " +
+                    "LEFT OUTER JOIN words ON words.section_id=sections.id WHERE sections.user_id=? GROUP BY sections.id";
 
     public Section create(String name, int dictionaryId, int userId) {
         Section section = null;
@@ -41,7 +47,8 @@ public class SectionDAO {
             statement.setInt(2, userId);
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
-                    Section section = new Section(rs.getInt("id"), rs.getInt("dictionary_id"), rs.getInt("user_id"), rs.getString("name"));
+                    Section section = new Section(rs.getInt("id"), rs.getInt("dictionary_id"), rs.getInt("user_id")
+                            , rs.getString("name"), rs.getInt("count"));
                     sections.add(section);
                 }
             }
@@ -58,13 +65,15 @@ public class SectionDAO {
             statement.setInt(1, userId);
             try (ResultSet rs = statement.executeQuery()) {
                 while (rs.next()) {
-                    Section section = new Section(rs.getInt("id"), rs.getInt("dictionary_id"), rs.getInt("user_id"), rs.getString("name"));
+                    Section section = new Section(rs.getInt("id"), rs.getInt("dictionary_id"), rs.getInt("user_id")
+                            , rs.getString("name"), rs.getInt("count"));
                     sections.add(section);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
         return sections;
     }
 
