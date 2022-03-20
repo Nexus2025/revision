@@ -225,13 +225,13 @@ h2 {
     font-family: monospace;
 }
 
-#contentauth{
+#content-auth{
     margin: 50px 30% 50px 30%;
     padding: 20px;
     border: 1px solid #d1d1e0;
     height: auto;
 }
-#auth-reg{
+#content-reg{
     overflow-y: auto;
 }
 #form {
@@ -241,7 +241,7 @@ h2 {
     margin: 10px 10px 20px 5px;
     line-height:30px;
 }
-#containerauth{
+#content-auth-inner{
     width: 450px;
     margin: 50px auto 0 auto;
     text-align: center;
@@ -255,6 +255,12 @@ h2 {
     padding-left: 10px;
     border: 1px solid #d1d1e0;
 }
+
+.auth-error-message{
+    color: crimson;
+    margin-top: 0px;
+}
+
 .log-submit{
     padding: 13px 30px;
     margin: 5px 0 20px 0;
