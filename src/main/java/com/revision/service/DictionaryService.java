@@ -34,11 +34,6 @@ public class DictionaryService {
         dictionaryDAO.delete(userId, id);
     }
 
-    public static void main(String[] args) {
-        DictionaryService service = new DictionaryService();
-        service.delete(1, 1);
-    }
-
     public void clear(int userId, int id) {
         sectionService.deleteAllByDictionaryId(id, userId);
     }
