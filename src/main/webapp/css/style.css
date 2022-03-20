@@ -138,7 +138,7 @@ h2 {
     width: 250px;
     font-weight: bold;
 }
-.submit6{
+.section-button{
     padding: 13px 30px;
     margin: 5px 0 2px 5px;
     font-size: 1.1vw;
@@ -185,7 +185,7 @@ h2 {
     border: none;
     cursor: pointer;
 }
-.submit10 {
+.repeat-button {
     padding: 5px 10px;
     margin-left: 30px;
     font-size: 1.1vw;
