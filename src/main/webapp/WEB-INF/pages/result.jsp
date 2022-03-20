@@ -17,9 +17,9 @@
     <div id="sidebar">
         <div id="sidebar-top"></div>
         <div id="sd=bot">
-            <p><input class="submit-main" type="submit" value="DASHBOARD" onclick="location.href='/main'"></p>
-            <p><input class="submit-main" type="submit" value="IMPORT" onclick="location.href='/import'"></p>
-            <p><input class="submit-main" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
+            <p><input class="button-sidebar" type="submit" value="DASHBOARD" onclick="location.href='/main'"></p>
+            <p><input class="button-sidebar" type="submit" value="IMPORT" onclick="location.href='/import'"></p>
+            <p><input class="button-sidebar" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
         </div>
     </div>
     <div id="content">
@@ -41,9 +41,9 @@
                 </p>
                 <p class="dashboard-data-1">WRONG ANSWERS <%=wrongAnswers%>
                 </p>
-                <p><input class="submit4" type="submit" value="REPEAT AGAIN"
+                <p><input class="add-button" type="submit" value="REPEAT AGAIN"
                           onclick="location.href='/repeating?start-repeating=start&repeat_by=<%=repeatBy%>&<%=path%>'">
-                    <input class="submit4 sub4" type="submit" value="BACK" onclick="location.href='<%=pathReturn%>'">
+                    <input class="add-button sub4" type="submit" value="BACK" onclick="location.href='<%=pathReturn%>'">
                 </p>
                 <%
                     //CLEAR ATTRIBUTES AFTER DOWNLOAD PAGE

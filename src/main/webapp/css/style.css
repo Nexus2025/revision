@@ -63,7 +63,7 @@ h2 {
     height: 75vh;
     overflow-y: auto;
 }
-.submit-main{
+.button-sidebar{
     padding: 13px 30px;
     margin: 5px 0 2px 5px;
     font-size: 1.1vw;
@@ -98,7 +98,7 @@ h2 {
     cursor: pointer;
     width: 250px;
 }
-.submit3{
+.add-new-button{
     position: absolute;
     right: 50px;
     padding: 10px;
@@ -109,7 +109,7 @@ h2 {
     border: none;
     cursor: pointer;
 }
-.submit4{
+.add-button{
     background-color:#eeb35a;
     color: #fff;
     padding: 13px 30px;
@@ -118,10 +118,15 @@ h2 {
     border: none;
     cursor: pointer;
 }
+
+.rename-input{
+    font-size: 15px;
+}
+
 .sub4{
     margin-left: 20px;
 }
-.submit5{
+.dictionary-button{
     padding: 13px 30px;
     margin: 5px 0 2px 5px;
     font-size: 1.1vw;
@@ -191,7 +196,7 @@ h2 {
     cursor: pointer;
     border-radius: 5px;
 }
-.submit11 {
+.repeat-button {
     padding: 5px 10px;
     margin: 0px;
     font-size: 1.1vw;
@@ -276,7 +281,7 @@ h2 {
     background: #fff;
     color: #2c536c;
 }
-#reg{
+.cancel-link{
     color: rgb(68, 68, 68);
 }
 #reg:hover{
@@ -289,7 +294,7 @@ h2 {
 #content-header{
     font-size: 20px;
 }
-.delete{
+.delete-button{
     color: rgb(255, 0, 0);
     border: none;
     background-color: transparent;
@@ -297,7 +302,7 @@ h2 {
     text-decoration: underline;
     cursor: pointer;
 }
-.clear2{
+.clear-button{
     color: orange;
     border: none;
     background-color: transparent;
@@ -309,11 +314,11 @@ h2 {
     color: rgb(255, 136, 0);
     padding-left: 10px;
 }
-.rename{
+.rename-link{
     color: rgb(7, 129, 7);
     padding-left: 10px;
 }
-.words_count{
+.words-count{
     color: #414141;
     padding-left: 10px;
     font-size: 20px;
@@ -396,7 +401,7 @@ h2 {
     padding: 10px;
     background: #406ec4;
 }
-.words_count{
+.words-count{
     color: #414141;
     padding: 5px 0px 5px 10px;
     margin-left: 5px;
@@ -404,7 +409,7 @@ h2 {
     width: 120px;
     display: inline-block;
 }
-.sub{
+.align{
     display: inline-block;
 }
 .word1{

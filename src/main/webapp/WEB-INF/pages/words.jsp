@@ -30,16 +30,16 @@
     <div id="sidebar">
         <div id="sd-top-words"></div>
         <div id="sd=bot">
-            <p><input class="submit-main" type="submit" value="DASHBOARD" onclick="location.href='/main'"></p>
-            <p><input class="submit-main" type="submit" value="IMPORT" onclick="location.href='/import'"></p>
-            <p><input class="submit-main" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
-            <p><input class="submit-main" type="submit" value="SECTIONS" onclick="location.href='/sections?dictionary_id=<%=dictionaryIdNumber%>'"></p>
-            <p><input class="submit-main" type="submit" value="REPEAT" onclick="location.href='/change'"></p>
+            <p><input class="button-sidebar" type="submit" value="DASHBOARD" onclick="location.href='/main'"></p>
+            <p><input class="button-sidebar" type="submit" value="IMPORT" onclick="location.href='/import'"></p>
+            <p><input class="button-sidebar" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
+            <p><input class="button-sidebar" type="submit" value="SECTIONS" onclick="location.href='/sections?dictionary_id=<%=dictionaryIdNumber%>'"></p>
+            <p><input class="button-sidebar" type="submit" value="REPEAT" onclick="location.href='/change'"></p>
         </div>
     </div>
     <div id="content">
         <h2>WORDS</h2>
-        <input class="submit3" type="submit" value="ADD 1 NEW +" onclick="location.href='/words?dictionary_id=<%=dictionaryIdNumber%>&section_id=<%=sectionIdNumber%>&active_form_add_word=true'">
+        <input class="add-new-button" type="submit" value="ADD 1 NEW +" onclick="location.href='/words?dictionary_id=<%=dictionaryIdNumber%>&section_id=<%=sectionIdNumber%>&active_form_add_word=true'">
         <input class="submit8" type="submit" value="ADD LIST" onclick="location.href='/words?dictionary_id=<%=dictionaryIdNumber%>&section_id=<%=sectionIdNumber%>&active_form_import_words=true'">
         <% if(request.getParameter("active_form_add_word") != null) {
             String sectionId = request.getParameter("section_id");
@@ -47,11 +47,11 @@
         <form action="/words" class="add" method="post">
             <input style="font-size: 15px;" type="text" name="word_add_name" value="" placeholder="Enter new word"><br>
             <input style="font-size: 15px;" type="text" name="translation_add_name" value="" placeholder="Enter new translation"><br>
-            <input class="submit4" type="submit" value="ADD WORD"><br>
+            <input class="add-button" type="submit" value="ADD WORD"><br>
             <input type="hidden" name="action" value="add_word">
             <input type="hidden" name="dictionary_id" value="<%=dictionaryId%>">
             <input type="hidden" name="section_id" value="<%=sectionId%>">
-            <a id="reg" href="/words?dictionary_id=<%=dictionaryId%>&section_id=<%=sectionId%>">Cancel</a>
+            <a class="cancel-link" href="/words?dictionary_id=<%=dictionaryId%>&section_id=<%=sectionId%>">Cancel</a>
         </form>
         <% } %>
         <% if(request.getParameter("active_form_rename_word") != null) {
@@ -63,14 +63,14 @@
         <form action="/words" class="add" method="post">
             <input style="font-size: 15px;" type="text" name="word_new" value="" placeholder="Enter word"><br>
             <input style="font-size: 15px;" type="text" name="translation_new" value="" placeholder="Enter translation"><br>
-            <input class="submit4" type="submit" value="RENAME WORD"><br>
+            <input class="add-button" type="submit" value="RENAME WORD"><br>
             <input type="hidden" name="action" value="rename_word">
             <input type="hidden" name="word_id" value="<%=wordId%>">
             <input type="hidden" name="word_old" value="<%=oldWord%>">
             <input type="hidden" name="translation_old" value="<%=oldTranslation%>">
             <input type="hidden" name="dictionary_id" value="<%=dictionaryId%>">
             <input type="hidden" name="section_id" value="<%=sectionId%>">
-            <a id="reg" href="/words?dictionary_id=<%=dictionaryId%>&section_id=<%=sectionId%>">Cancel</a>
+            <a class="cancel-link" href="/words?dictionary_id=<%=dictionaryId%>&section_id=<%=sectionId%>">Cancel</a>
         </form>
         <% } %>
         <% if(request.getParameter("active_form_import_words") != null) {
@@ -86,8 +86,8 @@
             <input type="hidden" name="dictionary_id" value="<%=dictionaryId%>">
             <input type="hidden" name="section_id" value="<%=sectionId%>">
             <p>
-                <button style="margin: 0px;" class="submit4" type="submit"> IMPORT </button>
-                <a id="reg" style="margin-left: 20px;" href="/words?dictionary_id=<%=dictionaryId%>&section_id=<%=sectionId%>">Cancel</a>
+                <button style="margin: 0px;" class="add-button" type="submit"> IMPORT </button>
+                <a class="cancel-link" style="margin-left: 20px;" href="/words?dictionary_id=<%=dictionaryId%>&section_id=<%=sectionId%>">Cancel</a>
             </p>
         </form>
         <% } %>
@@ -107,13 +107,13 @@
                 <td><%=word.getWord()%></td>
                 <td><%=word.getTranslation()%></td>
                 <td>
-                    <a class="rename" href="/words?active_form_rename_word=true&word_id=<%=word.getId()%>&section_id=<%=sectionIdNumber%>&dictionary_id=<%=dictionaryIdNumber%>&word_old=<%=word.getWord()%>&translation_old=<%=word.getTranslation()%>">Change</a>
+                    <a class="rename-link" href="/words?active_form_rename_word=true&word_id=<%=word.getId()%>&section_id=<%=sectionIdNumber%>&dictionary_id=<%=dictionaryIdNumber%>&word_old=<%=word.getWord()%>&translation_old=<%=word.getTranslation()%>">Change</a>
                     <form method="post" style="display:inline-block;" onclick='return confirm("Delete word?")'>
                         <input type="hidden" name="action" value="delete_word">
                         <input type="hidden" name="word_id" value="<%=word.getId()%>">
                         <input type="hidden" name="section_id" value="<%=sectionIdNumber%>">
                         <input type="hidden" name="dictionary_id" value="<%=dictionaryIdNumber%>">
-                        <input class="delete" type="submit" value="Delete">
+                        <input class="delete-button" type="submit" value="Delete">
                     </form>
                 </td>
             </tr>

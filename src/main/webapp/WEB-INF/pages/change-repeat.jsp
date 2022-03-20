@@ -20,9 +20,9 @@
     <div id="sidebar">
         <div id="sidebar-top"></div>
         <div id="sd=bot">
-            <p><input class="submit-main" type="submit" value="DASHBOARD" onclick="location.href='/main'"></p>
-            <p><input class="submit-main" type="submit" value="IMPORT" onclick="location.href='/import'"></p>
-            <p><input class="submit-main" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
+            <p><input class="button-sidebar" type="submit" value="DASHBOARD" onclick="location.href='/main'"></p>
+            <p><input class="button-sidebar" type="submit" value="IMPORT" onclick="location.href='/import'"></p>
+            <p><input class="button-sidebar" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
         </div>
     </div>
     <%

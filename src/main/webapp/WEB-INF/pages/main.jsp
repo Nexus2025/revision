@@ -22,9 +22,9 @@
             ${user.role==Role.ADMIN ? '<p><a class="submit-main-admin" href="/tech" target="_blank">TECH INFORMATION</a></p>' : ''}
         </div>
         <div>
-            <p><input class="submit-main" type="submit" value="IMPORT" onclick="location.href='/import'"></p>
-            <p><input class="submit-main" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
-            <p><input class="submit-main" type="submit" value="REPEAT" onclick="location.href='/change'"></p>
+            <p><input class="button-sidebar" type="submit" value="IMPORT" onclick="location.href='/import'"></p>
+            <p><input class="button-sidebar" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
+            <p><input class="button-sidebar" type="submit" value="REPEAT" onclick="location.href='/change'"></p>
         </div>
     </div>
     <div id="content">
