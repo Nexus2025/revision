@@ -13,16 +13,16 @@
 <body>
 <div id="header">
     <h1 class="brand">Revision</h1>
-    <p class="logout"><a class="logout2" href="/logout">Logout</a></p>
+    <p class="logout"><a class="logout-link" href="/logout">Logout</a></p>
     <div style="clear: left"></div>
 </div>
 <div id="container">
     <div id="sidebar">
-        <div id="sd-top"></div>
+        <div id="sidebar-top"></div>
         <div id="sd=bot">
-            <p><input class="submit" type="submit" value="DASHBOARD" onclick="location.href='/main'"></p>
-            <p><input class="submit" type="submit" value="IMPORT" onclick="location.href='/import'"></p>
-            <p><input class="submit" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
+            <p><input class="submit-main" type="submit" value="DASHBOARD" onclick="location.href='/main'"></p>
+            <p><input class="submit-main" type="submit" value="IMPORT" onclick="location.href='/import'"></p>
+            <p><input class="submit-main" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
         </div>
     </div>
     <%
@@ -47,7 +47,7 @@
                 <input type="hidden" name="start-repeating" value="start">
                 <input type="hidden" name="repeat_by" value="dictionary">
                 <input type="hidden" name="path_return" value="change">
-                <p><input class="submit9" type="submit" value="START"></p>
+                <p><input class="submit-reverse" type="submit" value="START"></p>
             </form>
         </div>
         <div class="change_sect">
@@ -64,7 +64,7 @@
                 <input type="hidden" name="start-repeating" value="start">
                 <input type="hidden" name="repeat_by" value="section">
                 <input type="hidden" name="path_return" value="change">
-                <p><input class="submit9" type="submit" value="START"></p>
+                <p><input class="submit-reverse" type="submit" value="START"></p>
             </form>
         </div>
         <% } else { %>

@@ -1,5 +1,8 @@
 package com.revision.controller;
 
+import com.revision.entity.User;
+import com.revision.service.UserService;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -30,6 +33,12 @@ public class MainServlet extends HttpServlet {
                 response.addCookie(cookieReverse);
             }
         }
+
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        UserService service = new UserService();
+        request.setAttribute("wordsCount", service.getCountOfWords(user.getId()));
+        request.setAttribute("dictionariesCount", service.getCountOfDictionaries(user.getId()));
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/pages/main.jsp");
         requestDispatcher.forward(request, response);

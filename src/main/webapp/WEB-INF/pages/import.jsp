@@ -14,22 +14,22 @@
 <body>
 <div id="header">
     <h1 class="brand">Revision</h1>
-    <p class="logout"><a class="logout2" href="/logout">Logout</a></p>
+    <p class="logout"><a class="logout-link" href="/logout">Logout</a></p>
     <div style="clear: left"></div>
 </div>
 <div id="container">
 
     <div id="sidebar">
-        <div id="sd-top"></div>
+        <div id="sidebar-top"></div>
         <div id="sd=bot">
-            <p><input class="submit" type="submit" value="DASHBOARD" onclick="location.href='/main'"></p>
-            <p><input class="submit" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
-            <p><input class="submit" type="submit" value="REPEAT" onclick="location.href='/change'"></p>
+            <p><input class="submit-main" type="submit" value="DASHBOARD" onclick="location.href='/main'"></p>
+            <p><input class="submit-main" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
+            <p><input class="submit-main" type="submit" value="REPEAT" onclick="location.href='/change'"></p>
         </div>
     </div>
 
     <div id="content">
-        <div id="data">
+        <div id="content-header">
             <h2>IMPORT</h2>
 
             <%
@@ -60,7 +60,7 @@
                         </select>
                     </div>
                     <p><input type="file" name="csv_file" accept=".csv, text/csv"></p>
-                    <p><input class="submit9" type="submit" value="UPLOAD"></p>
+                    <p><input class="submit-reverse" type="submit" value="UPLOAD"></p>
                 </form>
             </div>
             <div class="import_req">

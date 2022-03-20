@@ -1,35 +1,35 @@
 body {
-    font: 11pt Arial, Helvetica, sans-serif; /* Рубленый шрифт текста */
-    margin: 0; /* Отступы на странице */
+    font: 11pt Arial, Helvetica, sans-serif;
+    margin: 0;
 }
-#header { /* Верхний блок */
-    background: #2ca8c6; /* Цвет фона */
-    padding: 10px; /* Поля вокруг текста */
+#header {
+    background: #2ca8c6;
+    padding: 10px;
 }
 #footer {
-    position: fixed; /* Фиксированное положение */
-    left: 0; bottom: 0; /* Левый нижний угол */
-    padding: 10px; /* Поля вокруг текста */
-    background: #106277; /* Цвет фона */
-    color: #fff; /* Цвет текста */
-    width: 100%; /* Ширина слоя */
+    position: fixed;
+    left: 0; bottom: 0;
+    padding: 10px;
+    background: #106277;
+    color: #fff;
+    width: 100%;
 }
 h1 {
-    font-size: 2.6vw; /* Размер шрифта */
-    margin: 0; /* Убираем отступы */
-    color: rgb(255, 255, 255); /* Цвет текста */
+    font-size: 2.6vw;
+    margin: 0;
+    color: rgb(255, 255, 255);
 }
 .brand, .logout {
-    font-size: 2.6vw; /* Размер шрифта */
-    margin: 0; /* Убираем отступы */
-    color: rgb(255, 255, 255); /* Цвет текста */
+    font-size: 2.6vw;
+    margin: 0;
+    color: rgb(255, 255, 255);
     float: left;
     width: 50%;
 }
 .logout{
     text-align: right;
 }
-.logout2{
+.logout-link{
     color: rgb(255, 255, 255);
     font-size: 20px;
     padding-right: 10px;
@@ -37,34 +37,33 @@ h1 {
 }
 
 h2 {
-    font-size: 2.2vw; /* Размер шрифта */
+    font-size: 2.2vw;
     margin: 10px;
-    color: #656363; /* Цвет текста */
+    color: #656363;
 }
 
 #container {
-    width: auto; /* Ширина слоя */
+    width: auto;
     height: 85vh;
     padding-top: 2vh;
     padding-left: 2vh;
 
 }
-#sidebar { /* Левая колонка */
-    float: left; /* Обтекание справа */
-    /* border: 1px solid #333; Параметры рамки вокруг */
-    width: 20%; /* Ширина колонки */
-    margin: 10px 10px 20px 5px; /* Значения отступов */
-    padding: 5px; /* Поля вокруг текста */
+#sidebar {
+    float: left;
+    width: 20%;
+    margin: 10px 10px 20px 5px;
+    padding: 5px;
     height: 75vh;
 }
-#content { /* Правая колонка */
-    margin: 10px 25px 20px 23%; /* Значения отступов */
-    border: 1px solid rgb(167, 167, 167); /* Параметры рамки */
-    padding: 5px; /* Поля вокруг текста */
+#content {
+    margin: 10px 25px 20px 23%;
+    border: 1px solid rgb(167, 167, 167);
+    padding: 5px;
     height: 75vh;
     overflow-y: auto;
 }
-.submit{
+.submit-main{
     padding: 13px 30px;
     margin: 5px 0 2px 5px;
     font-size: 1.1vw;
@@ -75,6 +74,19 @@ h2 {
     width: 90%;
     font-weight: bold;
 }
+.submit-main-admin{
+    padding: 13px 30px;
+    margin: 5px 0 2px 5px;
+    font-size: 1.1vw;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    width: 90%;
+    font-weight: bold;
+    background-color: #656363;
+    text-decoration:none;
+}
+
 .submit2{
     padding: 13px 30px;
     margin: 5px 0 2px 5px;
@@ -159,7 +171,7 @@ h2 {
     cursor: pointer;
     z-index: 1;
 }
-.submit9{
+.submit-reverse{
     background-color:#eeb35a;
     color: #fff;
     padding: 13px 30px;
@@ -201,14 +213,19 @@ h2 {
     float: left;
     margin-left: 20px;
 }
-#sd-top{
+#sidebar-top{
     height: 35vh;
 }
 #sd-top-words{
     height: 25vh;
 }
 
-#contentauth{ /* Правая колонка */
+.reverse-description{
+    font-size: 15px;
+    font-family: monospace;
+}
+
+#contentauth{
     margin: 50px 30% 50px 30%;
     padding: 20px;
     border: 1px solid #d1d1e0;
@@ -218,10 +235,10 @@ h2 {
     overflow-y: auto;
 }
 #form {
-    float: left; /* Обтекание справа */
-    width: 20%; /* Ширина колонки */
-    padding: 5px; /* Поля вокруг текста */
-    margin: 10px 10px 20px 5px; /* Значения отступов */
+    float: left;
+    width: 20%;
+    padding: 5px;
+    margin: 10px 10px 20px 5px;
     line-height:30px;
 }
 #containerauth{
@@ -263,7 +280,7 @@ h2 {
     font-size: 36px;
     color: #2ca8c6;
 }
-#data{
+#content-header{
     font-size: 20px;
 }
 .delete{
@@ -462,15 +479,25 @@ h2 {
     font-size: 30px;
     float: left;
 }
-.main{
+.indent{
     margin: 10px;
 }
-.p1{
+
+.content-right-column{
+    float: left;
+    padding-left: 50px;
+}
+
+.content-left-column{
+    float: left;
+}
+
+.dashboard-data-1{
     font-size: 30px;
     font-weight: bold;
     color: rgb(46 52 56);
 }
-.p2{
+.dashboard-data-2{
     font-size: 30px;
     font-weight: bold;
     color: rgb(28 144 199);

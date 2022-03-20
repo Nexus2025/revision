@@ -13,7 +13,7 @@
 <body>
 <div id="header">
     <h1 class="brand">Revision</h1>
-    <p class="logout"><a class="logout2" href="/logout">Logout</a></p>
+    <p class="logout"><a class="logout-link" href="/logout">Logout</a></p>
     <div style="clear: left"></div>
 </div>
 <div id="container">
@@ -30,11 +30,11 @@
     <div id="sidebar">
         <div id="sd-top-words"></div>
         <div id="sd=bot">
-            <p><input class="submit" type="submit" value="DASHBOARD" onclick="location.href='/main'"></p>
-            <p><input class="submit" type="submit" value="IMPORT" onclick="location.href='/import'"></p>
-            <p><input class="submit" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
-            <p><input class="submit" type="submit" value="SECTIONS" onclick="location.href='/sections?dictionary_id=<%=dictionaryIdNumber%>'"></p>
-            <p><input class="submit" type="submit" value="REPEAT" onclick="location.href='/change'"></p>
+            <p><input class="submit-main" type="submit" value="DASHBOARD" onclick="location.href='/main'"></p>
+            <p><input class="submit-main" type="submit" value="IMPORT" onclick="location.href='/import'"></p>
+            <p><input class="submit-main" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
+            <p><input class="submit-main" type="submit" value="SECTIONS" onclick="location.href='/sections?dictionary_id=<%=dictionaryIdNumber%>'"></p>
+            <p><input class="submit-main" type="submit" value="REPEAT" onclick="location.href='/change'"></p>
         </div>
     </div>
     <div id="content">
