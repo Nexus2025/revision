@@ -25,7 +25,7 @@ public class RepeatingHandlerServlet extends HttpServlet {
             session.removeAttribute("firstWordId");
             session.setAttribute("currentWordId", firstWordId);
 
-            String word = wordMap.get(firstWordId).getWord() + ";?";
+            String word = wordMap.get(firstWordId).getWord();
 
             response.setContentType("text/plain");
             try (OutputStream outStream = response.getOutputStream()) {
@@ -35,16 +35,13 @@ public class RepeatingHandlerServlet extends HttpServlet {
             }
         }
 
-        if (request.getParameter("action").equals("get_two_words")) {
+        if (request.getParameter("action").equals("get_translation")) {
             int currentWordId = (Integer) (session.getAttribute("currentWordId"));
-
-            String word = wordMap.get(currentWordId).getWord();
             String translation = wordMap.get(currentWordId).getTranslation();
-            String result = word + ";" + translation;
 
             response.setContentType("text/plain");
             try (OutputStream outStream = response.getOutputStream()) {
-                outStream.write(result.getBytes("UTF-8"));
+                outStream.write(translation.getBytes("UTF-8"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -112,7 +109,7 @@ public class RepeatingHandlerServlet extends HttpServlet {
             session.setAttribute("maxId", maxId + 1);
 
             Map.Entry<Integer, Word> entry = wordMap.entrySet().iterator().next();
-            String word = entry.getValue().getWord() + ";?";
+            String word = entry.getValue().getWord();
             currentWordId = entry.getKey();
 
             session.setAttribute("currentWordId", currentWordId);
@@ -121,7 +118,7 @@ public class RepeatingHandlerServlet extends HttpServlet {
             try (OutputStream outStream = response.getOutputStream()) {
                 outStream.write(word.getBytes("UTF-8"));
             } catch (IOException e) {
-
+                e.printStackTrace();
             }
         }
     }

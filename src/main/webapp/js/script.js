@@ -4,14 +4,10 @@ $(document).ready(function() {
         $.ajax({
             url : '/process',
             data : {
-                action : 'get_two_words'
+                action : 'get_translation'
             },
             success : function(response) {
-                let resp = response;
-                let word = resp.split(";")
-
-                $('#word').text(word[0]);
-                $('#translation').text(word[1]);
+                $('#translation').text(response);
                 document.getElementById("btnRight").disabled = false;
                 document.getElementById("btnWrong").disabled = false;
 
@@ -22,7 +18,6 @@ $(document).ready(function() {
             }
         });
     });
-
 
     $("#btnRight").click(function(){
         $.ajax({
@@ -39,7 +34,7 @@ $(document).ready(function() {
                     window.location.href = word[1];
                 } else {
                     $('#word').text(word[0]);
-                    $('#translation').text(word[1]);
+                    $('#translation').text("?");
 
                     var countOfGuessedWords = document.getElementById('countOfGuessedWords');
                     var text = countOfGuessedWords.textContent;
@@ -68,11 +63,8 @@ $(document).ready(function() {
                 action : 'wrong_next_word'
             },
             success : function(response) {
-                let resp = response;
-                let word = resp.split(";")
-
-                $('#word').text(word[0]);
-                $('#translation').text(word[1]);
+                $('#word').text(response);
+                $('#translation').text("?");
                 document.getElementById("btnRight").disabled = true;
                 document.getElementById("btnWrong").disabled = true;
 
@@ -95,19 +87,13 @@ function start(){
             action : 'get_first_word'
         },
         success : function(response) {
-            // $('#ajaxUserServletResponse').text(response);
-
-            let resp = response;
-            let word = resp.split(";")
-
-            $('#word').text(word[0]);
-            $('#translation').text(word[1]);
+            $('#word').text(response);
+            $('#translation').text("?");
             document.getElementById("btnRight").disabled = true;
             document.getElementById("btnWrong").disabled = true;
 
             document.getElementById("btnRight").style.backgroundColor ="gray";
             document.getElementById("btnWrong").style.backgroundColor ="gray";
-
         }
     });
 };
