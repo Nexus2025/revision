@@ -48,22 +48,22 @@
         </c:if>
         <c:forEach items="${requestScope.sectionList}" var="section">
             <jsp:useBean id="section" type="com.revision.entity.Section"/>
-            <p><div class="align"><input class="section-button" type="submit" value="${section.name}" onclick="location.href='/words?dictionary_id=${param.get("dictionary_id")}&section_id=${section.id}'"></div>
+            <p><div class="align"><input class="section-button" type="submit" value="${section.name}" onclick="location.href='/words?dictionary_id=${section.dictionaryId}&section_id=${section.id}'"></div>
             <div class="words-count">${section.wordsCount} words</div>
-            <div class="align"><input class="repeat-button" type="submit" value="REPEAT" onclick="location.href='/repeating?start-repeating=start&repeat_by=section&section_id=${section.id}&path_return=sections?dictionary_id=${param.get("dictionary_id")}'"></div>
+            <div class="align"><input class="repeat-button" type="submit" value="REPEAT" onclick="location.href='/repeating?start-repeating=start&repeat_by=section&section_id=${section.id}&path_return=sections?dictionary_id=${section.dictionaryId}'"></div>
             <form method="post" class="align" onclick='return confirm("Delete section?")'>
                 <input type="hidden" name="action" value="delete_section">
                 <input type="hidden" name="section_id" value="${section.id}">
-                <input type="hidden" name="dictionary_id" value="${param.get("dictionary_id")}">
+                <input type="hidden" name="dictionary_id" value="${section.dictionaryId}">
                 <input class="delete-button" type="submit" value="Delete">
             </form>
             <form method="post" class="align" onclick='return confirm("Clear section?")'>
                 <input type="hidden" name="action" value="clear_section">
                 <input type="hidden" name="section_id" value="${section.id}">
-                <input type="hidden" name="dictionary_id" value="${param.get("dictionary_id")}">
+                <input type="hidden" name="dictionary_id" value="${section.dictionaryId}">
                 <input class="clear-button" type="submit" value="Clear">
             </form>
-            <a class="rename-link" href="/sections?active_form_rename_section=true&section_id=${section.id}&dictionary_id=${param.get("dictionary_id")}">Rename</a>
+            <a class="rename-link" href="/sections?active_form_rename_section=true&section_id=${section.id}&dictionary_id=${section.dictionaryId}">Rename</a>
             </p>
         </c:forEach>
         <c:if test="${requestScope.sectionList.size() == 0}">
