@@ -134,7 +134,7 @@ h2 {
     font-size: 15px;
 }
 
-.sub4{
+.back-button{
     margin-left: 20px;
 }
 .dictionary-button{
@@ -524,12 +524,12 @@ h2 {
     float: left;
 }
 
-.dashboard-data-1{
+.repeating-results-dashboard{
     font-size: 30px;
     font-weight: bold;
     color: rgb(46 52 56);
 }
-.dashboard-data-2{
+.dashboard-data{
     font-size: 30px;
     font-weight: bold;
     color: rgb(28 144 199);

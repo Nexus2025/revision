@@ -32,11 +32,11 @@
         <h2>DASHBOARD</h2>
             <div class="indent">
                 <div class="content-left-column">
-                    <p class="dashboard-data-1">User: ${user.userName}</p>
-                    <p class="dashboard-data-2">${requestScope.get("dictionariesCount")} DICTIONARIES / ${requestScope.get("wordsCount")} WORDS</p>
+                    <p class="repeating-results-dashboard">User: ${user.userName}</p>
+                    <p class="dashboard-data">${requestScope.get("dictionariesCount")} DICTIONARIES / ${requestScope.get("wordsCount")} WORDS</p>
                 </div>
                 <div class="content-right-column">
-                    <p class="dashboard-data-1">REVERSE: ${sessionScope.get("reverse")}</p>
+                    <p class="repeating-results-dashboard">REVERSE: ${sessionScope.get("reverse")}</p>
                     <c:set var="buttonText" scope="page" value="${sessionScope.get('reverse') == 'ON' ? 'DISABLE' : 'ENABLE'}"></c:set>
                     <c:set var="buttonLink" scope="page" value="${sessionScope.get('reverse') == 'ON' ? '/main?set_reverse=off' : '/main?set_reverse=on'}"></c:set>
                     <p><input class="submit-reverse" type="submit" value="${buttonText}" onclick="location.href='${buttonLink}'"></p>

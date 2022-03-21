@@ -42,6 +42,7 @@ public class RepeatingStarterServlet extends HttpServlet {
                 Dictionary dictionary = dictionaryService.get(userId, dictionaryId);
                 session.setAttribute("id", dictionaryId);
                 session.setAttribute("nameOfTargetList", dictionary.getName());
+                session.setAttribute("repeatBy", "dictionary");
             }
             else if (request.getParameter("repeat_by").equals("section")) {
                 int sectionId = Integer.parseInt(request.getParameter("section_id"));
@@ -51,6 +52,7 @@ public class RepeatingStarterServlet extends HttpServlet {
                 Section section = sectionService.get(userId, sectionId);
                 session.setAttribute("id", sectionId);
                 session.setAttribute("nameOfTargetList", section.getName());
+                session.setAttribute("repeatBy", "section");
             }
 
             String reverse = (String) session.getAttribute("reverse");
@@ -67,7 +69,6 @@ public class RepeatingStarterServlet extends HttpServlet {
             session.setAttribute("wordMap", wordMap);
             session.setAttribute("rightAnswers",0);
             session.setAttribute("wrongAnswers",0);
-            session.setAttribute("repeatBy", "dictionary");
             session.setAttribute("countOfAllWords", wordMap.size());
             session.setAttribute("pathReturn", request.getParameter("path_return"));
 

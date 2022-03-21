@@ -1,5 +1,3 @@
-<%@ page import="com.revision.entity.User" %>
-<%@ page import="com.revision.service.UserService" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -7,13 +5,6 @@
 </head>
 <body>
 <%
-    User user = (User) session.getAttribute("user");
-    String userName = user.getUserName();
-
-    UserService um = new UserService();
-    int countOfWords = um.getCountOfWords(user.getId());
-    int countOfDictionaries = um.getCountOfDictionaries(user.getId());
-
     Object firstWordId = session.getAttribute("firstWordId");
     Object wordMap = session.getAttribute("wordMap");
     Object maxId = session.getAttribute("maxId");
