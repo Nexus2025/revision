@@ -1,8 +1,5 @@
-<%@ page import="com.revision.entity.User" %>
-<%@ page import="com.revision.service.DictionaryService" %>
-<%@ page import="com.revision.entity.Dictionary" %>
-<%@ page import="java.util.List" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,36 +23,20 @@
             <p><input class="button-sidebar" type="submit" value="REPEAT" onclick="location.href='/change'"></p>
         </div>
     </div>
-
     <div id="content">
         <div id="content-header">
             <h2>IMPORT</h2>
-
-            <%
-                User user = (User) session.getAttribute("user");
-                int userId = user.getId();
-
-                DictionaryService dm = new DictionaryService();
-                List<Dictionary> dictionaryList = dm.getAll(userId);
-            %>
-
-            <%
-                if (!dictionaryList.isEmpty()) {
-            %>
-
+            <c:if test="${requestScope.dictionaries.size() != 0}">
             <div class="import_csv">
-                <p><a id="rename" style="color: rgb(230, 120, 42);" href="/download-csv">Download the sample csv</a></p>
+                <p><a id="rename" class="color-link-csv" href="/download-csv">Download the sample csv</a></p>
                 <form enctype="multipart/form-data" method="post">
                     <div class="select">
                         <select name="dictionary_id">
                             <option selected disabled>Select the dictionary to import</option>
-
-                            <% for (Dictionary dictionary : dictionaryList) { %>
-
-                            <option value="<%=dictionary.getId()%>"><%=dictionary.getName()%></option>
-
-                            <% } %>
-
+                            <c:forEach var="dictionary" items="${requestScope.dictionaries}">
+                                <jsp:useBean id="dictionary" type="com.revision.entity.Dictionary"></jsp:useBean>
+                                <option value="${dictionary.id}">${dictionary.name}</option>
+                            </c:forEach>
                         </select>
                     </div>
                     <p><input type="file" name="csv_file" accept=".csv, text/csv"></p>
@@ -63,27 +44,19 @@
                 </form>
             </div>
             <div class="import_req">
-                <p style="color: rgb(214, 29, 29);">File requirements:</p>
-                <p>Formatting <a style="color: rgb(94, 94, 94);">UTF-8</a><br><br>
-                    Delimiter <a style="color: rgb(94, 94, 94);">";"</a><br><br>
-                    3 columns <br> <a style="color: rgb(94, 94, 94);">"section", "word", "translation"</a></p>
+                <p class="color-requirements">File requirements:</p>
+                <p>Formatting <a class="color-requirements-description">UTF-8</a><br><br>
+                    Delimiter <a class="color-requirements-description">";"</a><br><br>
+                    3 columns <br> <a class="color-requirements-description">"section", "word", "translation"</a></p>
             </div>
-
-            <% } %>
-
-            <%
-                if (dictionaryList.isEmpty()) {
-            %>
-
-            <p class="info">You do not have any dictionaries. <br> Go to dictionaries section and create it</p>
-            <p><a class="info" style="color: #3e4346;" href="/dictionaries">GO TO DICTIONARIES SECTION</a></p>
-
-            <% } %>
-
+            </c:if>
+            <c:if test="${requestScope.dictionaries.size() == 0}">
+                <p class="info">You do not have any dictionaries. <br> Go to dictionaries section and create it</p>
+                <p><a class="info" style="color: #3e4346;" href="/dictionaries">GO TO DICTIONARIES SECTION</a></p>
+            </c:if>
         </div>
     </div>
 </div>
-
 <div id="footer"> Developed by Roman F</div>
 </body>
 </html>

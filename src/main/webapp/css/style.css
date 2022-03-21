@@ -533,6 +533,19 @@ h2 {
     float: left;
 
 }
+
+.color-link-csv{
+    color: rgb(230, 120, 42);
+}
+
+.color-requirements{
+    color: rgb(214, 29, 29);
+}
+
+.color-requirements-description{
+    color: rgb(94, 94, 94);
+}
+
 .change-section{
     padding: 20px;
     border: 1px solid rgb(70, 70, 70);

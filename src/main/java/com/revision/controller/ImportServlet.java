@@ -1,6 +1,8 @@
 package com.revision.controller;
 
+import com.revision.entity.Dictionary;
 import com.revision.entity.User;
+import com.revision.service.DictionaryService;
 import com.revision.util.ImportUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -12,6 +14,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 @WebServlet("/import")
 @MultipartConfig
@@ -19,6 +22,11 @@ public class ImportServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("user");
+        List<Dictionary> dictionaries = new DictionaryService().getAll(user.getId());
+        request.setAttribute("dictionaries", dictionaries);
+
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/pages/import.jsp");
         requestDispatcher.forward(request, response);
     }
