@@ -13,7 +13,7 @@
 <div id="header">
     <h1 class="brand">Revision</h1>
     <p class="logout"><a class="logout-link" href="/logout">Logout</a></p>
-    <div style="clear: left"></div>
+    <div class="clear-left"></div>
 </div>
 <div id="container">
     <jsp:useBean id="user" type="com.revision.entity.User" scope="session"></jsp:useBean>

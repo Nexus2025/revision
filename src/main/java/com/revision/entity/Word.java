@@ -52,8 +52,8 @@ public class Word{
         return sectionId;
     }
 
-    public void setSectionId(int sectionId) {
-        this.sectionId = sectionId;
+    public int getDictionaryId() {
+        return dictionaryId;
     }
 
     public int getUserId() {

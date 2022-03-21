@@ -119,6 +119,17 @@ h2 {
     cursor: pointer;
 }
 
+.import-words-button{
+    background-color:#eeb35a;
+    color: #fff;
+    padding: 13px 30px;
+    font-size: 1.1vw;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    margin: 0px;
+}
+
 .rename-input{
     font-size: 15px;
 }
@@ -150,20 +161,24 @@ h2 {
     width: 250px;
     font-weight: bold;
 }
-.submit7{
+
+.clear-left{
+    clear: left;
+}
+
+.delete-all-words-button{
     position: absolute;
-    margin-top: 100px;
+    margin-top: 85px;
     right: 50px;
     padding: 10px;
-    width: 80px;
-    text-align: center;
+    width: 100px;
     background-color:#fb615a;
     color: #fff;
     cursor: pointer;
-    text-decoration: none;
     z-index: 1;
+    border: none;
 }
-.submit8{
+.add-list-button{
     position: absolute;
     margin-top: 50px;
     right: 50px;
@@ -221,7 +236,7 @@ h2 {
 #sidebar-top{
     height: 35vh;
 }
-#sd-top-words{
+#sidebar-top-words{
     height: 25vh;
 }
 
@@ -284,6 +299,12 @@ h2 {
 .cancel-link{
     color: rgb(68, 68, 68);
 }
+
+.cancel-link-words{
+    color: rgb(68, 68, 68);
+    margin-left: 20px;
+}
+
 #reg:hover{
     text-decoration: none;
 }
@@ -333,32 +354,32 @@ h2 {
     background-color: white;
     z-index: 2;
 }
-#table1 {
+#words-table {
     font-family: sans-serif;
     font-size: 25px;
     border-collapse: collapse;
     text-align: left;
     margin-left: 10px;
 }
-#table1 th {
+#words-table th {
     background: #2ca8c6;
     color: white;
     padding: 10px 20px;
 }
-#table1 th, #table1 td {
+#words-table th, #words-table td {
     border-style: solid;
     border-width: 0 2px 2px 0;
     border-color: white;
 }
-#table1 td {
+#words-table td {
     background: #d8e6f3;
     padding: 10px 20px;
     width: 25vw;
 }
-#table1 td:first-child, #table1 th:first-child {
+#words-table td:first-child, #words-table th:first-child {
     text-align: left;
 }
-#table1 td:last-child {
+#words-table td:last-child {
     background: #fff;
     font-size: 15px;
 }
@@ -370,7 +391,7 @@ h2 {
     padding-bottom: 5px;
 }
 
-.import_input{
+.import-input{
     width: 400px;
     height: 300px;
     resize: none;
@@ -521,7 +542,7 @@ h2 {
     font-weight: bold;
 }
 
-::-webkit-input-placeholder.import_input {font-size: 15px;}
-::-moz-placeholder.import_input          {font-size: 15px;}
-:-moz-placeholder.import_input             {font-size: 15px;}
-:-ms-input-placeholder.import_input        {font-size: 15px;}
+::-webkit-input-placeholder.import-input {font-size: 15px;}
+::-moz-placeholder.import-input          {font-size: 15px;}
+:-moz-placeholder.import-input             {font-size: 15px;}
+:-ms-input-placeholder.import-input        {font-size: 15px;}
