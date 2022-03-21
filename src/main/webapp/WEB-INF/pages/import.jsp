@@ -15,13 +15,12 @@
 <div id="header">
     <h1 class="brand">Revision</h1>
     <p class="logout"><a class="logout-link" href="/logout">Logout</a></p>
-    <div style="clear: left"></div>
+    <div class="clear-left"></div>
 </div>
 <div id="container">
-
     <div id="sidebar">
         <div id="sidebar-top"></div>
-        <div id="sd=bot">
+        <div>
             <p><input class="button-sidebar" type="submit" value="DASHBOARD" onclick="location.href='/main'"></p>
             <p><input class="button-sidebar" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
             <p><input class="button-sidebar" type="submit" value="REPEAT" onclick="location.href='/change'"></p>
