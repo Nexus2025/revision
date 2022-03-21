@@ -12,22 +12,17 @@
     <script>
         <%@include file="/js/script.js"%>
     </script>
-    <%
-        int countOfAllWords = (int) session.getAttribute("countOfAllWords");
-        String pathReturn = (String) session.getAttribute("pathReturn");
-        String nameOfTargetList = (String) session.getAttribute("nameOfTargetList");
-    %>
 </head>
 <body onload="start()">
 <div id="header">
     <h1 class="brand">Revision</h1>
     <p class="logout"><a class="logout-link" href="/logout">Logout</a></p>
-    <div style="clear: left"></div>
+    <div class="clear-left"></div>
 </div>
 <div id="container">
     <div id="sidebar">
         <div id="sidebar-top"></div>
-        <div id="sd=bot">
+        <div>
             <p><input class="button-sidebar" type="submit" value="DASHBOARD" onclick="location.href='/main'"></p>
             <p><input class="button-sidebar" type="submit" value="IMPORT" onclick="location.href='/import'"></p>
             <p><input class="button-sidebar" type="submit" value="DICTIONARIES" onclick="location.href='/dictionaries'"></p>
@@ -36,17 +31,17 @@
     <div id="content">
         <div>
             <h2>REPEATING</h2>
-            <p style="font-size:1.8vw; color: #868282; margin: 2px 10px;">
-            <b style="color:#f44e28; padding-right:10px"><%=nameOfTargetList%></b>
+            <p class="repeating-subtitle">
+            <b class="list-name">${sessionScope.get('nameOfTargetList')}</b>
             <b id="countOfGuessedWords">0</b>
-            <b>/ <%=countOfAllWords%></b>
+            <b>/&nbsp;${sessionScope.get('countOfAllWords')}</b>
             </p>
-                <div class="word1">
-                    <div style="background: rgb(44 168 198); color: white; padding: 5px; font-size: 25px;">WORD</div>
+                <div class="repeating-word">
+                    <div class="word-table-header">WORD</div>
                     <p><span id="word"></span></p>
                 </div>
-                <div class="word2">
-                    <div style="background: rgb(44 168 198); color: white; padding: 5px; font-size: 25px;">TRANSLATION</div>
+                <div class="repeating-translation">
+                    <div class="translation-table-header">TRANSLATION</div>
                     <p><span id="translation"></span></p>
                 </div>
         </div>
@@ -54,7 +49,7 @@
             <button id="btnShow">SHOW</button>
             <button id="btnRight">RIGHT</button>
             <button id="btnWrong">WRONG</button>
-            <a id="rename" style="margin-left: 20px; color: #656363; font-size: 1.3vw;" href="<%=pathReturn%>">BACK</a>
+            <a id="rename" class="repeating-back-button" href="${sessionScope.get('pathReturn')}">BACK</a>
         </div>
     </div>
 </div>
