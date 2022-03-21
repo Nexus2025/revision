@@ -4,35 +4,20 @@
     <title>Title</title>
 </head>
 <body>
-<%
-    Object firstWordId = session.getAttribute("firstWordId");
-    Object wordMap = session.getAttribute("wordMap");
-    Object maxId = session.getAttribute("maxId");
-    Object rightAnswers = session.getAttribute("rightAnswers");
-    Object wrongAnswers = session.getAttribute("wrongAnswers");
-    Object repeatBy = session.getAttribute("repeatBy");
-    Object id = session.getAttribute("id");
-    Object pathReturn = session.getAttribute("pathReturn");
-    Object reverse = session.getAttribute("reverse");
-    Object errorMessage = session.getAttribute("errorMessage");
-    Object countOfAllWords = session.getAttribute("countOfAllWords");
-    Object countOfGuessedWords = session.getAttribute("countOfGuessedWords");
-    Object nameOfTargetList = session.getAttribute("nameOfTargetList");
-%>
-<p>firstWordId: <%=firstWordId%></p>
-<p>wordMap: <%=wordMap%></p>
-<p>maxId: <%=maxId%></p>
-<p>rightAnswers: <%=rightAnswers%></p>
-<p>wrongAnswers: <%=wrongAnswers%></p>
-<p>repeatBy: <%=repeatBy%></p>
-<p>id: <%=id%></p>
-<p>pathReturn: <%=pathReturn%></p>
-<p>reverse: <%=reverse%></p>
+<p>firstWordId: <%=session.getAttribute("firstWordId")%></p>
+<p>wordMap: <%=session.getAttribute("wordMap")%></p>
+<p>maxId: <%=session.getAttribute("maxId")%></p>
+<p>rightAnswers: <%=session.getAttribute("rightAnswers")%></p>
+<p>wrongAnswers: <%=session.getAttribute("wrongAnswers")%></p>
+<p>repeatBy: <%=session.getAttribute("repeatBy")%></p>
+<p>id: <%=session.getAttribute("id")%></p>
+<p>pathReturn: <%=session.getAttribute("pathReturn")%></p>
+<p>reverse: <%=session.getAttribute("reverse")%></p>
 <p>domain: <%=request.getServerName()%></p>
 <p>port: <%=request.getServerPort()%></p>
-<p>errorMessage: <%=errorMessage%></p>
-<p>countOfAllWords: <%=countOfAllWords%></p>
-<p>countOfGuessedWords: <%=countOfGuessedWords%></p>
-<p>nameOfTargetList: <%=nameOfTargetList%></p>
+<p>errorMessage: <%=session.getAttribute("errorMessage")%></p>
+<p>countOfAllWords: <%=session.getAttribute("countOfAllWords")%></p>
+<p>countOfGuessedWords: <%=session.getAttribute("countOfGuessedWords")%></p>
+<p>nameOfTargetList: <%=session.getAttribute("nameOfTargetList")%></p>
 </body>
 </html>
