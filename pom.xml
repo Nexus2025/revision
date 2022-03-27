@@ -119,6 +119,7 @@
         <filtering>true</filtering>
         <includes>
           <include>**/*.properties</include>
+          <include>**/*.json</include>
         </includes>
       </resource>
 
