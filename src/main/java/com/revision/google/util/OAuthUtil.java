@@ -24,11 +24,7 @@ public class OAuthUtil {
 
     private static GoogleClientSecrets clientSecrets;
 
-    private static String sourceUrl = "/test";
-
-    private static String refreshToken;
-
-    private static Credential credential;
+    private static String sourceUrl = "/import-sheets";
 
     public static final List<String> SCOPES = Arrays.asList(DriveScopes.DRIVE_READONLY);
 
@@ -46,21 +42,7 @@ public class OAuthUtil {
             DATA_STORE_FACTORY = new FileDataStoreFactory(DATA_STORE_DIR);
         } catch (Throwable t) {
             t.printStackTrace();
-            System.exit(1);
         }
-    }
-
-    public static String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public static void setCredential(Credential credential) {
-        OAuthUtil.credential = credential;
-        refreshToken = credential.getRefreshToken();
-    }
-
-    public static Credential getCredentials() {
-        return credential;
     }
 
     public static GoogleAuthorizationCodeFlow newFlow() throws IOException {

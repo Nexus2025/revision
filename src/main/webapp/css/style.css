@@ -19,6 +19,13 @@ h1 {
     margin: 0;
     color: rgb(255, 255, 255);
 }
+
+h3 {
+    font-size: 1.5vw;
+    margin: 0px;
+    color: #656363;
+}
+
 .brand, .logout {
     font-size: 2.6vw;
     margin: 0;
@@ -72,6 +79,16 @@ h2 {
     border: none;
     cursor: pointer;
     width: 90%;
+    font-weight: bold;
+}
+.sheets-button{
+    padding: 13px 30px;
+    margin: 5px 0 2px 5px;
+    font-size: 1.1vw;
+    color: #fff;
+    background-color: #11c87e;
+    border: none;
+    cursor: pointer;
     font-weight: bold;
 }
 .submit-main-admin{
@@ -412,12 +429,22 @@ h2 {
 
 .import_csv{
     margin: 30px;
+    margin-top: 20px;
     padding: 20px;
     padding-bottom: 10px;
     border: 1px solid rgb(167, 167, 167);
     width: 300px;
     float: left;
 }
+
+.import_sheets{
+    margin: 30px;
+    margin-top: 300px;
+    padding: 20px;
+    padding-bottom: 10px;
+    width: 300px;
+}
+
 .import_req{
     margin: 30px;
     padding: 20px;
@@ -425,7 +452,7 @@ h2 {
     width: 300px;
     float: left;
 }
-.select select{
+.dictionaries-select{
     border: 0;
     background: none;
     font-family: Arial, Helvetica, sans-serif;
@@ -434,6 +461,17 @@ h2 {
     padding: 10px;
     background: #406ec4;
 }
+
+.sheets-select{
+    border: 0;
+    background: none;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 15px;
+    color: rgb(255, 255, 255);
+    padding: 10px;
+    background: #11c87e;
+}
+
 .words-count{
     color: #414141;
     padding: 5px 0px 5px 10px;

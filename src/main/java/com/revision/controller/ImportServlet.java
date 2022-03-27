@@ -50,7 +50,7 @@ public class ImportServlet extends HttpServlet {
         } catch (NullPointerException | NumberFormatException e) {
             e.printStackTrace();
         } finally {
-            response.sendRedirect("/import");
+            response.sendRedirect("/main");
         }
     }
 }

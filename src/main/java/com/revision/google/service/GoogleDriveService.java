@@ -19,10 +19,7 @@ public class GoogleDriveService{
 
     private static final Logger logger = LoggerFactory.getLogger(GoogleDriveService.class);
 
-    private static String TYPE_XLSX = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-    private static String TYPE_SPREADSHEET = "application/vnd.google-apps.spreadsheet";
-
-    private Drive driveService = null;
+    private static final String TYPE_SPREADSHEET = "application/vnd.google-apps.spreadsheet";
 
     public List<SheetTO> getSheets(Credential credential) {
         logger.info("getSheets");
@@ -55,11 +52,8 @@ public class GoogleDriveService{
     private Drive getDriveService(Credential credential) throws GeneralSecurityException, IOException {
         logger.info("getDriveService");
 
-        if(driveService == null) {
-            driveService = new Drive.Builder(OAuthUtil.HTTP_TRANSPORT, OAuthUtil.JSON_FACTORY, credential)
-                    .setApplicationName("revision")
-                    .build();
-        }
-        return driveService;
+        return new Drive.Builder(OAuthUtil.HTTP_TRANSPORT, OAuthUtil.JSON_FACTORY, credential)
+                .setApplicationName("revision")
+                .build();
     }
 }

@@ -20,31 +20,29 @@ public class GoogleCallbackServlet extends AbstractAuthorizationCodeCallbackServ
     private static final Logger logger = LoggerFactory.getLogger(GoogleCallbackServlet.class);
 
     @Override
-    protected void onSuccess(HttpServletRequest req, HttpServletResponse resp, Credential credential)
+    protected void onSuccess(HttpServletRequest request, HttpServletResponse response, Credential credential)
             throws ServletException, IOException {
         logger.info("onSuccess");
 
-        OAuthUtil.setCredential(credential);
-
-        HttpSession session = req.getSession();
-        session.setAttribute("access_token", credential.getAccessToken());
+        HttpSession session = request.getSession();
         session.setAttribute("credential", credential);
+        session.setAttribute("access_token", credential.getAccessToken());
         session.setAttribute("refreshToken", credential.getRefreshToken());
-        resp.sendRedirect(OAuthUtil.getSourceUrl());
+        response.sendRedirect(OAuthUtil.getSourceUrl());
     }
 
     @Override
     protected void onError(
-            HttpServletRequest req, HttpServletResponse resp, AuthorizationCodeResponseUrl errorResponse)
+            HttpServletRequest request, HttpServletResponse response, AuthorizationCodeResponseUrl errorResponse)
             throws ServletException, IOException {
         logger.info("onError");
-        resp.sendRedirect("/error");
+        response.sendRedirect("/error");
     }
 
     @Override
-    protected String getRedirectUri(HttpServletRequest req) throws ServletException, IOException {
+    protected String getRedirectUri(HttpServletRequest request) throws ServletException, IOException {
         logger.info("getRedirectUri");
-        return OAuthUtil.getRedirectUri(req);
+        return OAuthUtil.getRedirectUri(request);
     }
 
     @Override

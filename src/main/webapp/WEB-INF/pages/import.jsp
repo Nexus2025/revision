@@ -28,10 +28,11 @@
             <h2>IMPORT</h2>
             <c:if test="${requestScope.dictionaries.size() != 0}">
             <div class="import_csv">
+                <h3>CSV</h3>
                 <p><a id="rename" class="color-link-csv" href="/download-csv">Download the sample csv</a></p>
                 <form enctype="multipart/form-data" method="post">
                     <div class="select">
-                        <select name="dictionary_id">
+                        <select class="dictionaries-select" name="dictionary_id">
                             <option selected disabled>Select the dictionary to import</option>
                             <c:forEach var="dictionary" items="${requestScope.dictionaries}">
                                 <jsp:useBean id="dictionary" type="com.revision.entity.Dictionary"></jsp:useBean>
@@ -48,6 +49,10 @@
                 <p>Formatting <a class="color-requirements-description">UTF-8</a><br><br>
                     Delimiter <a class="color-requirements-description">";"</a><br><br>
                     3 columns <br> <a class="color-requirements-description">"section", "word", "translation"</a></p>
+            </div>
+            <div class="import_sheets">
+                <h3>GOOGLE SHEETS</h3>
+                <p><input class="sheets-button" type="submit" value="${sessionScope.credential != null ? "GO TO IMPORT" : "SIGN IN Google Account"}" onclick="location.href='${sessionScope.credential != null ? "/import-sheets" : "/oauth2ask"}'"></p>
             </div>
             </c:if>
             <c:if test="${requestScope.dictionaries.size() == 0}">

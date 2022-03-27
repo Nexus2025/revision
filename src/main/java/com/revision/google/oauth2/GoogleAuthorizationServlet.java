@@ -17,9 +17,9 @@ public class GoogleAuthorizationServlet extends AbstractAuthorizationCodeServlet
     private static final Logger logger = LoggerFactory.getLogger(GoogleAuthorizationServlet.class);
 
     @Override
-    protected String getRedirectUri(HttpServletRequest req) throws ServletException, IOException {
+    protected String getRedirectUri(HttpServletRequest request) throws ServletException, IOException {
         logger.info("getRedirectUri");
-        return OAuthUtil.getRedirectUri(req);
+        return OAuthUtil.getRedirectUri(request);
     }
 
     @Override

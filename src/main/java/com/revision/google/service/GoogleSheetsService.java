@@ -1,54 +1,66 @@
 package com.revision.google.service;
 
+import com.google.api.client.auth.oauth2.Credential;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.ValueRange;
+import com.revision.entity.Section;
+import com.revision.entity.Word;
 import com.revision.google.util.OAuthUtil;
+import com.revision.service.SectionService;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class GoogleSheetsService {
 
-    String sheetName = "Лист1!A:A";
+    public List<Word> getWords(int userId, int dictionaryId, String spreadsheetId, Credential credential) {
+        List<Word> words = new ArrayList<>();
+        Map<String, Integer> sections = new HashMap<>();
+        SectionService sectionService = new SectionService();
 
-    private Sheets sheetsService = null;
+        try {
+            List<List<Object>> values = readTable(spreadsheetId, credential);
 
-    public List<List<Object>> readTable(String spreadsheetId)  throws IOException {
-        Sheets service = getSheetsService();
-        return readTable(service, spreadsheetId, sheetName);
-    }
+            if (values.get(0).get(0).equals("section")
+                    && values.get(0).get(1).equals("word")
+                    && values.get(0).get(2).equals("translation")) {
 
-    private List<List<Object>> readTable(Sheets service, String spreadsheetId, String sheetName)  throws IOException {
-        ValueRange table = service.spreadsheets().values().get(spreadsheetId, sheetName).execute();
+                for (int i = 1; i < values.size(); i++) {
+                    List<Object> row = values.get(i);
 
-        List<List<Object>> values = table.getValues();
-        printTable(values);
+                    int sectionId;
+                    if (!sections.containsKey(row.get(0))) {
+                        Section section = sectionService.create((String)row.get(0), dictionaryId, userId);
+                        sections.put(section.getName(), section.getId());
+                        sectionId = section.getId();
 
-        return values;
-    }
-
-    private void printTable(List<List<Object>> values) {
-        if (values == null || values.size() == 0) {
-            System.out.println("No data found.");
-        }
-
-        else {
-            System.out.println("read data");
-            for (List<Object> row : values) {
-                for (int c = 0; c < row.size(); c++) {
-                    System.out.printf("%s ", row.get(c));
+                    } else {
+                        sectionId = sections.get(row.get(0));
+                    }
+                    Word word = new Word(sectionId, (String) row.get(1), (String) row.get(2));
+                    words.add(word);
                 }
-                System.out.println();
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return words;
     }
 
-    private Sheets getSheetsService() throws IOException {
-        if (sheetsService == null) {
-            sheetsService = new Sheets.Builder(OAuthUtil.HTTP_TRANSPORT, OAuthUtil.JSON_FACTORY, OAuthUtil.getCredentials())
-                    .setApplicationName("revision")
-                    .build();
-        }
-        return sheetsService;
+    private List<List<Object>> readTable(String spreadsheetId, Credential credential) throws IOException {
+        Sheets service = getSheetsService(credential);
+        ValueRange table = service.spreadsheets().values().get(spreadsheetId, "A:C").execute();
+
+        return table.getValues();
+    }
+
+    private Sheets getSheetsService(Credential credential) throws IOException {
+
+        return new Sheets.Builder(OAuthUtil.HTTP_TRANSPORT, OAuthUtil.JSON_FACTORY, credential)
+                .setApplicationName("revision")
+                .build();
     }
 }
