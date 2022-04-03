@@ -30,7 +30,7 @@
                 <p>Repeat by Dictionary</p>
                 <form action="/repeating">
                     <div class="select">
-                        <select name="dictionary_id">
+                        <select class="dictionaries-select" name="dictionary_id">
                             <option selected disabled>Select dictionary to repeat</option>
                             <c:forEach var="dictionary" items="${requestScope.get('dictionaryList')}">
                                 <jsp:useBean id="dictionary" type="com.revision.entity.Dictionary"/>
@@ -48,7 +48,7 @@
                 <p>Repeat by Section</p>
                 <form action="/repeating">
                     <div class="select">
-                        <select name="section_id">
+                        <select class="dictionaries-select" name="section_id">
                             <option selected disabled>Select section to repeat</option>
                             <c:forEach var="section" items="${requestScope.get('sectionList')}">
                                 <jsp:useBean id="section" type="com.revision.entity.Section"/>

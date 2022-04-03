@@ -1,12 +1,16 @@
 package com.revision.dao;
 
 import com.revision.entity.Word;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class WordDAO {
+
+    private static final Logger log = LoggerFactory.getLogger(WordDAO.class);
 
     private static final String CREATE = "INSERT INTO words (word, translation, section_id, user_id, dictionary_id) VALUES (?, ?, ?, ?, ?) RETURNING id";
     private static final String RENAME = "UPDATE words SET word= ?, translation= ? WHERE id= ? AND user_id= ? RETURNING dictionary_id, section_id";
@@ -30,7 +34,7 @@ public class WordDAO {
                 wd = new Word(rs.getInt("id"), sectionId, dictionaryId, userId, word, translation);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return wd;
     }
@@ -48,7 +52,7 @@ public class WordDAO {
                 wd = new Word(id, rs.getInt("section_id"), rs.getInt("dictionary_id"), userId, word, translation);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return wd;
     }
@@ -68,7 +72,7 @@ public class WordDAO {
                 wd = new Word(id, sectionId, dictionaryId, userId, word, translation);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return wd;
     }
@@ -86,7 +90,7 @@ public class WordDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return words;
     }
@@ -104,7 +108,7 @@ public class WordDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return words;
     }
@@ -117,7 +121,7 @@ public class WordDAO {
             statement.setInt(2, userId);
             result = statement.executeUpdate() != 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return result;
     }
@@ -135,7 +139,7 @@ public class WordDAO {
             }
             statement.executeBatch();
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
     }
 }

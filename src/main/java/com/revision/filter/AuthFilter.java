@@ -20,9 +20,8 @@ public class AuthFilter implements Filter {
 
         if(destinationPath.equals("/css/style.css")){
             filterChain.doFilter(request, response);
-        }
 
-        if (isAuth(request)) {
+        } else if (isAuth(request)) {
             if (destinationPath.equals("/login") || destinationPath.equals("/") || destinationPath.equals("/registration")) {
                 response.sendRedirect("/main");
             } else {

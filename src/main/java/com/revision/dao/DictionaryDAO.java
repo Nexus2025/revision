@@ -1,6 +1,8 @@
 package com.revision.dao;
 
 import com.revision.entity.Dictionary;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -8,8 +10,10 @@ import java.util.List;
 
 public class DictionaryDAO {
 
+    private static final Logger log = LoggerFactory.getLogger(DictionaryDAO.class);
+
     private static final String CREATE = "INSERT INTO dictionaries (name, user_id) VALUES (?, ?) RETURNING id";
-    private static final String DELETE = "DELETE FROM dictionaries WHERE id= ? AND user_id= ? RETURNING name";
+    private static final String DELETE = "DELETE FROM AND dictionaries WHERE id= ? AND user_id= ? RETURNING name";
     private static final String RENAME = "UPDATE dictionaries SET name= ? WHERE id= ? AND user_id= ?";
     private static final String GET = "SELECT * FROM dictionaries WHERE user_id= ? AND id= ?";
 
@@ -28,7 +32,7 @@ public class DictionaryDAO {
                 dictionary = new Dictionary(rs.getInt("id"), userId, name);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return dictionary;
     }
@@ -46,7 +50,7 @@ public class DictionaryDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return dictionaries;
     }
@@ -62,7 +66,7 @@ public class DictionaryDAO {
                 dictionary = new Dictionary(id, userId, rs.getString("name"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return dictionary;
     }
@@ -77,7 +81,7 @@ public class DictionaryDAO {
             statement.executeUpdate();
             dictionary = new Dictionary(id, userId, newName);
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return dictionary;
     }
@@ -93,7 +97,7 @@ public class DictionaryDAO {
                 dictionary = new Dictionary(rs.getInt("id"), rs.getInt("user_id"), rs.getString("name"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return dictionary;
     }

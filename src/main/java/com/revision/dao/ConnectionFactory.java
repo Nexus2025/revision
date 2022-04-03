@@ -1,6 +1,8 @@
 package com.revision.dao;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
@@ -10,6 +12,8 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class ConnectionFactory {
+
+    private static final Logger log = LoggerFactory.getLogger(ConnectionFactory.class);
 
     private static ComboPooledDataSource dataSource;
 
@@ -28,7 +32,7 @@ public class ConnectionFactory {
             dataSource.setMaxPoolSize(100);
 
         } catch (IOException | PropertyVetoException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 

@@ -1,12 +1,16 @@
 package com.revision.dao;
 
 import com.revision.entity.Section;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class SectionDAO {
+
+    private static final Logger log = LoggerFactory.getLogger(SectionDAO.class);
 
     private static final String CREATE = "INSERT INTO sections (name, dictionary_id, user_id) VALUES (?, ?, ?) RETURNING id";
     private static final String DELETE = "DELETE FROM sections WHERE id= ? AND user_id= ? RETURNING name, dictionary_id";
@@ -34,7 +38,7 @@ public class SectionDAO {
                 section = new Section(rs.getInt("id"), dictionaryId, userId, name);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return section;
     }
@@ -53,7 +57,7 @@ public class SectionDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return sections;
     }
@@ -71,7 +75,7 @@ public class SectionDAO {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
 
         return sections;
@@ -85,7 +89,7 @@ public class SectionDAO {
             statement.setInt(2, userId);
             result = statement.executeUpdate() != 0;
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return result;
     }
@@ -101,7 +105,7 @@ public class SectionDAO {
                 section = new Section(id, rs.getInt("dictionary_id"), userId, rs.getString("name"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return section;
     }
@@ -118,7 +122,7 @@ public class SectionDAO {
                 section = new Section(id, rs.getInt("dictionary_id"), userId, newName);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return section;
     }
@@ -134,7 +138,7 @@ public class SectionDAO {
                 section = new Section(rs.getInt("id"), rs.getInt("dictionary_id"), rs.getInt("user_id"), rs.getString("name"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return section;
     }

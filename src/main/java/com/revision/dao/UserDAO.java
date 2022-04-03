@@ -2,10 +2,14 @@ package com.revision.dao;
 
 import com.revision.entity.Role;
 import com.revision.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 
 public class UserDAO {
+
+    private static final Logger log = LoggerFactory.getLogger(UserDAO.class);
 
     private static final String GET = "SELECT * FROM users WHERE user_name= ?";
     private static final String CREATE = "INSERT INTO users (user_name, password, role) VALUES (?, ?, ?) RETURNING user_name";
@@ -23,7 +27,7 @@ public class UserDAO {
                 user = new User(rs.getInt("id"), Role.valueOf(rs.getString("role")), rs.getString("user_name"), rs.getString("password"));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return user;
     }
@@ -40,7 +44,7 @@ public class UserDAO {
                 user = new User(rs.getInt("id"), role, userName, password);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return user;
     }
@@ -55,7 +59,7 @@ public class UserDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return count;
     }
@@ -70,7 +74,7 @@ public class UserDAO {
                 count = rs.getInt("count");
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return count;
     }
@@ -85,7 +89,7 @@ public class UserDAO {
                 result = rs.getBoolean(1);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            log.error(e.getSQLState());
         }
         return result;
     }

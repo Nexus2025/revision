@@ -313,6 +313,23 @@ h2 {
     background: #fff;
     color: #2c536c;
 }
+
+.log-demo{
+    padding: 13px 30px;
+    margin: 5px 0 20px 0;
+    font-size: 15px;
+    color: #fff;
+    background-color: #eeb35a;
+    border: none;
+    border-bottom: 4px solid #efe767;
+    cursor: pointer;
+}
+.log-demo:hover{
+    transition: all 0.5s;
+    background: #fff;
+    color: #2c536c;
+}
+
 .cancel-link{
     color: rgb(68, 68, 68);
 }
