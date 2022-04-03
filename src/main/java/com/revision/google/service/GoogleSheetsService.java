@@ -51,6 +51,7 @@ public class GoogleSheetsService {
         } catch (IOException e) {
             logger.error(e.getMessage());
         }
+        logger.info("getWords | word's size = {}", words.size());
         return words;
     }
 

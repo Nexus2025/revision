@@ -23,12 +23,18 @@ public class SectionServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        int dictionaryId = Integer.parseInt(request.getParameter("dictionary_id"));
-        List<Section> sectionList = sectionService.getAllByDictionaryId(dictionaryId, user.getId());
-        request.setAttribute("sectionList", sectionList);
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/pages/sections.jsp");
-        requestDispatcher.forward(request, response);
+        if (isValid(request)) {
+            int dictionaryId = Integer.parseInt(request.getParameter("dictionary_id"));
+            List<Section> sectionList = sectionService.getAllByDictionaryId(dictionaryId, user.getId());
+            request.setAttribute("sectionList", sectionList);
+
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/pages/sections.jsp");
+            requestDispatcher.forward(request, response);
+
+        } else {
+            response.sendRedirect("/dictionaries");
+        }
     }
 
     @Override
@@ -37,8 +43,8 @@ public class SectionServlet extends HttpServlet {
 
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        int dictionaryId = Integer.parseInt(request.getParameter("dictionary_id"));
 
+        int dictionaryId = Integer.parseInt(request.getParameter("dictionary_id"));
         if (request.getParameter("action") != null) {
             if (request.getParameter("action").equals("delete_section")) {
                 int userId = user.getId();
@@ -61,8 +67,16 @@ public class SectionServlet extends HttpServlet {
                 int userId = user.getId();
                 sectionService.create(sectionName, dictionaryId, userId);
             }
-
             response.sendRedirect("/sections?dictionary_id=" + dictionaryId);
+        }
+    }
+
+    private boolean isValid(HttpServletRequest request) {
+        try {
+            Integer.parseInt(request.getParameter("dictionary_id"));
+            return true;
+        } catch (NullPointerException | NumberFormatException e) {
+            return false;
         }
     }
 }

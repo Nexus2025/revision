@@ -24,12 +24,18 @@ public class WordServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("user");
-        int sectionId = Integer.parseInt(request.getParameter("section_id"));
-        List<Word> wordList = wordService.getAllBySectionId(sectionId, user.getId());
-        request.setAttribute("wordList", wordList);
 
-        RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/pages/words.jsp");
-        requestDispatcher.forward(request, response);
+        if (checkParamsAreValid(request)) {
+            int sectionId = Integer.parseInt(request.getParameter("section_id"));
+            List<Word> wordList = wordService.getAllBySectionId(sectionId, user.getId());
+            request.setAttribute("wordList", wordList);
+
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("WEB-INF/pages/words.jsp");
+            requestDispatcher.forward(request, response);
+
+        } else {
+            response.sendRedirect("/dictionaries");
+        }
     }
 
     @Override
@@ -79,5 +85,15 @@ public class WordServlet extends HttpServlet {
 
     private String checkWordValid (String newWord, String oldWord) {
         return newWord.isEmpty() ? oldWord : newWord;
+    }
+
+    private boolean checkParamsAreValid(HttpServletRequest request) {
+        try {
+            Integer.parseInt(request.getParameter("dictionary_id"));
+            Integer.parseInt(request.getParameter("section_id"));
+            return true;
+        } catch (NullPointerException | NumberFormatException e) {
+            return false;
+        }
     }
 }
