@@ -4,7 +4,7 @@
 <head>
     <title>Revision</title>
     <style>
-        <%@include file="/css/style.css"%>
+        @import url("/css/style.css");
     </style>
     <script type="text/javascript"
             src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.0/jquery.min.js">

@@ -5,7 +5,7 @@
 <head>
     <title>Revision</title>
     <style>
-        <%@include file="/css/style.css"%>
+        @import url("/css/style.css");
     </style>
     <meta http-equiv='content-type' content='text/html; charset=utf-8' >
 </head>

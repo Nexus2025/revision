@@ -18,6 +18,10 @@ public class AuthFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         String destinationPath = request.getRequestURI();
 
+        if(destinationPath.equals("/css/style.css")){
+            filterChain.doFilter(request, response);
+        }
+
         if (isAuth(request)) {
             if (destinationPath.equals("/login") || destinationPath.equals("/") || destinationPath.equals("/registration")) {
                 response.sendRedirect("/main");
