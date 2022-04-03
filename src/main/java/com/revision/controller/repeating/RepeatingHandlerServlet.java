@@ -1,6 +1,8 @@
 package com.revision.controller.repeating;
 
 import com.revision.entity.Word;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +15,8 @@ import java.util.Map;
 
 @WebServlet("/process")
 public class RepeatingHandlerServlet extends HttpServlet {
+
+    private static final Logger log = LoggerFactory.getLogger(RepeatingHandlerServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) {
@@ -31,7 +35,7 @@ public class RepeatingHandlerServlet extends HttpServlet {
             try (OutputStream outStream = response.getOutputStream()) {
                 outStream.write(word.getBytes("UTF-8"));
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
             }
         }
 
@@ -43,7 +47,7 @@ public class RepeatingHandlerServlet extends HttpServlet {
             try (OutputStream outStream = response.getOutputStream()) {
                 outStream.write(translation.getBytes("UTF-8"));
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
             }
         }
 
@@ -77,7 +81,7 @@ public class RepeatingHandlerServlet extends HttpServlet {
                 try (OutputStream outStream = response.getOutputStream()) {
                     outStream.write(path.getBytes("UTF-8"));
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage());
                 }
 
             } else {
@@ -91,7 +95,7 @@ public class RepeatingHandlerServlet extends HttpServlet {
                 try (OutputStream outStream = response.getOutputStream()) {
                     outStream.write(word.getBytes("UTF-8"));
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage());
                 }
             }
         }
@@ -118,7 +122,7 @@ public class RepeatingHandlerServlet extends HttpServlet {
             try (OutputStream outStream = response.getOutputStream()) {
                 outStream.write(word.getBytes("UTF-8"));
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
             }
         }
     }

@@ -1,5 +1,8 @@
 package com.revision.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
@@ -12,6 +15,8 @@ import java.util.Date;
 import java.util.Properties;
 
 public class MailService {
+
+    private static final Logger log = LoggerFactory.getLogger(MailService.class);
 
     public static void sendEmailToAdmin(String userLogin) {
         Transport transport = null;
@@ -46,21 +51,21 @@ public class MailService {
             transport.sendMessage(message, message.getAllRecipients());
 
         } catch (MessagingException | IOException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         } finally {
             try {
                 if (transport != null) {
                     transport.close();
                 }
             } catch (MessagingException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
             } finally {
                 try {
                     if (inputStream != null) {
                         inputStream.close();
                     }
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    log.error(e.getMessage());
                 }
             }
         }

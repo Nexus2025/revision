@@ -4,6 +4,8 @@ import com.revision.entity.Dictionary;
 import com.revision.entity.User;
 import com.revision.service.DictionaryService;
 import com.revision.util.ImportUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -19,6 +21,8 @@ import java.util.List;
 @WebServlet("/import")
 @MultipartConfig
 public class ImportServlet extends HttpServlet {
+
+    private static final Logger log = LoggerFactory.getLogger(ImportServlet.class);
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -44,11 +48,11 @@ public class ImportServlet extends HttpServlet {
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(filePart.getInputStream(), StandardCharsets.UTF_8))) {
                 ImportUtil.importWordsFromCSV(reader, dictionaryId, userId);
             } catch (IOException e) {
-                e.printStackTrace();
+                log.error(e.getMessage());
             }
 
         } catch (NullPointerException | NumberFormatException e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
         } finally {
             response.sendRedirect("/main");
         }

@@ -7,6 +7,8 @@ import com.revision.entity.Section;
 import com.revision.entity.Word;
 import com.revision.google.util.OAuthUtil;
 import com.revision.service.SectionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ import java.util.List;
 import java.util.Map;
 
 public class GoogleSheetsService {
+
+    private static final Logger logger = LoggerFactory.getLogger(GoogleSheetsService.class);
 
     public List<Word> getWords(int userId, int dictionaryId, String spreadsheetId, Credential credential) {
         List<Word> words = new ArrayList<>();
@@ -45,7 +49,7 @@ public class GoogleSheetsService {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
         return words;
     }
@@ -57,7 +61,7 @@ public class GoogleSheetsService {
         return table.getValues();
     }
 
-    private Sheets getSheetsService(Credential credential) throws IOException {
+    private Sheets getSheetsService(Credential credential) {
 
         return new Sheets.Builder(OAuthUtil.HTTP_TRANSPORT, OAuthUtil.JSON_FACTORY, credential)
                 .setApplicationName("revision")

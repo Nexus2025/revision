@@ -22,7 +22,6 @@ public class GoogleDriveService{
     private static final String TYPE_SPREADSHEET = "application/vnd.google-apps.spreadsheet";
 
     public List<SheetTO> getSheets(Credential credential) {
-        logger.info("getSheets");
         List<SheetTO> sheets = new ArrayList<>();
         String pageToken = null;
         do {
@@ -50,7 +49,6 @@ public class GoogleDriveService{
     }
 
     private Drive getDriveService(Credential credential) throws GeneralSecurityException, IOException {
-        logger.info("getDriveService");
 
         return new Drive.Builder(OAuthUtil.HTTP_TRANSPORT, OAuthUtil.JSON_FACTORY, credential)
                 .setApplicationName("revision")
