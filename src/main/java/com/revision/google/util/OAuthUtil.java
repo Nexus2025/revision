@@ -59,6 +59,7 @@ public class OAuthUtil {
     public static String getRedirectUri(HttpServletRequest req) {
         GenericUrl url = new GenericUrl(req.getRequestURL().toString());
         url.setRawPath("/oauth2callback");
+        url.setScheme("https");
         return url.build();
     }
 

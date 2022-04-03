@@ -5,10 +5,10 @@ public class SheetTO {
     private final String name;
     private final Extension extension;
 
-    public SheetTO(String id, String name, Extension exception) {
+    public SheetTO(String id, String name, Extension extension) {
         this.id = id;
         this.name = name;
-        this.extension = exception;
+        this.extension = extension;
     }
 
     public String getId() {
