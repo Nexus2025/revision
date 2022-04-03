@@ -106,7 +106,12 @@
       <version>v3-rev197-1.25.0</version>
     </dependency>
 
-
+    <!-- https://mvnrepository.com/artifact/org.apache.ibatis/ibatis-sqlmap -->
+    <dependency>
+      <groupId>org.apache.ibatis</groupId>
+      <artifactId>ibatis-sqlmap</artifactId>
+      <version>2.3.4.726</version>
+    </dependency>
 
   </dependencies>
 
@@ -120,6 +125,7 @@
         <includes>
           <include>**/*.properties</include>
           <include>**/*.json</include>
+          <include>**/refreshDemoUserData.sql</include>
         </includes>
       </resource>
 

@@ -13,6 +13,7 @@
 <div id="content-auth">
     <div id="content-auth-inner">
         <p class="login"> Log in</p>
+
         <form name="username" action="/login" method="POST">
             <div class="log-input">
                 <input class="input-auth" type="text" name="username" value="" placeholder="Enter login"/>
@@ -22,9 +23,15 @@
                 <p class="auth-error-message">${sessionScope.get("errorMessage") != null ? sessionScope.get("errorMessage") : ''}</p>
                 <c:remove var="errorMessage" scope="session"/>
             </div>
-            <input class="log-submit" type="submit" value="LOGIN"/><br/>
-            <a id="reg" href="/registration">Registration</a>
+            <input class="log-submit" type="submit" value="LOG IN"/><br/>
         </form>
+
+        <form name="username" action="/login" method="POST">
+            <input type="hidden" name="login_demo" value="true">
+            <input class="log-demo" type="submit" value="LOG IN AS DEMO USER"/><br/>
+        </form>
+
+        <a id="reg" href="/registration">Registration</a>
     </div>
 </div>
 <div id="footer"> Developed by Roman F</div>

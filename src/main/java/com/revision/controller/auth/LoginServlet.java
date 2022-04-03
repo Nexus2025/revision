@@ -1,5 +1,6 @@
 package com.revision.controller.auth;
 
+import com.revision.dao.DBUtil;
 import com.revision.entity.User;
 import com.revision.util.Encryptor;
 import com.revision.service.UserService;
@@ -24,8 +25,16 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
+        String username;
+        String password;
+        if (request.getParameter("login_demo") != null) {
+            username = "DemoUser";
+            password = "12345";
+            DBUtil.refreshDemoUserData();
+        } else {
+            username = request.getParameter("username");
+            password = request.getParameter("password");
+        }
 
         if (validateParameters(username, password, session)) {
             authorize(username, password, session, response);
