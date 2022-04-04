@@ -2,6 +2,9 @@ package com.revision.entity;
 
 public class User {
 
+    public static final String MOCK_USERNAME = "DemoUser";
+    public static final String MOCK_PASSWORD = "12345";
+
     private int id;
     private Role role;
     private String userName;

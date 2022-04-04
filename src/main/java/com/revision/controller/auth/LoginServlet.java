@@ -28,8 +28,8 @@ public class LoginServlet extends HttpServlet {
         String username;
         String password;
         if (request.getParameter("login_demo") != null) {
-            username = "DemoUser";
-            password = "12345";
+            username = User.MOCK_USERNAME;
+            password = User.MOCK_PASSWORD;
             DBUtil.refreshDemoUserData();
         } else {
             username = request.getParameter("username");
