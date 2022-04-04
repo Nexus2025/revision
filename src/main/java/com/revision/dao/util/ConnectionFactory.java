@@ -1,4 +1,4 @@
-package com.revision.dao;
+package com.revision.dao.util;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
 import org.slf4j.Logger;

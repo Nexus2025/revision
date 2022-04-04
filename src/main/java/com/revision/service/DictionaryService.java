@@ -1,6 +1,7 @@
 package com.revision.service;
 
-import com.revision.dao.DictionaryDAO;
+import com.revision.dao.DictionaryDao;
+import com.revision.dao.impl.DictionaryDaoImpl;
 import com.revision.entity.Dictionary;
 
 import java.util.List;
@@ -8,30 +9,35 @@ import java.util.stream.Collectors;
 
 public class DictionaryService {
 
-    private final DictionaryDAO dictionaryDAO = new DictionaryDAO();
-    private final SectionService sectionService = new SectionService();
+    private final DictionaryDao dictionaryDao;
+    private final SectionService sectionService;
+
+    public DictionaryService() {
+        this.dictionaryDao = new DictionaryDaoImpl();
+        this.sectionService = new SectionService();
+    }
 
     public List<Dictionary> getAllContainWords(int userId) {
-        return dictionaryDAO.getAll(userId)
+        return dictionaryDao.getAll(userId)
                 .stream()
                 .filter(dictionary -> dictionary.getWordsCount() != 0)
                 .collect(Collectors.toList());
     }
 
     public List<Dictionary> getAll(int userId) {
-        return dictionaryDAO.getAll(userId);
+        return dictionaryDao.getAll(userId);
     }
 
     public Dictionary get(int userId, int id) {
-        return dictionaryDAO.get(userId, id);
+        return dictionaryDao.get(userId, id);
     }
 
     public void create(String dictionaryName, int userId) {
-        dictionaryDAO.create(dictionaryName, userId);
+        dictionaryDao.create(dictionaryName, userId);
     }
 
     public void delete(int userId, int id) {
-        dictionaryDAO.delete(userId, id);
+        dictionaryDao.delete(userId, id);
     }
 
     public void clear(int userId, int id) {
@@ -39,6 +45,6 @@ public class DictionaryService {
     }
 
     public void rename(String dictionaryNewName, int id, int userId) {
-        dictionaryDAO.rename(dictionaryNewName, id, userId);
+        dictionaryDao.rename(dictionaryNewName, id, userId);
     }
 }

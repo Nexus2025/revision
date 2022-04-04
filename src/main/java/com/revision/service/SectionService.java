@@ -1,6 +1,7 @@
 package com.revision.service;
 
-import com.revision.dao.SectionDAO;
+import com.revision.dao.SectionDao;
+import com.revision.dao.impl.SectionDaoImpl;
 import com.revision.entity.Section;
 
 import java.util.List;
@@ -8,38 +9,43 @@ import java.util.stream.Collectors;
 
 public class SectionService {
 
-    private final SectionDAO sectionDAO = new SectionDAO();
-    private final WordService wordService = new WordService();
+    private final SectionDao sectionDao;
+    private final WordService wordService;
+
+    public SectionService() {
+        this.sectionDao = new SectionDaoImpl();
+        this.wordService = new WordService();
+    }
 
     public List<Section> getAllContainWords(int userId) {
-        return sectionDAO.getAll(userId)
+        return sectionDao.getAll(userId)
                 .stream()
                 .filter(section -> section.getWordsCount() != 0)
                 .collect(Collectors.toList());
     }
 
     public List<Section> getAllByDictionaryId(int dictionaryId, int userId) {
-        return sectionDAO.getAllByDictionaryId(dictionaryId, userId);
+        return sectionDao.getAllByDictionaryId(dictionaryId, userId);
     }
 
     public boolean deleteAllByDictionaryId(int dictionaryId, int userId) {
-        return sectionDAO.deleteAllByDictionaryId(dictionaryId, userId);
+        return sectionDao.deleteAllByDictionaryId(dictionaryId, userId);
     }
 
     public List<Section> getAll(int userId) {
-        return sectionDAO.getAll(userId);
+        return sectionDao.getAll(userId);
     }
 
     public Section get(int userId, int id) {
-        return sectionDAO.get(userId, id);
+        return sectionDao.get(userId, id);
     }
 
     public Section create(String sectionName, int dictionaryId, int userId) {
-        return sectionDAO.create(sectionName, dictionaryId, userId);
+        return sectionDao.create(sectionName, dictionaryId, userId);
     }
 
     public void delete(int id, int userId) {
-        sectionDAO.delete(id, userId);
+        sectionDao.delete(id, userId);
     }
 
     public void clear(int id, int userId) {
@@ -47,6 +53,6 @@ public class SectionService {
     }
 
     public void rename(String sectionNewName, int id, int userId) {
-        sectionDAO.rename(sectionNewName, id, userId);
+        sectionDao.rename(sectionNewName, id, userId);
     }
 }

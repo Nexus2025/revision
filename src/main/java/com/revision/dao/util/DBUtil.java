@@ -1,4 +1,4 @@
-package com.revision.dao;
+package com.revision.dao.util;
 
 import com.ibatis.common.jdbc.ScriptRunner;
 import org.slf4j.Logger;

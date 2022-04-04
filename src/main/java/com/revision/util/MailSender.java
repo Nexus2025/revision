@@ -14,9 +14,9 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.Properties;
 
-public class MailService {
+public class MailSender {
 
-    private static final Logger log = LoggerFactory.getLogger(MailService.class);
+    private static final Logger log = LoggerFactory.getLogger(MailSender.class);
 
     public static void sendEmailToAdmin(String userLogin) {
         Transport transport = null;
@@ -71,5 +71,5 @@ public class MailService {
         }
     }
 
-    private MailService(){}
+    private MailSender(){}
 }

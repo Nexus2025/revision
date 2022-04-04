@@ -1,6 +1,6 @@
 package com.revision.controller.auth;
 
-import com.revision.dao.DBUtil;
+import com.revision.dao.util.DBUtil;
 import com.revision.entity.User;
 import com.revision.util.Encryptor;
 import com.revision.service.UserService;

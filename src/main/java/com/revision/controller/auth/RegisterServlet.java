@@ -2,7 +2,7 @@ package com.revision.controller.auth;
 
 import com.revision.entity.Role;
 import com.revision.service.UserService;
-import com.revision.util.MailService;
+import com.revision.util.MailSender;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -62,7 +62,7 @@ public class RegisterServlet extends HttpServlet {
             return false;
         } else {
             userService.create(username, password, Role.USER);
-            MailService.sendEmailToAdmin(username);
+            MailSender.sendEmailToAdmin(username);
             return true;
         }
     }

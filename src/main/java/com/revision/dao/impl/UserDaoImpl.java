@@ -1,15 +1,20 @@
-package com.revision.dao;
+package com.revision.dao.impl;
 
+import com.revision.dao.util.ConnectionFactory;
+import com.revision.dao.UserDao;
 import com.revision.entity.Role;
 import com.revision.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
-public class UserDAO {
+public class UserDaoImpl implements UserDao {
 
-    private static final Logger log = LoggerFactory.getLogger(UserDAO.class);
+    private static final Logger log = LoggerFactory.getLogger(UserDaoImpl.class);
 
     private static final String GET = "SELECT * FROM users WHERE user_name= ?";
     private static final String CREATE = "INSERT INTO users (user_name, password, role) VALUES (?, ?, ?) RETURNING user_name";

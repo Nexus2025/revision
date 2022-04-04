@@ -1,16 +1,21 @@
-package com.revision.dao;
+package com.revision.dao.impl;
 
+import com.revision.dao.util.ConnectionFactory;
+import com.revision.dao.WordDao;
 import com.revision.entity.Word;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordDAO {
+public class WordDaoImpl implements WordDao {
 
-    private static final Logger log = LoggerFactory.getLogger(WordDAO.class);
+    private static final Logger log = LoggerFactory.getLogger(WordDaoImpl.class);
 
     private static final String CREATE = "INSERT INTO words (word, translation, section_id, user_id, dictionary_id) VALUES (?, ?, ?, ?, ?) RETURNING id";
     private static final String RENAME = "UPDATE words SET word= ?, translation= ? WHERE id= ? AND user_id= ? RETURNING dictionary_id, section_id";
