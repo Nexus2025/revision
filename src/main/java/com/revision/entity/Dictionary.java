@@ -2,10 +2,10 @@ package com.revision.entity;
 
 public class Dictionary {
 
-    private int id;
-    private int userId;
+    private Integer id;
+    private Integer userId;
     private String name;
-    private int wordsCount;
+    private Integer wordsCount;
 
     public Dictionary (int id, int userId, String name) {
         this(id, userId, name, 0);
@@ -52,6 +52,7 @@ public class Dictionary {
                 "id=" + id +
                 ", userId=" + userId +
                 ", name='" + name + '\'' +
+                ", wordsCount=" + wordsCount +
                 '}';
     }
 }

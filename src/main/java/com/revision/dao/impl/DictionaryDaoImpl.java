@@ -84,7 +84,7 @@ public class DictionaryDaoImpl implements DictionaryDao {
             statement.setInt(2, id);
             statement.setInt(3, userId);
             statement.executeUpdate();
-            dictionary = new Dictionary(id, userId, newName);
+            dictionary = get(userId, id);
         } catch (SQLException e) {
             log.error(e.getSQLState());
         }
