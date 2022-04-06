@@ -5,7 +5,6 @@ import com.revision.dao.impl.DictionaryDaoImpl;
 import com.revision.dao.util.ConnectionFactory;
 import com.revision.dao.util.DBUtil;
 import com.revision.dao.util.DictionaryData;
-import com.revision.dao.util.UserData;
 import com.revision.entity.Dictionary;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,6 +18,9 @@ import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.List;
+
+import static com.revision.dao.util.DictionaryData.*;
+import static com.revision.dao.util.UserData.*;
 
 public class DictionaryDaoTest {
 
@@ -45,8 +47,8 @@ public class DictionaryDaoTest {
 
     @Test
     public void create() {
-        Dictionary actual = dictionaryDao.create(DictionaryData.NAME, UserData.ID);
-        Dictionary expected = new Dictionary(DictionaryData.NEW_ID, UserData.ID, DictionaryData.NAME);
+        Dictionary actual = dictionaryDao.create(DICT_NAME, USER_ID);
+        Dictionary expected = new Dictionary(DICT_NEW_ID, USER_ID, DICT_NAME);
 
         Assertions.assertThat(actual)
                 .usingRecursiveComparison()
@@ -55,38 +57,38 @@ public class DictionaryDaoTest {
 
     @Test
     public void createUserNotExist() {
-        Dictionary actual = dictionaryDao.create(DictionaryData.NAME, UserData.WRONG_ID);
+        Dictionary actual = dictionaryDao.create(DICT_NAME, USER_WRONG_ID);
         Assert.assertNull(actual);
     }
 
     @Test
     public void delete() {
-        Dictionary actual = dictionaryDao.delete(UserData.ID, DictionaryData.ID_1);
-        Dictionary expected = new Dictionary(DictionaryData.ID_1, UserData.ID, DictionaryData.DELETED_NAME);
+        Dictionary actual = dictionaryDao.delete(USER_ID, DICT_ID);
+        Dictionary expected = new Dictionary(DICT_ID, USER_ID, DICT_DELETED_NAME);
 
         Assertions.assertThat(actual)
                 .usingRecursiveComparison()
                 .isEqualTo(expected);
 
-        Assert.assertNull(dictionaryDao.get(UserData.ID, DictionaryData.ID_1));
+        Assert.assertNull(dictionaryDao.get(USER_ID, DICT_ID));
     }
 
     @Test
     public void deleteWrongUserId() {
-        Dictionary actual = dictionaryDao.delete(UserData.WRONG_ID, DictionaryData.ID_1);
+        Dictionary actual = dictionaryDao.delete(USER_WRONG_ID, DICT_ID);
         Assert.assertNull(actual);
     }
 
     @Test
     public void deleteWrongDictionaryId() {
-        Dictionary actual = dictionaryDao.delete(UserData.ID, DictionaryData.WRONG_ID);
+        Dictionary actual = dictionaryDao.delete(USER_ID, DICT_WRONG_ID);
         Assert.assertNull(actual);
     }
 
     @Test
     public void rename() {
-        Dictionary actual = dictionaryDao.rename(DictionaryData.RENAMED_NAME, DictionaryData.ID_1, UserData.ID);
-        Dictionary expected = new Dictionary(DictionaryData.ID_1, UserData.ID, DictionaryData.RENAMED_NAME);
+        Dictionary actual = dictionaryDao.rename(DICT_RENAMED_NAME, DICT_ID, USER_ID);
+        Dictionary expected = new Dictionary(DICT_ID, USER_ID, DICT_RENAMED_NAME);
 
         Assertions.assertThat(actual)
                 .usingRecursiveComparison()
@@ -95,20 +97,20 @@ public class DictionaryDaoTest {
 
     @Test
     public void renameWrongUserId() {
-        Dictionary actual = dictionaryDao.rename(DictionaryData.RENAMED_NAME, DictionaryData.ID_1, UserData.WRONG_ID);
+        Dictionary actual = dictionaryDao.rename(DICT_RENAMED_NAME, DICT_ID, USER_WRONG_ID);
         Assert.assertNull(actual);
     }
 
     @Test
-    public void renameDictionaryUserId() {
-        Dictionary actual = dictionaryDao.rename(DictionaryData.RENAMED_NAME, DictionaryData.WRONG_ID, UserData.ID);
+    public void renameWrongDictionaryId() {
+        Dictionary actual = dictionaryDao.rename(DICT_RENAMED_NAME, DICT_WRONG_ID, USER_ID);
         Assert.assertNull(actual);
     }
 
     @Test
-    public  void get() {
-        Dictionary actual = dictionaryDao.get(UserData.ID, DictionaryData.ID_1);
-        Dictionary expected = new Dictionary(DictionaryData.ID_1, UserData.ID, DictionaryData.EXPECTED_NAME_1);
+    public void get() {
+        Dictionary actual = dictionaryDao.get(USER_ID, DICT_ID);
+        Dictionary expected = new Dictionary(DICT_ID, USER_ID, DICT_EXPECTED_NAME_1);
 
         Assertions.assertThat(actual)
                 .usingRecursiveComparison()
@@ -117,20 +119,20 @@ public class DictionaryDaoTest {
 
     @Test
     public void getWrongUserId() {
-        Dictionary actual = dictionaryDao.get(UserData.WRONG_ID, DictionaryData.ID_1);
+        Dictionary actual = dictionaryDao.get(USER_WRONG_ID, DICT_ID);
         Assert.assertNull(actual);
     }
 
     @Test
     public void getWrongDictionaryId() {
-        Dictionary actual = dictionaryDao.get(UserData.ID, DictionaryData.WRONG_ID);
+        Dictionary actual = dictionaryDao.get(USER_ID, DICT_WRONG_ID);
         Assert.assertNull(actual);
     }
 
     @Test
     public void getAll() {
-        List<Dictionary> actual = dictionaryDao.getAll(UserData.ID);
-        List<Dictionary> expected = DictionaryData.getExpectedList();
+        List<Dictionary> actual = dictionaryDao.getAll(USER_ID);
+        List<Dictionary> expected = getExpectedList();
 
         Assertions.assertThat(actual)
                 .hasSize(expected.size())

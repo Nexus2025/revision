@@ -2,10 +2,10 @@ package com.revision.entity;
 
 public class Dictionary {
 
-    private Integer id;
-    private Integer userId;
+    private int id;
+    private int userId;
     private String name;
-    private Integer wordsCount;
+    private int wordsCount;
 
     public Dictionary (int id, int userId, String name) {
         this(id, userId, name, 0);

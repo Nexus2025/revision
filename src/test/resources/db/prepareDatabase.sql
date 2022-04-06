@@ -26,7 +26,8 @@ CREATE TABLE sections
     user_id         INTEGER NOT NULL,
     dictionary_id   INTEGER NOT NULL,
     name            VARCHAR NOT NULL,
-    FOREIGN KEY (dictionary_id) REFERENCES dictionaries (id) ON DELETE CASCADE
+    FOREIGN KEY (dictionary_id) REFERENCES dictionaries (id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
 CREATE TABLE words
@@ -37,7 +38,9 @@ CREATE TABLE words
     dictionary_id   INTEGER NOT NULL,
     word            VARCHAR NOT NULL,
     translation     VARCHAR NOT NULL,
-    FOREIGN KEY (section_id) REFERENCES sections (id) ON DELETE CASCADE
+    FOREIGN KEY (section_id) REFERENCES sections (id) ON DELETE CASCADE,
+    FOREIGN KEY (dictionary_id) REFERENCES dictionaries (id),
+    FOREIGN KEY (user_id) REFERENCES users (id)
 );
 
 INSERT INTO users (user_name, password, role)

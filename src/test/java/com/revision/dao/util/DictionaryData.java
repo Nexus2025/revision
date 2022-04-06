@@ -5,27 +5,24 @@ import com.revision.entity.Dictionary;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.revision.dao.util.UserData.*;
+
 public class DictionaryData {
 
-    public static final int NEW_ID = 8;
-    public static final int ID_1 = 1;
-    public static final int ID_2 = 2;
-    public static final int WRONG_ID = 999;
-    public static final int WORDS_COUNT_1 = 5;
-    public static final int WORDS_COUNT_2 = 4;
+    public static final int DICT_NEW_ID = 8;
+    public static final int DICT_ID = 1;
+    public static final int DICT_WRONG_ID = 999;
 
-    public static final String NAME = "TEST NAME";
-    public static final String DELETED_NAME = "ADMIN_DICT_1";
-    public static final String EXPECTED_NAME_1 = "ADMIN_DICT_1";
-    public static final String EXPECTED_NAME_2 = "ADMIN_DICT_2";
-    public static final String RENAMED_NAME = "TEST RENAME";
+    public static final String DICT_NAME = "TEST NAME";
+    public static final String DICT_DELETED_NAME = "ADMIN_DICT_1";
+    public static final String DICT_EXPECTED_NAME_1 = "ADMIN_DICT_1";
+    public static final String DICT_EXPECTED_NAME_2 = "ADMIN_DICT_2";
+    public static final String DICT_RENAMED_NAME = "TEST RENAME";
 
     public static List<Dictionary> getExpectedList() {
         List<Dictionary> expected = new ArrayList<>();
-        expected.add(new Dictionary(DictionaryData.ID_1, UserData.ID, DictionaryData.EXPECTED_NAME_1,
-                DictionaryData.WORDS_COUNT_1));
-        expected.add(new Dictionary(DictionaryData.ID_2, UserData.ID, DictionaryData.EXPECTED_NAME_2,
-                DictionaryData.WORDS_COUNT_2));
+        expected.add(new Dictionary(DICT_ID, USER_ID, DICT_EXPECTED_NAME_1, 5));
+        expected.add(new Dictionary(2, USER_ID, DICT_EXPECTED_NAME_2, 4));
 
         return expected;
     }
