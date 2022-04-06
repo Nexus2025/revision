@@ -1,4 +1,4 @@
-package com.revision.dao.util;
+package com.revision.dao.data;
 
 public class UserData {
     public static final int USER_ID = 1;

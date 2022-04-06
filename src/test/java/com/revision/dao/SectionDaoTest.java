@@ -18,9 +18,9 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.List;
 
-import static com.revision.dao.util.DictionaryData.*;
-import static com.revision.dao.util.UserData.*;
-import static com.revision.dao.util.SectionData.*;
+import static com.revision.dao.data.DictionaryData.*;
+import static com.revision.dao.data.UserData.*;
+import static com.revision.dao.data.SectionData.*;
 
 public class SectionDaoTest {
 

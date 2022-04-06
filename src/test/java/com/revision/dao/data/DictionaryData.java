@@ -1,11 +1,11 @@
-package com.revision.dao.util;
+package com.revision.dao.data;
 
 import com.revision.entity.Dictionary;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.revision.dao.util.UserData.*;
+import static com.revision.dao.data.UserData.*;
 
 public class DictionaryData {
 

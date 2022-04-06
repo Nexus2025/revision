@@ -4,7 +4,6 @@ import com.ibatis.common.jdbc.ScriptRunner;
 import com.revision.dao.impl.DictionaryDaoImpl;
 import com.revision.dao.util.ConnectionFactory;
 import com.revision.dao.util.DBUtil;
-import com.revision.dao.util.DictionaryData;
 import com.revision.entity.Dictionary;
 import org.junit.Assert;
 import org.junit.Before;
@@ -19,8 +18,8 @@ import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.util.List;
 
-import static com.revision.dao.util.DictionaryData.*;
-import static com.revision.dao.util.UserData.*;
+import static com.revision.dao.data.DictionaryData.*;
+import static com.revision.dao.data.UserData.*;
 
 public class DictionaryDaoTest {
 
