@@ -2,6 +2,7 @@ package com.revision.controller.auth;
 
 import com.revision.entity.Role;
 import com.revision.service.UserService;
+import com.revision.util.Encryptor;
 import com.revision.util.MailSender;
 
 import javax.servlet.RequestDispatcher;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.security.GeneralSecurityException;
 
 @WebServlet("/registration")
 public class RegisterServlet extends HttpServlet {
@@ -57,13 +59,19 @@ public class RegisterServlet extends HttpServlet {
     private boolean register(String username, String password, HttpSession session) {
 
         UserService userService = new UserService();
-        if (userService.checkExists(username)) {
-            session.setAttribute("errorMessage", "login is busy");
+
+        try {
+            if (userService.checkExists(username)) {
+                session.setAttribute("errorMessage", "login is busy");
+                return false;
+            } else {
+                userService.create(username, Encryptor.encrypt(password), Role.USER);
+                MailSender.sendEmailToAdmin(username);
+                return true;
+            }
+        } catch (GeneralSecurityException | IOException e) {
+            session.setAttribute("errorMessage", "error has occurred. try again later");
             return false;
-        } else {
-            userService.create(username, password, Role.USER);
-            MailSender.sendEmailToAdmin(username);
-            return true;
         }
     }
 }

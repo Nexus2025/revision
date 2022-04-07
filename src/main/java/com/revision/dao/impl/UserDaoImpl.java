@@ -17,7 +17,7 @@ public class UserDaoImpl implements UserDao {
     private static final Logger log = LoggerFactory.getLogger(UserDaoImpl.class);
 
     private static final String GET = "SELECT * FROM users WHERE user_name= ?";
-    private static final String CREATE = "INSERT INTO users (user_name, password, role) VALUES (?, ?, ?) RETURNING user_name";
+    private static final String CREATE = "INSERT INTO users (user_name, password, role) VALUES (?, ?, ?) RETURNING id";
     private static final String GET_WORDS_COUNT = "SELECT count(*) FROM words WHERE user_id= ?";
     private static final String GET_DICTIONARIES_COUNT = "SELECT count(*) FROM dictionaries WHERE user_id= ?";
     private static final String CHECK_EXISTS = "SELECT EXISTS (SELECT 1 FROM users WHERE user_name= ?)";
