@@ -6,10 +6,7 @@ import com.revision.entity.Word;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,9 +14,10 @@ public class WordDaoImpl implements WordDao {
 
     private static final Logger log = LoggerFactory.getLogger(WordDaoImpl.class);
 
-    private static final String CREATE = "INSERT INTO words (word, translation, section_id, user_id, dictionary_id) VALUES (?, ?, ?, ?, ?) RETURNING id";
-    private static final String RENAME = "UPDATE words SET word= ?, translation= ? WHERE id= ? AND user_id= ? RETURNING dictionary_id, section_id";
-    private static final String DELETE = "DELETE FROM words WHERE id= ? AND user_id= ? RETURNING dictionary_id, section_id, word, translation";
+    private static final String CREATE = "INSERT INTO words (word, translation, section_id, user_id, dictionary_id) VALUES (?, ?, ?, ?, ?)";
+    private static final String GET = "SELECT * FROM words WHERE id= ? AND user_id= ?";
+    private static final String RENAME = "UPDATE words SET word= ?, translation= ? WHERE id= ? AND user_id= ?";
+    private static final String DELETE = "DELETE FROM words WHERE id= ? AND user_id= ?";
     private static final String DELETE_ALL_BY_SECTION_ID = "DELETE FROM words WHERE section_id= ? AND user_id= ?";
     private static final String GET_ALL_BY_SECTION_ID = "SELECT * FROM words WHERE section_id= ? AND user_id= ?";
     private static final String GET_ALL_BY_DICTIONARY_ID = "SELECT * FROM words WHERE dictionary_id= ? AND user_id= ?";
@@ -28,13 +26,15 @@ public class WordDaoImpl implements WordDao {
     public Word create(String word, String translation, int sectionId, int userId, int dictionaryId) {
         Word wd = null;
         try (Connection connection = ConnectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(CREATE)) {
+             PreparedStatement statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, word);
             statement.setString(2, translation);
             statement.setInt(3, sectionId);
             statement.setInt(4, userId);
             statement.setInt(5, dictionaryId);
-            try (ResultSet rs = statement.executeQuery()) {
+            statement.execute();
+
+            try (ResultSet rs = statement.getGeneratedKeys()) {
                 rs.next();
                 wd = new Word(rs.getInt("id"), sectionId, dictionaryId, userId, word, translation);
             }
@@ -47,12 +47,18 @@ public class WordDaoImpl implements WordDao {
     public Word rename(String word, String translation, int id, int userId) {
         Word wd = null;
         try (Connection connection = ConnectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(RENAME)) {
-            statement.setString(1, word);
-            statement.setString(2, translation);
-            statement.setInt(3, id);
-            statement.setInt(4, userId);
-            try (ResultSet rs = statement.executeQuery()) {
+             PreparedStatement statementRename = connection.prepareStatement(RENAME);
+             PreparedStatement statementGet = connection.prepareStatement(GET)) {
+            statementRename.setString(1, word);
+            statementRename.setString(2, translation);
+            statementRename.setInt(3, id);
+            statementRename.setInt(4, userId);
+
+            statementGet.setInt(1, id);
+            statementGet.setInt(2, userId);
+
+            statementRename.executeUpdate();
+            try (ResultSet rs = statementGet.executeQuery()) {
                 rs.next();
                 wd = new Word(id, rs.getInt("section_id"), rs.getInt("dictionary_id"), userId, word, translation);
             }
@@ -65,16 +71,24 @@ public class WordDaoImpl implements WordDao {
     public Word delete(int id, int userId) {
         Word wd = null;
         try (Connection connection = ConnectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE)) {
-            statement.setInt(1, id);
-            statement.setInt(2, userId);
-            try (ResultSet rs = statement.executeQuery()) {
-                rs.next();
-                String word = rs.getString("word");
-                String translation = rs.getString("translation");
-                int dictionaryId = rs.getInt("dictionary_id");
-                int sectionId = rs.getInt("section_id");
-                wd = new Word(id, sectionId, dictionaryId, userId, word, translation);
+             PreparedStatement statementDelete = connection.prepareStatement(DELETE);
+             PreparedStatement statementGet = connection.prepareStatement(GET)) {
+
+            statementDelete.setInt(1, id);
+            statementDelete.setInt(2, userId);
+
+            statementGet.setInt(1, id);
+            statementGet.setInt(2, userId);
+
+            try (ResultSet rs = statementGet.executeQuery()) {
+                if (statementDelete.executeUpdate() != 0) {
+                    rs.next();
+                    String word = rs.getString("word");
+                    String translation = rs.getString("translation");
+                    int dictionaryId = rs.getInt("dictionary_id");
+                    int sectionId = rs.getInt("section_id");
+                    wd = new Word(id, sectionId, dictionaryId, userId, word, translation);
+                }
             }
         } catch (SQLException e) {
             log.error(e.getSQLState());
