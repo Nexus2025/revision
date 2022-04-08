@@ -6,10 +6,7 @@ import com.revision.entity.Dictionary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,22 +14,24 @@ public class DictionaryDaoImpl implements DictionaryDao {
 
     private static final Logger log = LoggerFactory.getLogger(DictionaryDaoImpl.class);
 
-    private static final String CREATE = "INSERT INTO dictionaries (name, user_id) VALUES (?, ?) RETURNING id";
-    private static final String DELETE = "DELETE FROM dictionaries WHERE id= ? AND user_id= ? RETURNING name";
+    private static final String CREATE = "INSERT INTO dictionaries (name, user_id) VALUES (?, ?)";
+    private static final String DELETE = "DELETE FROM dictionaries WHERE id= ? AND user_id= ?";
     private static final String RENAME = "UPDATE dictionaries SET name= ? WHERE id= ? AND user_id= ?";
     private static final String GET = "SELECT * FROM dictionaries WHERE user_id= ? AND id= ?";
 
-    private static final String GET_ALL = "SELECT dictionaries.*, COUNT(words.dictionary_id) FROM dictionaries " +
+    private static final String GET_ALL = "SELECT dictionaries.*, COUNT(words.dictionary_id) AS count FROM dictionaries " +
             "LEFT OUTER JOIN words ON words.dictionary_id=dictionaries.id WHERE dictionaries.user_id=? " +
             "GROUP BY dictionaries.id";
 
     public Dictionary create(String name, int userId) {
         Dictionary dictionary = null;
         try (Connection connection = ConnectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(CREATE)) {
+             PreparedStatement statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, name);
             statement.setInt(2, userId);
-            try (ResultSet rs = statement.executeQuery()) {
+            statement.execute();
+
+            try (ResultSet rs = statement.getGeneratedKeys()) {
                 rs.next();
                 dictionary = new Dictionary(rs.getInt("id"), userId, name);
             }
@@ -63,12 +62,20 @@ public class DictionaryDaoImpl implements DictionaryDao {
     public Dictionary delete(int userId, int id) {
         Dictionary dictionary = null;
         try (Connection connection = ConnectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(DELETE)) {
-            statement.setInt(1, id);
-            statement.setInt(2, userId);
-            try (ResultSet rs = statement.executeQuery()) {
-                rs.next();
-                dictionary = new Dictionary(id, userId, rs.getString("name"));
+             PreparedStatement statementDelete = connection.prepareStatement(DELETE);
+             PreparedStatement statementGet = connection.prepareStatement(GET)) {
+
+            statementDelete.setInt(1, id);
+            statementDelete.setInt(2, userId);
+
+            statementGet.setInt(1, userId);
+            statementGet.setInt(2, id);
+
+            try (ResultSet rs = statementGet.executeQuery()) {
+                if (statementDelete.executeUpdate() != 0) {
+                    rs.next();
+                    dictionary = new Dictionary(id, userId, rs.getString("name"));
+                }
             }
         } catch (SQLException e) {
             log.error(e.getSQLState());
@@ -79,12 +86,20 @@ public class DictionaryDaoImpl implements DictionaryDao {
     public Dictionary rename(String newName, int id, int userId) {
         Dictionary dictionary = null;
         try (Connection connection = ConnectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(RENAME)) {
-            statement.setString(1, newName);
-            statement.setInt(2, id);
-            statement.setInt(3, userId);
-            statement.executeUpdate();
-            dictionary = get(userId, id);
+             PreparedStatement statementRename = connection.prepareStatement(RENAME);
+             PreparedStatement statementGet = connection.prepareStatement(GET)) {
+            statementRename.setString(1, newName);
+            statementRename.setInt(2, id);
+            statementRename.setInt(3, userId);
+
+            statementGet.setInt(1, userId);
+            statementGet.setInt(2, id);
+
+            statementRename.executeUpdate();
+            try (ResultSet rs = statementGet.executeQuery()) {
+                rs.next();
+                dictionary = new Dictionary(rs.getInt("id"), rs.getInt("user_id"), rs.getString("name"));
+            }
         } catch (SQLException e) {
             log.error(e.getSQLState());
         }

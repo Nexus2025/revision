@@ -23,7 +23,7 @@ public class ConnectionFactory {
             properties.load(stream);
 
             dataSource = new ComboPooledDataSource();
-            dataSource.setDriverClass("org.postgresql.Driver");
+            dataSource.setDriverClass(properties.getProperty("JDBC_DRIVER"));
             dataSource.setJdbcUrl(properties.getProperty("DB_URL"));
             dataSource.setUser(properties.getProperty("USERNAME"));
             dataSource.setPassword(properties.getProperty("PASSWORD"));

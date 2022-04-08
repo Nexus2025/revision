@@ -4,3 +4,4 @@
 *.iml
 /lib
 git
+src/test/resources

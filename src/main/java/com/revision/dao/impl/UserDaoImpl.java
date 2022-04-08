@@ -7,20 +7,17 @@ import com.revision.entity.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class UserDaoImpl implements UserDao {
 
     private static final Logger log = LoggerFactory.getLogger(UserDaoImpl.class);
 
     private static final String GET = "SELECT * FROM users WHERE user_name= ?";
-    private static final String CREATE = "INSERT INTO users (user_name, password, role) VALUES (?, ?, ?) RETURNING id";
-    private static final String GET_WORDS_COUNT = "SELECT count(*) FROM words WHERE user_id= ?";
-    private static final String GET_DICTIONARIES_COUNT = "SELECT count(*) FROM dictionaries WHERE user_id= ?";
-    private static final String CHECK_EXISTS = "SELECT EXISTS (SELECT 1 FROM users WHERE user_name= ?)";
+    private static final String CREATE = "INSERT INTO users (user_name, password, role) VALUES (?, ?, ?)";
+    private static final String GET_WORDS_COUNT = "SELECT COUNT(*) AS count FROM words WHERE user_id= ?";
+    private static final String GET_DICTIONARIES_COUNT = "SELECT COUNT(*) AS count FROM dictionaries WHERE user_id= ?";
+    private static final String CHECK_EXISTS = "SELECT COUNT(*) AS count FROM users WHERE user_name= ?";
 
     public User get(String userName) {
         User user = null;
@@ -40,11 +37,13 @@ public class UserDaoImpl implements UserDao {
     public User create(String userName, String password, Role role) {
         User user = null;
         try (Connection connection = ConnectionFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(CREATE)) {
+             PreparedStatement statement = connection.prepareStatement(CREATE, Statement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, userName);
             statement.setString(2, password);
             statement.setString(3, role.toString());
-            try (ResultSet rs = statement.executeQuery()) {
+            statement.execute();
+
+            try (ResultSet rs = statement.getGeneratedKeys()) {
                 rs.next();
                 user = new User(rs.getInt("id"), role, userName, password);
             }
@@ -91,7 +90,7 @@ public class UserDaoImpl implements UserDao {
             statement.setString(1, userName);
             try (ResultSet rs = statement.executeQuery()) {
                 rs.next();
-                result = rs.getBoolean(1);
+                result = rs.getInt("count") != 0;
             }
         } catch (SQLException e) {
             log.error(e.getSQLState());
