@@ -6,8 +6,6 @@ Java Web Application. The following technologies are used:
 - Maven
 - Google OAuth2, Google Drive API, Google Sheets API
 
-The application hosted on https://revision-web.herokuapp.com/
-
 It's a personal online dictionary. You can add your words, group them by sections and repeat.
 
 Features:
